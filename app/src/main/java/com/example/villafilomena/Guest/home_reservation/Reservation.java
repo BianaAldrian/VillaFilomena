@@ -63,7 +63,7 @@ public class Reservation extends Fragment {
     }
 
     LinearLayout checkIn_checkOut, adult_child;
-    Button reserve_continue, calendar_ok;
+    Button reserve_continue, calendar_ok, guest_done;
     TextView kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
     int kidqty = 0, adultqty = 0;
 
@@ -114,6 +114,7 @@ public class Reservation extends Fragment {
                 adultDec = view1.findViewById(R.id.adultDec);
                 adultQty = view1.findViewById(R.id.adultQty);
                 adultInc = view1.findViewById(R.id.adultInc);
+                guest_done = view1.findViewById(R.id.guest_done);
 
                 builder.setView(view1);
                 final AlertDialog dialog = builder.create();
@@ -150,6 +151,13 @@ public class Reservation extends Fragment {
                     public void onClick(View view) {
                         adultqty++;
                         adultQty.setText(""+adultqty);
+                    }
+                });
+
+                guest_done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
                     }
                 });
             }
