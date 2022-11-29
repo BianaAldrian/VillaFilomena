@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "981539077557",
+    "project_id": "villafilomena-4decf",
+    "storage_bucket": "villafilomena-4decf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981539077557:android:7effb562ee0373b1376dfc",
+        "android_client_info": {
+          "package_name": "com.example.villafilomena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981539077557-qsno3bs1nadr7mqq26dotcpdt98jt4eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.villafilomena",
+            "certificate_hash": "790ab0e6d3908bed2a9f611d17134ca2689c1c03"
+          }
+        },
+        {
+          "client_id": "981539077557-17ot32n1952f804srcg5e5vcjom9bs3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCkFHeysDTWoHreLxS3fSFaMm4seowtuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981539077557-17ot32n1952f804srcg5e5vcjom9bs3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
