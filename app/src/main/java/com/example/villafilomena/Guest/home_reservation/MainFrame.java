@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.villafilomena.Guest.Profile.Account;
 import com.example.villafilomena.R;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -38,8 +39,7 @@ public class MainFrame extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(getApplicationContext(), ProfileAccount.class);
-                startActivity(intent);*/
+                startActivity(new Intent(getApplicationContext(), Account.class));
             }
         });
 

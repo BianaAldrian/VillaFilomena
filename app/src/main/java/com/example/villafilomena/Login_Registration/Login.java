@@ -33,14 +33,14 @@ public class Login extends AppCompatActivity {
         frondesk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(), Login_Frontdesk.class));
             }
         });
 
         manager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(), Login_Manager.class));
             }
         });
     }

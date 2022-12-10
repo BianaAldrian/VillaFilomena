@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.Guest.home_reservation.MainFrame;
+import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -37,26 +38,27 @@ public class Login_Guest extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
 
+
+
     Button login, cont_google;
     TextView register;
     TextInputEditText password,email;
 
     public static final String SHARED_PREFS = "";
     public static final String EMAIL = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_guest);
 
-        String url = "http://192.168.0.17:8080/VillaFilomena/login.php";
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(getApplication(),gso);
 
-        email = findViewById(R.id.login_email);
-        password = findViewById(R.id.login_password);
-        login = findViewById(R.id.login_btnLog);
-        cont_google = findViewById(R.id.login_contgoogle);
+        email = findViewById(R.id.loginGeust_email);
+        password = findViewById(R.id.loginGuest_password);
+        login = findViewById(R.id.loginGeust_btnLog);
+        cont_google = findViewById(R.id.loginGuest_contgoogle);
         register = findViewById(R.id.login_register);
         line1 = findViewById(R.id.line1);
         line2 = findViewById(R.id.line2);
@@ -67,11 +69,16 @@ public class Login_Guest extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/login.php";
+                    //Toast.makeText(getApplicationContext(), "Account already exists", Toast.LENGTH_SHORT).show();
                 RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response.equals("true")){
+                        if (response.equals("not_exist")){
+                            Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("true")){
 
                             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -82,8 +89,8 @@ public class Login_Guest extends AppCompatActivity {
                             finish();
                             //Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
+                        else if(response.equals("false")){
+                            Toast.makeText(getApplicationContext(),"Incorrect Password", Toast.LENGTH_LONG).show();
                         }
                     }
                 },
@@ -99,7 +106,6 @@ public class Login_Guest extends AppCompatActivity {
                         HashMap<String,String> map = new HashMap<String,String>();
                         map.put("email",email.getText().toString());
                         map.put("password",password.getText().toString());
-
                         return map;
                     }
                 };
@@ -117,9 +123,8 @@ public class Login_Guest extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              /*  Intent intent = new Intent(getApplication(),Register.class);
-                startActivity(intent);
-                finish();*/
+                startActivity(new Intent(getApplication(),Register_Guest.class));
+                finish();
             }
         });
     }
@@ -132,8 +137,7 @@ public class Login_Guest extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        String url = "http://192.168.0.17:8080/VillaFilomena/login_google.php";
+        String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/login_google.php";
 
         if(requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);

@@ -19,7 +19,7 @@ public class Splashscreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                startActivity(new Intent(getApplicationContext(), IP_Address.class));
                 finish();
             }
         },3000);
