@@ -20,7 +20,7 @@
             android:textSize="20dp"
             android:gravity="center"/>
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="30dp"/>
 
@@ -52,7 +52,7 @@
                     android:textSize="14sp"
                     android:textStyle="normal"/>
 
-                <Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="20dp"/>
 
@@ -90,7 +90,7 @@
                     android:textSize="14sp"
                     android:textStyle="normal"/>
 
-                <Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="20dp"/>
 
@@ -107,7 +107,7 @@
 
         </LinearLayout>
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
 

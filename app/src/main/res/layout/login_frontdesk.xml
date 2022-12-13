@@ -16,7 +16,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"/>
 
-    <Space
+    <androidx.legacy.widget.Space
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
@@ -47,7 +47,7 @@
 
     </LinearLayout>
 
-    <Space
+    <androidx.legacy.widget.Space
         android:layout_width="match_parent"
         android:layout_height="15dp"/>
 
@@ -79,7 +79,7 @@
 
     </LinearLayout>
 
-    <Space
+    <androidx.legacy.widget.Space
         android:layout_width="match_parent"
         android:layout_height="80dp"/>
 
