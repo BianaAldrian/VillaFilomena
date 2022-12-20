@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/popup_booking_txtDaytour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day Tour"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/popup_booking_DayTourTime"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/popup_booking_txtDaytour"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/popup_booking_lnrlyt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_booking_DayTourTime"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourKid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KID"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourKidAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourKidFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Fee"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <ImageView
+            android:id="@+id/Daytour_kidAgeFee_Edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_edit"
+            android:layout_marginLeft="30dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/popup_booking_lnrlyt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_booking_lnrlyt1"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourAdult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADULT"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourAdultAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtDaytourAdultFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Fee"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_edit"
+            android:layout_marginLeft="30dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/popup_booking_txtNighttour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Night Tour"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/popup_booking_NightTourTime"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/popup_booking_txtNighttour"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/popup_booking_lnrlyt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_booking_NightTourTime"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourKid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KID"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourKidAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourKidFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Fee"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/popup_booking_lnrlyt4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_booking_lnrlyt3"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourAdult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADULT"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourAdultAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+        <TextView
+            android:id="@+id/popup_booking_txtNighttourAdultFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Fee"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/popup_booking_btnNext"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"/>
+
+    <Button
+        android:id="@+id/popup_booking_btnBack"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/popup_booking_btnDone"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/popup_booking_btnBack"
+        android:visibility="gone"/>
+
+</RelativeLayout>
