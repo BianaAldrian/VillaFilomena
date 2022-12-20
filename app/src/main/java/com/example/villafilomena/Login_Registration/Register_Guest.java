@@ -39,8 +39,8 @@ public class Register_Guest extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
 
-    String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/register.php";
-    String url1 = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/check_email.php";
+    String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/register.php";
+    String url1 = "http://"+IP_Address.IP_Address+"/VillaFilomena/check_email.php";
 
     TextInputEditText email, password, confirm_pass, fullname, contactNo, address;
     TextInputLayout pass_layout,Conpas_layout;

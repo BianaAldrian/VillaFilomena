@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/popup_RoomImage"
+        android:layout_width="500dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/popup_RoomCapacity"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_RoomImage"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:hint="Room Capacity"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:id="@+id/popup_RoomRate"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/popup_RoomCapacity"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:hint="Room Rate"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="15dp"/>
+
+    <Button
+        android:id="@+id/popup_RoomDetail_Done"
+        android:layout_width="250dp"
+        android:layout_height="55dp"
+        android:text="Done"
+        android:textSize="20sp"
+        android:layout_below="@id/popup_RoomRate"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

@@ -47,7 +47,7 @@ public class IP_Address extends AppCompatActivity {
                     public void onResponse(String response) {
                         if(response.equals("true")){
                             //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
-                            IP_Address = ip.getText().toString();
+                            IP_Address = ip.getText().toString()+":8080";
                             startActivity(new Intent(getApplicationContext(), Login.class));
                             finish();
                         }

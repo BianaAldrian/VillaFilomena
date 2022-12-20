@@ -39,7 +39,7 @@ public class Account extends AppCompatActivity {
     GoogleSignInClient gsc;
     GoogleSignInAccount acct;
     SharedPreferences sharedPreferences, sharedPreferences1;
-    String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/get_accountInfo.php";
+    String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/get_accountInfo.php";
 
     Button signout,login,editProf;
     TextView name, contact, address, profEmail;

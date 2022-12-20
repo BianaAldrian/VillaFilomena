@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.villafilomena.Manager.Manager_Dashboard;
+import com.example.villafilomena.Manager.GuestHomePage_Dashboard;
+import com.example.villafilomena.Manager.Main_Dashboard;
 import com.example.villafilomena.R;
 
 public class Login_Manager extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class Login_Manager extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Manager_Dashboard.class));
+                startActivity(new Intent(Login_Manager.this, Main_Dashboard.class));
             }
         });
     }

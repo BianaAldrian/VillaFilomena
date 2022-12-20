@@ -69,7 +69,7 @@ public class Login_Guest extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/login.php";
+                String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/login.php";
                     //Toast.makeText(getApplicationContext(), "Account already exists", Toast.LENGTH_SHORT).show();
                 RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -137,7 +137,7 @@ public class Login_Guest extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String url = "http://"+IP_Address.IP_Address+":8080/VillaFilomena/login_google.php";
+        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/login_google.php";
 
         if(requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
