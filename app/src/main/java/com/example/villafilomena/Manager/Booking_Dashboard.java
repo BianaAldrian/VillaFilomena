@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,10 +54,10 @@ public class Booking_Dashboard extends AppCompatActivity {
     //popup_feedetails
     TextView txtDaytour, txtDaytourKidAge, txtDaytourKidFee, txtDaytourAdultAge, txtDaytourAdultFee,
             txtNighttour, txtNighttourKidAge, txtNighttourKidFee, txtNighttourAdultAge, txtNighttourAdultFee;
-    EditText DaytourTime, NighttourTime;
+    TextView DaytourTime, NighttourTime;
     LinearLayout linear1, linear2, linear3, linear4;
-    Button Next, Back, Done;
-    ImageView Daytour_KidAgeFee_edit;
+    Button Next, Back;
+    ImageView feeDet_Save,Daytour_KidAgeFee_edit,Daytour_AdultAgeFee_edit,Nighttour_KidAgeFee_edit,Nighttour_AdultAgeFee_edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +118,11 @@ public class Booking_Dashboard extends AppCompatActivity {
     }
 
     private void FeeDetail(){
-        ArrayList<String> kidAge = new ArrayList<>();
-
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.popup_feedetails);
 
         txtDaytour = dialog.findViewById(R.id.popup_booking_txtDaytour);
+        feeDet_Save = dialog.findViewById(R.id.Daytour_kidAgeFee_Save);
         DaytourTime = dialog.findViewById(R.id.popup_booking_DayTourTime);
         linear1 = dialog.findViewById(R.id.popup_booking_lnrlyt1);
         txtDaytourKidAge = dialog.findViewById(R.id.popup_booking_txtDaytourKidAge);
@@ -131,43 +131,223 @@ public class Booking_Dashboard extends AppCompatActivity {
         linear2 = dialog.findViewById(R.id.popup_booking_lnrlyt2);
         txtDaytourAdultAge = dialog.findViewById(R.id.popup_booking_txtDaytourAdultAge);
         txtDaytourAdultFee = dialog.findViewById(R.id.popup_booking_txtDaytourAdultFee);
+        Daytour_AdultAgeFee_edit = dialog.findViewById(R.id.Daytour_AdultAgeFee_Edit);
         txtNighttour = dialog.findViewById(R.id.popup_booking_txtNighttour);
         NighttourTime = dialog.findViewById(R.id.popup_booking_NightTourTime);
         linear3 = dialog.findViewById(R.id.popup_booking_lnrlyt3);
         txtNighttourKidAge = dialog.findViewById(R.id.popup_booking_txtNighttourKidAge);
         txtNighttourKidFee = dialog.findViewById(R.id.popup_booking_txtNighttourKidFee);
+        Nighttour_KidAgeFee_edit = dialog.findViewById(R.id.Nighttour_kidAgeFee_Edit);
         linear4 = dialog.findViewById(R.id.popup_booking_lnrlyt4);
         txtNighttourAdultAge = dialog.findViewById(R.id.popup_booking_txtNighttourAdultAge);
         txtNighttourAdultFee = dialog.findViewById(R.id.popup_booking_txtNighttourAdultFee);
+        Nighttour_AdultAgeFee_edit = dialog.findViewById(R.id.Nighttour_AdultAgeFee_Edit);
         Next = dialog.findViewById(R.id.popup_booking_btnNext);
         Back = dialog.findViewById(R.id.popup_booking_btnBack);
-        Done = dialog.findViewById(R.id.popup_booking_btnDone);
 
-        for (int i=1; i<18; i++){
-            kidAge.add(String.valueOf(i));
-        }
-
-        Dialog dialog1 = new Dialog(dialog.getContext());
-        dialog1.setContentView(R.layout.popup_age_fee);
-
-        Spinner DayKidAge_Min = dialog1.findViewById(R.id.popup_kidAge_Min);
-        Spinner DayKidAge_Max = dialog1.findViewById(R.id.popup_kidAge_Max);
-        Button Done = dialog1.findViewById(R.id.popup_Agefee_Done);
-
-        ArrayAdapter adapter = new ArrayAdapter(dialog.getContext(), R.layout.spinner_age, kidAge);
-        DayKidAge_Min.setAdapter(adapter);
-        DayKidAge_Max.setAdapter(adapter);
-
-        Done.setOnClickListener(new View.OnClickListener() {
+        feeDet_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.hide();
             }
         });
+
+        DaytourTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog1 = new Dialog(context);
+                dialog1.setContentView(R.layout.popup_feedetails);
+            }
+        });
+
+        ArrayList<String> kidAge = new ArrayList<>();
+        ArrayList<String> AdultAge = new ArrayList<>();
+
+        final String[] min_kidAge = new String[2];
+        final String[] max_kidAge = new String[2];
+        final String[] min_AdultAge = new String[2];
+        final String[] max_AdultAge = new String[2];
 
         Daytour_KidAgeFee_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i=1; i<18; i++){
+                    kidAge.add(String.valueOf(i));
+                }
+
+                Dialog dialog1 = new Dialog(dialog.getContext());
+                dialog1.setContentView(R.layout.popup_age_fee);
+
+                //Entrance Fee Details for Kids at Day
+                LinearLayout Kid_DayFee = dialog1.findViewById(R.id.popup_Kid_DayFee);
+                LinearLayout Adult_DayFee= dialog1.findViewById(R.id.popup_Adult_DayFee);
+                LinearLayout Kid_NightFee = dialog1.findViewById(R.id.popup_Kid_NightFee);
+                LinearLayout Adult_NightFee = dialog1.findViewById(R.id.popup_Adult_NightFee);
+                Spinner DayKidAge_Min = dialog1.findViewById(R.id.popup_kidAge_Min_Day);
+                Spinner DayKidAge_Max = dialog1.findViewById(R.id.popup_kidAge_Max_Day);
+                EditText KidFeeDay = dialog1.findViewById(R.id.popup_Kidfee_Day);
+                Button Done = dialog1.findViewById(R.id.popup_Agefee_Done);
+
+                Kid_DayFee.setVisibility(View.VISIBLE);
+                Adult_DayFee.setVisibility(View.GONE);
+                Kid_NightFee.setVisibility(View.GONE);
+                Adult_NightFee.setVisibility(View.GONE);
+
+                ArrayAdapter adapter = new ArrayAdapter(dialog.getContext(), R.layout.spinner_age, kidAge);
+                DayKidAge_Min.setAdapter(adapter);
+                DayKidAge_Max.setAdapter(adapter);
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        min_kidAge[0] = DayKidAge_Min.getSelectedItem().toString();
+                        max_kidAge[0] = DayKidAge_Max.getSelectedItem().toString();
+
+                        txtDaytourKidAge.setText("("+min_kidAge[0] + " - " + max_kidAge[0]+" years old)");
+                        txtDaytourKidFee.setText(KidFeeDay.getText().toString());
+                        dialog1.hide();
+                    }
+                });
+
+                dialog1.show();
+            }
+        });
+
+        Daytour_AdultAgeFee_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdultAge.add("and above");
+                for (int i = Integer.parseInt(max_kidAge[0]); i<100; i++){
+                    AdultAge.add(String.valueOf(i));
+                }
+
+                Dialog dialog1 = new Dialog(dialog.getContext());
+                dialog1.setContentView(R.layout.popup_age_fee);
+
+                //Entrance Fee Details for Adult at Day
+                LinearLayout Kid_DayFee = dialog1.findViewById(R.id.popup_Kid_DayFee);
+                LinearLayout Adult_DayFee= dialog1.findViewById(R.id.popup_Adult_DayFee);
+                LinearLayout Kid_NightFee = dialog1.findViewById(R.id.popup_Kid_NightFee);
+                LinearLayout Adult_NightFee = dialog1.findViewById(R.id.popup_Adult_NightFee);
+                Spinner DayAdultAge_Min = dialog1.findViewById(R.id.popup_AdultAge_Min_Day);
+                Spinner DayAdultAge_Max = dialog1.findViewById(R.id.popup_AdultAge_Max_Day);
+                EditText AdultFeeDay = dialog1.findViewById(R.id.popup_Adultfee_Day);
+                Button Done = dialog1.findViewById(R.id.popup_Agefee_Done);
+
+                Kid_DayFee.setVisibility(View.GONE);
+                Adult_DayFee.setVisibility(View.VISIBLE);
+                Kid_NightFee.setVisibility(View.GONE);
+                Adult_NightFee.setVisibility(View.GONE);
+
+                ArrayAdapter adapter = new ArrayAdapter(dialog.getContext(), R.layout.spinner_age, AdultAge);
+                DayAdultAge_Min.setAdapter(adapter);
+                DayAdultAge_Max.setAdapter(adapter);
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        min_AdultAge[0] = DayAdultAge_Min.getSelectedItem().toString();
+                        max_AdultAge[0] = DayAdultAge_Max.getSelectedItem().toString();
+
+                        txtDaytourAdultAge.setText("("+min_AdultAge[0] + " - " + max_AdultAge[0]+" years old)");
+                        txtDaytourAdultFee.setText(AdultFeeDay.getText().toString());
+                        dialog1.hide();
+                    }
+                });
+
+                dialog1.show();
+            }
+        });
+
+        Nighttour_KidAgeFee_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i=1; i<18; i++){
+                    kidAge.add(String.valueOf(i));
+                }
+
+                Dialog dialog1 = new Dialog(dialog.getContext());
+                dialog1.setContentView(R.layout.popup_age_fee);
+
+                //Entrance Fee Details for Kids at Night
+                LinearLayout Kid_DayFee = dialog1.findViewById(R.id.popup_Kid_DayFee);
+                LinearLayout Adult_DayFee= dialog1.findViewById(R.id.popup_Adult_DayFee);
+                LinearLayout Kid_NightFee = dialog1.findViewById(R.id.popup_Kid_NightFee);
+                LinearLayout Adult_NightFee = dialog1.findViewById(R.id.popup_Adult_NightFee);
+                Spinner NightKidAge_Min = dialog1.findViewById(R.id.popup_KidAge_Min_Night);
+                Spinner NightKidAge_Max = dialog1.findViewById(R.id.popup_KidAge_Max_Night);
+                EditText KidFeeNight = dialog1.findViewById(R.id.popup_Kidfee_Night);
+                Button Done = dialog1.findViewById(R.id.popup_Agefee_Done);
+
+                Kid_DayFee.setVisibility(View.GONE);
+                Adult_DayFee.setVisibility(View.GONE);
+                Kid_NightFee.setVisibility(View.VISIBLE);
+                Adult_NightFee.setVisibility(View.GONE);
+
+                ArrayAdapter adapter = new ArrayAdapter(dialog.getContext(), R.layout.spinner_age, kidAge);
+                NightKidAge_Min.setAdapter(adapter);
+                NightKidAge_Max.setAdapter(adapter);
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        min_kidAge[1] = NightKidAge_Min.getSelectedItem().toString();
+                        max_kidAge[1] = NightKidAge_Max.getSelectedItem().toString();
+
+                        txtNighttourKidAge.setText("("+min_kidAge[1] + " - " + max_kidAge[1]+" years old)");
+                        txtNighttourKidFee.setText(KidFeeNight.getText().toString());
+
+                        dialog1.hide();
+                    }
+                });
+
+              dialog1.show();
+            }
+        });
+
+        Nighttour_AdultAgeFee_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdultAge.add("and above");
+                for (int i = Integer.parseInt(max_kidAge[1]); i<100; i++){
+                    AdultAge.add(String.valueOf(i));
+                }
+
+                Dialog dialog1 = new Dialog(dialog.getContext());
+                dialog1.setContentView(R.layout.popup_age_fee);
+
+                //Entrance Fee Details for Adult at Night
+                LinearLayout Kid_DayFee = dialog1.findViewById(R.id.popup_Kid_DayFee);
+                LinearLayout Adult_DayFee= dialog1.findViewById(R.id.popup_Adult_DayFee);
+                LinearLayout Kid_NightFee = dialog1.findViewById(R.id.popup_Kid_NightFee);
+                LinearLayout Adult_NightFee = dialog1.findViewById(R.id.popup_Adult_NightFee);
+                Spinner NightAdultAge_Min = dialog1.findViewById(R.id.popup_AdultAge_Min_Night);
+                Spinner NightAdultAge_Max = dialog1.findViewById(R.id.popup_AdultAge_Max_Night);
+                EditText AdultFeeNight = dialog1.findViewById(R.id.popup_Adultfee_Night);
+                Button Done = dialog1.findViewById(R.id.popup_Agefee_Done);
+
+                Kid_DayFee.setVisibility(View.GONE);
+                Adult_DayFee.setVisibility(View.GONE);
+                Kid_NightFee.setVisibility(View.GONE);
+                Adult_NightFee.setVisibility(View.VISIBLE);
+
+                ArrayAdapter adapter = new ArrayAdapter(dialog.getContext(), R.layout.spinner_age, AdultAge);
+                NightAdultAge_Min.setAdapter(adapter);
+                NightAdultAge_Max.setAdapter(adapter);
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        min_AdultAge[1] = NightAdultAge_Min.getSelectedItem().toString();
+                        max_AdultAge[1] = NightAdultAge_Max.getSelectedItem().toString();
+
+                        txtNighttourAdultAge.setText("("+min_kidAge[1] + " - " + max_kidAge[1]+" years old)");
+                        txtNighttourAdultFee.setText(AdultFeeNight.getText().toString());
+
+                        dialog1.hide();
+                    }
+                });
+
                 dialog1.show();
             }
         });
@@ -185,7 +365,6 @@ public class Booking_Dashboard extends AppCompatActivity {
                 linear3.setVisibility(View.VISIBLE);
                 linear4.setVisibility(View.VISIBLE);
                 Back.setVisibility(View.VISIBLE);
-                Done.setVisibility(View.VISIBLE);
             }
         });
         Back.setOnClickListener(new View.OnClickListener() {
@@ -201,13 +380,6 @@ public class Booking_Dashboard extends AppCompatActivity {
                 linear3.setVisibility(View.GONE);
                 linear4.setVisibility(View.GONE);
                 Back.setVisibility(View.GONE);
-                Done.setVisibility(View.GONE);
-            }
-        });
-        Done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.hide();
             }
         });
 
