@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Spinner
+            android:id="@+id/popup_kidAge_Min"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="to"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/popup_kidAge_Max"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="fee:"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/popup_Kidfee"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/popup_Agefee_Done"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:textSize="20sp"/>
+
+</LinearLayout>

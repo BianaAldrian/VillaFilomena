@@ -31,7 +31,7 @@ public class Main_Dashboard extends AppCompatActivity {
         roomcottage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(Main_Dashboard.this, Booking_Dashboard.class));
             }
         });
     }

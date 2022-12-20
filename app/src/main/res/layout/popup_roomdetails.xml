@@ -1,47 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/popup_RoomImage"
-        android:layout_width="500dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:id="@+id/popup_RoomCapacity"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/popup_RoomImage"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:hint="Room Capacity"
-        android:textColor="@color/black"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_marginTop="15dp"/>
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/popup_RoomRate"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/popup_RoomCapacity"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:hint="Room Rate"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:layout_marginTop="15dp"/>
+        <ImageView
+            android:id="@+id/popup_RoomImage"
+            android:layout_width="500dp"
+            android:layout_height="250dp"/>
 
-    <Button
-        android:id="@+id/popup_RoomDetail_Done"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:text="Done"
-        android:textSize="20sp"
-        android:layout_below="@id/popup_RoomRate"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"/>
+        <EditText
+            android:id="@+id/popup_RoomName"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/popup_RoomImage"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
+            android:hint="Room Name"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/popup_RoomCapacity"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/popup_RoomImage"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
+            android:hint="Room Capacity"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/popup_RoomRate"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/popup_RoomCapacity"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
+            android:hint="Room Rate"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:id="@+id/popup_RoomDetail_Done"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:text="Done"
+            android:textSize="20sp"
+            android:layout_below="@id/popup_RoomRate"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ProgressBar
+            android:id="@+id/popup_Room_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
+
+</ScrollView>
