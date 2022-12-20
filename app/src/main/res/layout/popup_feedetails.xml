@@ -13,6 +13,14 @@
         android:layout_centerHorizontal="true"
         android:textStyle="bold"/>
 
+    <ImageView
+        android:id="@+id/Daytour_kidAgeFee_Save"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/ic_save" />
+
     <EditText
         android:id="@+id/popup_booking_DayTourTime"
         android:layout_width="250dp"
@@ -21,7 +29,8 @@
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/popup_booking_txtDaytour"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:gravity="center"/>
 
     <LinearLayout
         android:id="@+id/popup_booking_lnrlyt1"
@@ -49,8 +58,17 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/popup_booking_txtDaytourKidFee"
@@ -60,8 +78,7 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
 
         <ImageView
             android:id="@+id/Daytour_kidAgeFee_Edit"
@@ -98,8 +115,17 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/popup_booking_txtDaytourAdultFee"
@@ -109,10 +135,10 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
 
         <ImageView
+            android:id="@+id/Daytour_AdultAgeFee_Edit"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_edit"
@@ -140,7 +166,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/popup_booking_txtNighttour"
         android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:gravity="center"/>
 
     <LinearLayout
         android:id="@+id/popup_booking_lnrlyt3"
@@ -169,8 +196,7 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/popup_booking_txtNighttourKidFee"
@@ -180,8 +206,14 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/Nighttour_kidAgeFee_Edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_edit"
+            android:layout_marginLeft="30dp"/>
 
     </LinearLayout>
 
@@ -212,8 +244,7 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/popup_booking_txtNighttourAdultFee"
@@ -223,8 +254,14 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border"/>
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/Nighttour_AdultAgeFee_Edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_edit"
+            android:layout_marginLeft="30dp"/>
 
     </LinearLayout>
 
@@ -245,17 +282,6 @@
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/popup_booking_btnDone"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/popup_booking_btnBack"
         android:visibility="gone"/>
 
 </RelativeLayout>
