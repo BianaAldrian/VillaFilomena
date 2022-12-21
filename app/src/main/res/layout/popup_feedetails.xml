@@ -21,12 +21,11 @@
         android:layout_marginEnd="30dp"
         android:background="@drawable/ic_save" />
 
-    <TextView
+    <EditText
         android:id="@+id/popup_booking_DayTourTime"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:hint="Time"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/popup_booking_txtDaytour"
@@ -158,12 +157,11 @@
         android:textStyle="bold"
         android:visibility="gone"/>
 
-    <TextView
+    <EditText
         android:id="@+id/popup_booking_NightTourTime"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:hint="Time"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/popup_booking_txtNighttour"
