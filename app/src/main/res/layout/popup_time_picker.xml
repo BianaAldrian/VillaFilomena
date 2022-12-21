@@ -4,7 +4,46 @@
     android:layout_height="wrap_content">
 
     <TimePicker
+        android:id="@+id/popup_timePick_From"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <TimePicker
+        android:id="@+id/popup_timePick_To"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    
+    <Button
+        android:id="@+id/timePick_TO"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="To"
+        android:textSize="20dp"
+        android:layout_below="@id/popup_timePick_From"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/popup_timePick_From"/>
+
+    <Button
+        android:id="@+id/timePick_FROM"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="From"
+        android:textSize="20dp"
+        android:layout_below="@id/popup_timePick_To"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/popup_timePick_To"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/popup_timePick_Done"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="done"
+        android:textSize="20dp"
+        android:layout_below="@+id/popup_timePick_To"
+        android:layout_marginTop="20dp"
+        android:layout_alignRight="@id/popup_timePick_To"
+        android:visibility="gone"/>
 
 </RelativeLayout>

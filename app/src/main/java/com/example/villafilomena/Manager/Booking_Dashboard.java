@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -122,7 +123,7 @@ public class Booking_Dashboard extends AppCompatActivity {
         dialog.setContentView(R.layout.popup_feedetails);
 
         txtDaytour = dialog.findViewById(R.id.popup_booking_txtDaytour);
-        feeDet_Save = dialog.findViewById(R.id.Daytour_kidAgeFee_Save);
+        feeDet_Save = dialog.findViewById(R.id.popup_FeeDet_Save);
         DaytourTime = dialog.findViewById(R.id.popup_booking_DayTourTime);
         linear1 = dialog.findViewById(R.id.popup_booking_lnrlyt1);
         txtDaytourKidAge = dialog.findViewById(R.id.popup_booking_txtDaytourKidAge);
@@ -145,6 +146,17 @@ public class Booking_Dashboard extends AppCompatActivity {
         Next = dialog.findViewById(R.id.popup_booking_btnNext);
         Back = dialog.findViewById(R.id.popup_booking_btnBack);
 
+        final String[] DayTime = new String[2];
+        final String[] NightTime = new String[2];
+
+        ArrayList<String> kidAge = new ArrayList<>();
+        ArrayList<String> AdultAge = new ArrayList<>();
+
+        final String[] min_kidAge = new String[2];
+        final String[] max_kidAge = new String[2];
+        final String[] min_AdultAge = new String[2];
+        final String[] max_AdultAge = new String[2];
+
         feeDet_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,18 +170,217 @@ public class Booking_Dashboard extends AppCompatActivity {
                 Dialog dialog1 = new Dialog(context);
                 dialog1.setContentView(R.layout.popup_time_picker);
 
+                TimePicker timePicker_From = dialog1.findViewById(R.id.popup_timePick_From);
+                TimePicker timePicker_To = dialog1.findViewById(R.id.popup_timePick_To);
+                Button Done = dialog1.findViewById(R.id.popup_timePick_Done);
+                Button To = dialog1.findViewById(R.id.timePick_TO);
+                Button From = dialog1.findViewById(R.id.timePick_FROM);
+
+                timePicker_From.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        int hour = hourOfDay;
+                        int minutes = minute;
+                        String timeSet = "";
+
+                        if (hour > 12) {
+                            hour -= 12;
+                            timeSet = "PM";
+                        } else if (hour == 0) {
+                            hour += 12;
+                            timeSet = "AM";
+                        } else if (hour == 12){
+                            timeSet = "PM";
+                        }else{
+                            timeSet = "AM";
+                        }
+
+                        String min = "";
+                        if (minutes < 10){
+                            min = "0" + minutes ;
+                        }
+                        else {
+                            min = String.valueOf(minutes);
+                        }
+
+                        DayTime[0] = hour+":"+min+" "+timeSet;
+                    }
+                });
+
+                timePicker_To.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        int hour = hourOfDay;
+                        int minutes = minute;
+                        String timeSet = "";
+
+                        if (hour > 12) {
+                            hour -= 12;
+                            timeSet = "PM";
+                        } else if (hour == 0) {
+                            hour += 12;
+                            timeSet = "AM";
+                        } else if (hour == 12){
+                            timeSet = "PM";
+                        }else{
+                            timeSet = "AM";
+                        }
+
+                        String min = "";
+                        if (minutes < 10){
+                            min = "0" + minutes ;
+                        }
+                        else {
+                            min = String.valueOf(minutes);
+                        }
+
+                        DayTime[1] = hour+":"+min+" "+timeSet;
+                    }
+                });
+
+                To.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        From.setVisibility(View.VISIBLE);
+                        To.setVisibility(View.GONE);
+                        Done.setVisibility(View.VISIBLE);
+                        timePicker_To.setVisibility(View.VISIBLE);
+                        timePicker_From.setVisibility(View.GONE);
+                    }
+                });
+
+                From.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        From.setVisibility(View.GONE);
+                        To.setVisibility(View.VISIBLE);
+                        Done.setVisibility(View.GONE);
+                        timePicker_To.setVisibility(View.GONE);
+                        timePicker_From.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DaytourTime.setText(DayTime[0]+" - "+DayTime[1]);
+
+                        dialog1.hide();
+                    }
+                });
 
                 dialog1.show();
             }
         });
 
-        ArrayList<String> kidAge = new ArrayList<>();
-        ArrayList<String> AdultAge = new ArrayList<>();
+        NighttourTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog1 = new Dialog(context);
+                dialog1.setContentView(R.layout.popup_time_picker);
 
-        final String[] min_kidAge = new String[2];
-        final String[] max_kidAge = new String[2];
-        final String[] min_AdultAge = new String[2];
-        final String[] max_AdultAge = new String[2];
+                TimePicker timePicker_From = dialog1.findViewById(R.id.popup_timePick_From);
+                TimePicker timePicker_To = dialog1.findViewById(R.id.popup_timePick_To);
+                Button Done = dialog1.findViewById(R.id.popup_timePick_Done);
+                Button To = dialog1.findViewById(R.id.timePick_TO);
+                Button From = dialog1.findViewById(R.id.timePick_FROM);
+
+                timePicker_From.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        int hour = hourOfDay;
+                        int minutes = minute;
+                        String timeSet = "";
+
+                        if (hour > 12) {
+                            hour -= 12;
+                            timeSet = "PM";
+                        } else if (hour == 0) {
+                            hour += 12;
+                            timeSet = "AM";
+                        } else if (hour == 12){
+                            timeSet = "PM";
+                        }else{
+                            timeSet = "AM";
+                        }
+
+                        String min = "";
+                        if (minutes < 10){
+                            min = "0" + minutes ;
+                        }
+                        else {
+                            min = String.valueOf(minutes);
+                        }
+
+                        NightTime[0] = hour+":"+min+" "+timeSet;
+                    }
+                });
+
+                timePicker_To.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        int hour = hourOfDay;
+                        int minutes = minute;
+                        String timeSet = "";
+
+                        if (hour > 12) {
+                            hour -= 12;
+                            timeSet = "PM";
+                        } else if (hour == 0) {
+                            hour += 12;
+                            timeSet = "AM";
+                        } else if (hour == 12){
+                            timeSet = "PM";
+                        }else{
+                            timeSet = "AM";
+                        }
+
+                        String min = "";
+                        if (minutes < 10){
+                            min = "0" + minutes ;
+                        }
+                        else {
+                            min = String.valueOf(minutes);
+                        }
+
+                        NightTime[1] = hour+":"+min+" "+timeSet;
+                    }
+                });
+
+                To.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        From.setVisibility(View.VISIBLE);
+                        To.setVisibility(View.GONE);
+                        Done.setVisibility(View.VISIBLE);
+                        timePicker_To.setVisibility(View.VISIBLE);
+                        timePicker_From.setVisibility(View.GONE);
+                    }
+                });
+
+                From.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        From.setVisibility(View.GONE);
+                        To.setVisibility(View.VISIBLE);
+                        Done.setVisibility(View.GONE);
+                        timePicker_To.setVisibility(View.GONE);
+                        timePicker_From.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                Done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NighttourTime.setText(NightTime[0]+" - "+NightTime[1]);
+
+                        dialog1.hide();
+                    }
+                });
+
+                dialog1.show();
+            }
+        });
 
         Daytour_KidAgeFee_edit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,7 +14,7 @@
         android:textStyle="bold"/>
 
     <ImageView
-        android:id="@+id/Daytour_kidAgeFee_Save"
+        android:id="@+id/popup_FeeDet_Save"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
