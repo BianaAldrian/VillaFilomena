@@ -54,7 +54,7 @@ public class Booking_Dashboard extends AppCompatActivity {
     //popup_feedetails
     TextView txtDaytour, txtDaytourKidAge, txtDaytourKidFee, txtDaytourAdultAge, txtDaytourAdultFee,
             txtNighttour, txtNighttourKidAge, txtNighttourKidFee, txtNighttourAdultAge, txtNighttourAdultFee;
-    EditText DaytourTime, NighttourTime;
+    TextView DaytourTime, NighttourTime;
     LinearLayout linear1, linear2, linear3, linear4;
     Button Next, Back;
     ImageView feeDet_Save,Daytour_KidAgeFee_edit,Daytour_AdultAgeFee_edit,Nighttour_KidAgeFee_edit,Nighttour_AdultAgeFee_edit;
@@ -149,6 +149,17 @@ public class Booking_Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.hide();
+            }
+        });
+
+        DaytourTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog1 = new Dialog(context);
+                dialog1.setContentView(R.layout.popup_time_picker);
+
+
+                dialog1.show();
             }
         });
 
