@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Frontdesk.Booking"
+    tools:context=".Frontdesk.Frontdesk_Booking"
     android:orientation="vertical"
     android:layout_margin="10dp">
 

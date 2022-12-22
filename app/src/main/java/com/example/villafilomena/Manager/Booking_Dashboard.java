@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -160,6 +159,7 @@ public class Booking_Dashboard extends AppCompatActivity {
         feeDet_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EntranceFee_Details();
                 dialog.hide();
             }
         });
@@ -555,7 +555,7 @@ public class Booking_Dashboard extends AppCompatActivity {
                         min_AdultAge[1] = NightAdultAge_Min.getSelectedItem().toString();
                         max_AdultAge[1] = NightAdultAge_Max.getSelectedItem().toString();
 
-                        txtNighttourAdultAge.setText("("+min_kidAge[1] + " - " + max_kidAge[1]+" years old)");
+                        txtNighttourAdultAge.setText("("+min_AdultAge[1] + " - " + max_AdultAge[1]+" years old)");
                         txtNighttourAdultFee.setText(AdultFeeNight.getText().toString());
 
                         dialog1.hide();
@@ -598,6 +598,46 @@ public class Booking_Dashboard extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void EntranceFee_Details(){
+        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/entranceFee_Details.php";
+        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equals("Success")){
+                    Toast.makeText(context, "Insert Successful", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.equals("Failed")){
+                    Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected HashMap<String,String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("daytour_time",DaytourTime.getText().toString());
+                map.put("daytour_kidAge",txtDaytourKidAge.getText().toString());
+                map.put("daytour_kidFee",txtDaytourKidFee.getText().toString());
+                map.put("daytour_adultAge",txtDaytourAdultAge.getText().toString());
+                map.put("daytour_adultFee",txtDaytourAdultFee.getText().toString());
+                map.put("nighttour_time",NighttourTime.getText().toString());
+                map.put("nighttour_kidAge",txtNighttourKidAge.getText().toString());
+                map.put("nighttour_kidFee",txtNighttourKidFee.getText().toString());
+                map.put("nighttour_adultAge",txtNighttourAdultAge.getText().toString());
+                map.put("nighttour_adultFee",txtNighttourAdultFee.getText().toString());
+                return map;
+            }
+        };
+        myrequest.add(stringRequest);
     }
 
     private void chooseRoomImage(){

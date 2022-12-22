@@ -1,4 +1,4 @@
-package com.example.villafilomena.Guest.home_reservation;
+package com.example.villafilomena.Guest.home_booking;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -21,7 +21,7 @@ import com.google.android.material.appbar.AppBarLayout;
 public class MainFrame extends AppCompatActivity {
 
     ImageView account, bannerView;
-    TextView home, reserve;
+    TextView home, book;
     AppBarLayout appbar;
     NestedScrollView nested;
 
@@ -32,7 +32,7 @@ public class MainFrame extends AppCompatActivity {
         account = findViewById(R.id.account);
         bannerView = findViewById(R.id.bannerView);
         home = findViewById(R.id.mainHome);
-        reserve = findViewById(R.id.mainReserve);
+        book = findViewById(R.id.mainBook);
         appbar = findViewById(R.id.appbar);
         nested = findViewById(R.id.nested);
 
@@ -54,27 +54,27 @@ public class MainFrame extends AppCompatActivity {
                 home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
                 home.setPadding(0,0,0,5);
 
-                if((reserve.getPaintFlags() & Paint.UNDERLINE_TEXT_FLAG) == Paint.UNDERLINE_TEXT_FLAG &&
-                        (reserve.getPaintFlags() & Paint.FAKE_BOLD_TEXT_FLAG) == Paint.FAKE_BOLD_TEXT_FLAG){
-                    reserve.setPaintFlags(reserve.getPaintFlags() ^ Paint.UNDERLINE_TEXT_FLAG);
-                    reserve.setPaintFlags(reserve.getPaintFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
-                    reserve.setPadding(0,5,0,0);
+                if((book.getPaintFlags() & Paint.UNDERLINE_TEXT_FLAG) == Paint.UNDERLINE_TEXT_FLAG &&
+                        (book.getPaintFlags() & Paint.FAKE_BOLD_TEXT_FLAG) == Paint.FAKE_BOLD_TEXT_FLAG){
+                    book.setPaintFlags(book.getPaintFlags() ^ Paint.UNDERLINE_TEXT_FLAG);
+                    book.setPaintFlags(book.getPaintFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
+                    book.setPadding(0,5,0,0);
 
                     replace_home(new Home());
                 }
             }
         });
 
-        reserve.setOnClickListener(new View.OnClickListener() {
+        book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nested.fullScroll(View.FOCUS_UP);
                 toggle(false);
                 nested.setNestedScrollingEnabled(false);
 
-                reserve.setPaintFlags(reserve.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                reserve.setPaintFlags(reserve.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
-                reserve.setPadding(0,0,0,5);
+                book.setPaintFlags(book.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                book.setPaintFlags(book.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+                book.setPadding(0,0,0,5);
 
                 if((home.getPaintFlags() & Paint.UNDERLINE_TEXT_FLAG) == Paint.UNDERLINE_TEXT_FLAG &&
                         (home.getPaintFlags() & Paint.FAKE_BOLD_TEXT_FLAG) == Paint.FAKE_BOLD_TEXT_FLAG){
@@ -82,13 +82,13 @@ public class MainFrame extends AppCompatActivity {
                     home.setPaintFlags(home.getPaintFlags() ^ Paint.FAKE_BOLD_TEXT_FLAG);
                     home.setPadding(0,5,0,0);
 
-                    replace_reserve(new Reservation());
+                    replace_book(new Guest_Booking());
                 }
             }
         });
     }
 
-    private void replace_reserve(Fragment fragment) {
+    private void replace_book(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);

@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import com.example.villafilomena.R;
 
-public class Booking extends AppCompatActivity {
+public class Frontdesk_Booking extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.booking);
+        setContentView(R.layout.frontdesk_booking);
 
 
     }

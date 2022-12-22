@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Guest.home_reservation.Home">
+    tools:context=".Guest.home_booking.Home">
 
     <ScrollView
         android:id="@+id/homeScrl"

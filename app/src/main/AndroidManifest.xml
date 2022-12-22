@@ -53,7 +53,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Frontdesk.Booking"
+            android:name=".Frontdesk.Frontdesk_Booking"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -95,14 +95,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Guest.home_reservation.Home"
+            android:name=".Guest.home_booking.Home"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Guest.home_reservation.MainFrame"
+            android:name=".Guest.home_booking.MainFrame"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Guest.home_reservation.Reservation"
+    tools:context=".Guest.home_booking.Guest_Booking"
     android:gravity="center">
 
     <LinearLayout
@@ -45,9 +45,10 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/guestBooking_daytour_Time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7 AM - 5PM"
+                    android:hint="Time"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"/>
@@ -57,9 +58,10 @@
                     android:layout_height="20dp"/>
 
                 <TextView
+                    android:id="@+id/guestBooking_daytour_Fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="KIDS (2-8 years old) - 150\nADULT (9 years &amp; above) - 180"
+                    android:hint="Fee"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -83,9 +85,10 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/guestBooking_nighttour_Time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7 PM - 5AM"
+                    android:hint="Time"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"/>
@@ -95,9 +98,10 @@
                     android:layout_height="20dp"/>
 
                 <TextView
+                    android:id="@+id/guestBooking_nighttour_Fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="KIDS (2-8 years old) - 150\nADULT (9 years &amp; above) - 210"
+                    android:hint="Fee"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="normal"
@@ -168,23 +172,53 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Room Details:"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/guestBooking_RoomInfos_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cottage Details:"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/guestBooking_CottageInfos_List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
 
         <Button
             android:id="@+id/reserve_continue"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Continue"
             android:layout_gravity="center"
-            android:layout_weight="0"/>
+            android:text="Continue" />
 
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Reserve now"
+            android:text="Book now"
             android:layout_gravity="center"
             android:visibility="gone"
             android:layout_weight="0"/>

@@ -1,4 +1,4 @@
-package com.example.villafilomena.Guest.home_reservation;
+package com.example.villafilomena.Guest.home_booking;
 
 import android.os.Bundle;
 

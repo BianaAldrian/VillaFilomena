@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Guest.home_reservation.MainFrame"
+    tools:context=".Guest.home_booking.MainFrame"
     android:orientation="vertical">
 
     <LinearLayout
@@ -83,12 +83,12 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
         <TextView
-            android:id="@+id/mainReserve"
+            android:id="@+id/mainBook"
             android:layout_width="120dp"
             android:layout_height="35dp"
             android:background="#d3d3d3"
             android:gravity="center"
-            android:text=" Reserve Now "
+            android:text=" Book Now "
             android:textColor="@color/black"
             android:textSize="17sp"
             android:layout_gravity="top|right"

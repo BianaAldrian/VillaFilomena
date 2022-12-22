@@ -23,7 +23,7 @@ public class Frontdesk_Dashboard extends AppCompatActivity {
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Booking.class));
+                startActivity(new Intent(getApplicationContext(), Frontdesk_Booking.class));
             }
         });
     }
