@@ -77,6 +77,5 @@ public class RoomInfos_adapter extends RecyclerView.Adapter<RoomInfos_adapter.Vi
             RoomCapacity = view.findViewById(R.id.roomInfo_RoomCapacity);
             RoomFee = view.findViewById(R.id.roomInfo_RoomFee);
         }
-
     }
 }

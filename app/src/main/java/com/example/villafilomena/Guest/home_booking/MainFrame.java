@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class MainFrame extends AppCompatActivity {
     TextView home, book;
     AppBarLayout appbar;
     NestedScrollView nested;
+    public static Button Continue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainFrame extends AppCompatActivity {
         book = findViewById(R.id.mainBook);
         appbar = findViewById(R.id.appbar);
         nested = findViewById(R.id.nested);
+        Continue = findViewById(R.id.guestBooking_Continue);
 
         account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +45,6 @@ public class MainFrame extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Account.class));
             }
         });
-
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,10 +63,10 @@ public class MainFrame extends AppCompatActivity {
                     book.setPadding(0,5,0,0);
 
                     replace_home(new Home());
+                    Continue.setVisibility(View.GONE);
                 }
             }
         });
-
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +85,7 @@ public class MainFrame extends AppCompatActivity {
                     home.setPadding(0,5,0,0);
 
                     replace_book(new Guest_Booking());
+                    Continue.setVisibility(View.VISIBLE);
                 }
             }
         });

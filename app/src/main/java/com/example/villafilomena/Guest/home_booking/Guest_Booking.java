@@ -1,10 +1,14 @@
 package com.example.villafilomena.Guest.home_booking;
 
 import android.app.AlertDialog;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -33,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,14 +88,16 @@ public class Guest_Booking extends Fragment {
     }
 
     LinearLayout checkIn_checkOut, adult_child;
-    Button reserve_continue, guest_done;
-    TextView txtCheckInOut,kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
+    Button guest_done;
+    public static TextView txtCheckInOut,txtKidAdult,kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
     int kidqty = 0, adultqty = 0;
     //entrance fee details
     TextView daytourTime, nightTourTime, daytourFee, nighttourFee;
 
     RecyclerView RoomInfo_list;
     ArrayList<RoomInfos_model> roominfo_holder;
+
+    public static ArrayList<Integer> visiblePositions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,8 +106,8 @@ public class Guest_Booking extends Fragment {
         View view = inflater.inflate(R.layout.guest_booking, container, false);
 
         txtCheckInOut = view.findViewById(R.id.guestBooking_txtchekcIn_Out);
+        txtKidAdult = view.findViewById(R.id.guestBooking_txtKid_Adult);
         checkIn_checkOut = view.findViewById(R.id.checkIn_checkOut);
-        reserve_continue = view.findViewById(R.id.reserve_continue);
         adult_child = view.findViewById(R.id.adult_child);
         daytourTime = view.findViewById(R.id.guestBooking_daytour_Time);
         nightTourTime = view.findViewById(R.id.guestBooking_nighttour_Time);
@@ -108,6 +116,13 @@ public class Guest_Booking extends Fragment {
         RoomInfo_list = view.findViewById(R.id.guestBooking_RoomInfos_List);
 
         EntranceFee_Details();
+        Room_Infos();
+
+        final String[] checkInOut_year = new String[2];
+        final String[] checkInOut_month = new String[2];
+        final String[] checkInOut_day = new String[2];
+        final String[] checkIn_Time = new String[1];
+        final String[] checkOut_Time = new String[1];
 
         checkIn_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,10 +148,6 @@ public class Guest_Booking extends Fragment {
                 checkIn.setMinDate(System.currentTimeMillis() - 1000);
                 checkOut.setMinDate(System.currentTimeMillis() - 1000);
 
-                final String[] checkInOut_year = new String[2];
-                final String[] checkInOut_month = new String[2];
-                final String[] checkInOut_day = new String[2];
-
                 checkIn.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -157,22 +168,22 @@ public class Guest_Booking extends Fragment {
                 calendar_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String checkIn_Time="", checkOut_Time="";
 
                         if(CheckIn_Daytour.isChecked()){
-                            checkIn_Time = "Day Tour";
+                            checkIn_Time[0] = "Day Tour";
                         }else if(CheckIn_Nighttour.isChecked()){
-                            checkIn_Time = "Night Tour";
+                            checkIn_Time[0] = "Night Tour";
                         }
 
                         if(CheckOut_Daytour.isChecked()){
-                            checkOut_Time = "Day Tour";
+                            checkOut_Time[0] = "Day Tour";
                         }else if(CheckOut_Nighttour.isChecked()){
-                            checkOut_Time = "Night Tour";
+                            checkOut_Time[0] = "Night Tour";
                         }
 
-                        txtCheckInOut.setText("Check-In "+checkInOut_day[0]+"/"+checkInOut_month[0]+"/"+checkInOut_year[0]+" - "+ checkIn_Time +
-                                "\n"+"Check-Out "+checkInOut_day[1]+"/"+checkInOut_month[1]+"/"+checkInOut_year[1]+" - "+checkOut_Time);
+                        txtCheckInOut.setText("Check-In "+checkInOut_day[0]+"/"+checkInOut_month[0]+"/"+checkInOut_year[0]+" - "+ checkIn_Time[0] +
+                                "\n"+"Check-Out "+checkInOut_day[1]+"/"+checkInOut_month[1]+"/"+checkInOut_year[1]+" - "+ checkOut_Time[0]);
+
                         dialog.hide();
                     }
                 });
@@ -235,15 +246,39 @@ public class Guest_Booking extends Fragment {
                 guest_done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        txtKidAdult.setText(kidqty+" Kid - "+adultqty+" Adult");
                         dialog.hide();
                     }
                 });
             }
         });
 
-        Room_Infos();
+        MainFrame.Continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainFrame.Continue.setVisibility(View.GONE);
+                visiblePositions = new ArrayList<>();
+
+                int childCount = RoomInfo_list.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    View childView = RoomInfo_list.getChildAt(i);
+                    CardView getCheck = (CardView) childView.findViewById(R.id.roomInfo_Check);
+                    if (getCheck.getVisibility() == View.VISIBLE) {
+                        // Add the position to the list
+                        visiblePositions.add(i);
+                    }
+                }
+                replace(new Guest_Booking2());
+            }
+        });
 
         return view;
+    }
+
+    private void replace(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame,fragment).commit();
     }
 
     private void EntranceFee_Details(){
@@ -341,4 +376,5 @@ public class Guest_Booking extends Fragment {
                 });
         myrequest.add(stringRequest);
     }
+
 }
