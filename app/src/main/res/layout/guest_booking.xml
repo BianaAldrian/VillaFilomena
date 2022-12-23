@@ -120,7 +120,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="10dp"
-            android:background="@drawable/border">
+            android:foreground="@drawable/border"
+            android:background="#008951">
 
             <LinearLayout
                 android:id="@+id/checkIn_checkOut"
@@ -128,7 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/border"
+                android:background="#FFD84F"
+                android:foreground="@drawable/border"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -143,7 +145,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
                     android:layout_marginEnd="10dp"
-                    android:text="Check-in -- Check-out" />
+                    android:text="Check-in -- Check-out"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -151,24 +154,26 @@
                 android:id="@+id/adult_child"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
-                android:orientation="horizontal"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="#FFD84F"
+                android:foreground="@drawable/border"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/ic_people"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_people" />
 
                 <TextView
                     android:id="@+id/guestBooking_txtAdult_Child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 Kid - 0 Adult"
                     android:layout_gravity="center|right"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:text="0 Kid - 0 Adult"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -188,7 +193,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/guestBooking_RoomInfos_List"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"
