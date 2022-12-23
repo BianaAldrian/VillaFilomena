@@ -4,9 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.villafilomena.R;
@@ -23,7 +25,7 @@ public class RoomInfos_adapter extends RecyclerView.Adapter<RoomInfos_adapter.Vi
 
     @NonNull
     @Override
-    public RoomInfos_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.guest_booking_roominfo, parent, false);
         return new ViewHolder(view);
     }
@@ -32,10 +34,27 @@ public class RoomInfos_adapter extends RecyclerView.Adapter<RoomInfos_adapter.Vi
     public void onBindViewHolder(@NonNull RoomInfos_adapter.ViewHolder holder, int position) {
         final RoomInfos_model model = roominfo_holder.get(position);
 
+        if(holder.RoomImage.getDrawable() == null){
+            holder.room_Progress.setVisibility(View.VISIBLE);
+        }else{
+            holder.room_Progress.setVisibility(View.GONE);
+        }
         holder.RoomName.setText(model.getName());
         holder.RoomFee.setText(model.getRoom_rate());
         holder.RoomCapacity.setText(model.getRoom_capacity());
         Picasso.get().load(model.getImageUrl()).into(holder.RoomImage);
+
+        holder.RoomImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.room_Check.getVisibility() == View.GONE){
+                    holder.room_Check.setVisibility(View.VISIBLE);
+                }else {
+                    holder.room_Check.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -44,15 +63,20 @@ public class RoomInfos_adapter extends RecyclerView.Adapter<RoomInfos_adapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        CardView room_Check;
+        ProgressBar room_Progress;
         ImageView RoomImage;
         TextView RoomName, RoomCapacity, RoomFee;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            RoomImage = itemView.findViewById(R.id.roomInfo_RoomImage);
-            RoomName = itemView.findViewById(R.id.roomInfo_RoomName);
-            RoomCapacity = itemView.findViewById(R.id.roomInfo_RoomCapacity);
-            RoomFee = itemView.findViewById(R.id.roomInfo_RoomFee);
+        public ViewHolder(View view) {
+            super(view);
+            room_Check = view.findViewById(R.id.roomInfo_Check);
+            room_Progress = view.findViewById(R.id.roomInfo_Progess);
+            RoomImage = view.findViewById(R.id.roomInfo_RoomImage);
+            RoomName = view.findViewById(R.id.roomInfo_RoomName);
+            RoomCapacity = view.findViewById(R.id.roomInfo_RoomCapacity);
+            RoomFee = view.findViewById(R.id.roomInfo_RoomFee);
         }
+
     }
 }

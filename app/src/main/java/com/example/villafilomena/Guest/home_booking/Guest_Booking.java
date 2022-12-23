@@ -272,6 +272,7 @@ public class Guest_Booking extends Fragment {
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                         RoomInfo_list.setLayoutManager(layoutManager);
                         RoomInfo_list.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
 
                     }else{
                         Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
