@@ -126,23 +126,24 @@
                 android:id="@+id/checkIn_checkOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
-                android:orientation="horizontal"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/ic_calendar"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_calendar" />
 
                 <TextView
+                    android:id="@+id/guestBooking_txtchekcIn_Out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Check-in -- Check-out"
                     android:layout_gravity="center|right"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:text="Check-in -- Check-out" />
 
             </LinearLayout>
 
@@ -162,9 +163,10 @@
                     android:layout_margin="5dp"/>
 
                 <TextView
+                    android:id="@+id/guestBooking_txtAdult_Child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 Adults - 0 Children"
+                    android:text="0 Kid - 0 Adult"
                     android:layout_gravity="center|right"
                     android:layout_marginEnd="10dp"/>
 

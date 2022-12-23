@@ -3,6 +3,7 @@ package com.example.villafilomena.Guest.home_booking;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,8 +82,8 @@ public class Guest_Booking extends Fragment {
     }
 
     LinearLayout checkIn_checkOut, adult_child;
-    Button reserve_continue, calendar_ok, guest_done;
-    TextView kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
+    Button reserve_continue, guest_done;
+    TextView txtCheckInOut,kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
     int kidqty = 0, adultqty = 0;
     //entrance fee details
     TextView daytourTime, nightTourTime, daytourFee, nighttourFee;
@@ -94,6 +97,7 @@ public class Guest_Booking extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.guest_booking, container, false);
 
+        txtCheckInOut = view.findViewById(R.id.guestBooking_txtchekcIn_Out);
         checkIn_checkOut = view.findViewById(R.id.checkIn_checkOut);
         reserve_continue = view.findViewById(R.id.reserve_continue);
         adult_child = view.findViewById(R.id.adult_child);
@@ -114,15 +118,61 @@ public class Guest_Booking extends Fragment {
                 LayoutInflater inflater1 = getActivity().getLayoutInflater();
                 View view1 = inflater1.inflate(R.layout.guest_calendar, null);
 
-                calendar_ok = view1.findViewById(R.id.calendar_ok);
+                CalendarView checkIn = view1.findViewById(R.id.guestCalendar_Checkin);
+                CalendarView checkOut = view1.findViewById(R.id.guestCalendar_Checkout);
+                RadioButton CheckIn_Daytour = view1.findViewById(R.id.guestCalendar_CheckIn_DaytourTime);
+                RadioButton CheckIn_Nighttour = view1.findViewById(R.id.guestCalendar_CheckIn_NighttourTime);
+                RadioButton CheckOut_Daytour = view1.findViewById(R.id.guestCalendar_CheckOut_DaytourTime);
+                RadioButton CheckOut_Nighttour = view1.findViewById(R.id.guestCalendar_CheckOut_NighttourTime);
+                Button calendar_ok = view1.findViewById(R.id.calendar_ok);
 
                 builder.setView(view1);
                 final AlertDialog dialog = builder.create();
                 dialog.show();
 
+                checkIn.setMinDate(System.currentTimeMillis() - 1000);
+                checkOut.setMinDate(System.currentTimeMillis() - 1000);
+
+                final String[] checkInOut_year = new String[2];
+                final String[] checkInOut_month = new String[2];
+                final String[] checkInOut_day = new String[2];
+
+                checkIn.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        checkInOut_year[0] = String.valueOf(year);
+                        checkInOut_month[0] = String.valueOf(month);
+                        checkInOut_day[0] = String.valueOf(dayOfMonth);
+                    }
+                });
+                checkOut.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        checkInOut_year[1] = String.valueOf(year);
+                        checkInOut_month[1] = String.valueOf(month);
+                        checkInOut_day[1] = String.valueOf(dayOfMonth);
+                    }
+                });
+
                 calendar_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String checkIn_Time="", checkOut_Time="";
+
+                        if(CheckIn_Daytour.isChecked()){
+                            checkIn_Time = "Day Tour";
+                        }else if(CheckIn_Nighttour.isChecked()){
+                            checkIn_Time = "Night Tour";
+                        }
+
+                        if(CheckOut_Daytour.isChecked()){
+                            checkOut_Time = "Day Tour";
+                        }else if(CheckOut_Nighttour.isChecked()){
+                            checkOut_Time = "Night Tour";
+                        }
+
+                        txtCheckInOut.setText("Check-In "+checkInOut_day[0]+"/"+checkInOut_month[0]+"/"+checkInOut_year[0]+" - "+ checkIn_Time +
+                                "\n"+"Check-Out "+checkInOut_day[1]+"/"+checkInOut_month[1]+"/"+checkInOut_year[1]+" - "+checkOut_Time);
                         dialog.hide();
                     }
                 });
