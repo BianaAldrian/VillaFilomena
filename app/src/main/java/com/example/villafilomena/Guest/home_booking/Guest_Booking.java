@@ -97,7 +97,7 @@ public class Guest_Booking extends Fragment {
     RecyclerView RoomInfo_list;
     ArrayList<RoomInfos_model> roominfo_holder;
 
-    public static ArrayList<Integer> visiblePositions;
+    public static ArrayList<String> visiblePositions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -258,14 +258,15 @@ public class Guest_Booking extends Fragment {
             public void onClick(View v) {
                 MainFrame.Continue.setVisibility(View.GONE);
                 visiblePositions = new ArrayList<>();
+                //RoomInfos_adapter adapter = (RoomInfos_adapter) RoomInfo_list.getAdapter();
 
                 int childCount = RoomInfo_list.getChildCount();
                 for (int i = 0; i < childCount; i++) {
-                    View childView = RoomInfo_list.getChildAt(i);
+                    View childView = RoomInfo_list.getLayoutManager().findViewByPosition(i);
                     CardView getCheck = (CardView) childView.findViewById(R.id.roomInfo_Check);
                     if (getCheck.getVisibility() == View.VISIBLE) {
-                        // Add the position to the list
-                        visiblePositions.add(i);
+                        final RoomInfos_model model = roominfo_holder.get(i);
+                        visiblePositions.add(model.getId());
                     }
                 }
                 replace(new Guest_Booking2());

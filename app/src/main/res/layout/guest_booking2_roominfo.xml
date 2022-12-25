@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/roomInfo2_Roomname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room Name"/>
+
+    <TextView
+        android:id="@+id/roomInfo2_Roomcapacity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room Capacity"/>
+
+    <TextView
+        android:id="@+id/roomInfo2_Roomrate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room Rate"/>
+
+</LinearLayout>
