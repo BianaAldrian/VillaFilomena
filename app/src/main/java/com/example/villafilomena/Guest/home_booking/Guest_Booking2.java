@@ -5,12 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +87,7 @@ public class Guest_Booking2 extends Fragment {
     public static TextView txtCheckInOut,txtKidAdult;
     ArrayList<RoomInfos_model> roominfo_holder;
     RecyclerView RoomInfo_list;
+    Button booknow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +98,7 @@ public class Guest_Booking2 extends Fragment {
         txtCheckInOut = view.findViewById(R.id.guestBooking2_txtchekcIn_Out);
         txtKidAdult = view.findViewById(R.id.guestBooking2_txtKid_Adult);
         RoomInfo_list = view.findViewById(R.id.guestBooking2_RoomView);
+        booknow = view.findViewById(R.id.guestBooking2_booknow);
 
         txtCheckInOut.setText(Guest_Booking.txtCheckInOut.getText().toString());
         txtKidAdult.setText(Guest_Booking.txtKidAdult.getText().toString());
@@ -103,8 +108,20 @@ public class Guest_Booking2 extends Fragment {
             RoomInfos(Guest_Booking.visiblePositions.get(i));
         }
 
+        booknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replace(new Guest_Booking3());
+            }
+        });
 
         return view;
+    }
+
+    private void replace(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame,fragment).commit();
     }
 
     private void RoomInfos(String id){
