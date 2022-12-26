@@ -171,10 +171,6 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
-                                   /* String url = uri.toString();
-                                    Member member = new Member(videoName.getText().toString().trim(), url);
-                                    String upload = databaseReference.push().getKey();
-                                    databaseReference.child(upload).setValue(member);*/
 
                                     String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/image_upload.php";
                                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
@@ -186,7 +182,7 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
                                             }
                                             else if(response.equals("Upload Failed")){
                                                 Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                                            }
+                                           }
                                         }
                                     },
                                             new Response.ErrorListener() {
@@ -236,11 +232,6 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String video_url = uri.toString();
-                                   /* String url = uri.toString();
-                                    Member member = new Member(videoName.getText().toString().trim(), url);
-                                    String upload = databaseReference.push().getKey();
-                                    databaseReference.child(upload).setValue(member);*/
-
                                     String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/video_upload.php";
                                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
