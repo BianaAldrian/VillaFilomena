@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class Guest_Booking extends Fragment {
     LinearLayout checkIn_checkOut, adult_child;
     Button guest_done;
     public static TextView txtCheckInOut,txtKidAdult,kidDec, kidQty, kidInc, adultDec, adultQty, adultInc;
-    int kidqty = 0, adultqty = 0;
+    public static int kidqty = 0, adultqty = 0;
     //entrance fee details
     TextView daytourTime, nightTourTime, daytourFee, nighttourFee;
 
@@ -98,6 +99,15 @@ public class Guest_Booking extends Fragment {
     ArrayList<RoomInfos_model> roominfo_holder;
 
     public static ArrayList<String> visiblePositions;
+    public static int numDays = 0;
+    public static int numNights = 0;
+    public static double kidFee_Day, kidFee_Night, adultFee_Day, adultFee_Night;
+
+    public static final String[] checkInOut_year = new String[2];
+    public static final String[] checkInOut_month = new String[2];
+    public static final String[] checkInOut_day = new String[2];
+    public static final String[] checkIn_Time = new String[1];
+    public static final String[] checkOut_Time = new String[1];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,12 +127,6 @@ public class Guest_Booking extends Fragment {
 
         EntranceFee_Details();
         Room_Infos();
-
-        final String[] checkInOut_year = new String[2];
-        final String[] checkInOut_month = new String[2];
-        final String[] checkInOut_day = new String[2];
-        final String[] checkIn_Time = new String[1];
-        final String[] checkOut_Time = new String[1];
 
         checkIn_checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +149,9 @@ public class Guest_Booking extends Fragment {
                 final AlertDialog dialog = builder.create();
                 dialog.show();
 
+                Calendar starDate = Calendar.getInstance();
+                Calendar endDate = Calendar.getInstance();
+
                 checkIn.setMinDate(System.currentTimeMillis() - 1000);
                 checkOut.setMinDate(System.currentTimeMillis() - 1000);
 
@@ -154,6 +161,7 @@ public class Guest_Booking extends Fragment {
                         checkInOut_year[0] = String.valueOf(year);
                         checkInOut_month[0] = String.valueOf(month);
                         checkInOut_day[0] = String.valueOf(dayOfMonth);
+                        starDate.set(year, month, dayOfMonth);
                     }
                 });
                 checkOut.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -162,6 +170,7 @@ public class Guest_Booking extends Fragment {
                         checkInOut_year[1] = String.valueOf(year);
                         checkInOut_month[1] = String.valueOf(month);
                         checkInOut_day[1] = String.valueOf(dayOfMonth);
+                        endDate.set(year,month, dayOfMonth);
                     }
                 });
 
@@ -183,6 +192,11 @@ public class Guest_Booking extends Fragment {
 
                         txtCheckInOut.setText("Check-In "+checkInOut_day[0]+"/"+checkInOut_month[0]+"/"+checkInOut_year[0]+" - "+ checkIn_Time[0] +
                                 "\n"+"Check-Out "+checkInOut_day[1]+"/"+checkInOut_month[1]+"/"+checkInOut_year[1]+" - "+ checkOut_Time[0]);
+
+                        long difference = endDate.getTimeInMillis() - starDate.getTimeInMillis();
+
+                        numDays = (int) (difference / 86400000);
+                        numNights = (int) (difference / 86400000);
 
                         dialog.hide();
                     }
@@ -257,6 +271,7 @@ public class Guest_Booking extends Fragment {
             @Override
             public void onClick(View v) {
                 MainFrame.Continue.setVisibility(View.GONE);
+                MainFrame.Booknow.setVisibility(View.VISIBLE);
                 visiblePositions = new ArrayList<>();
                 //RoomInfos_adapter adapter = (RoomInfos_adapter) RoomInfo_list.getAdapter();
 
@@ -308,6 +323,11 @@ public class Guest_Booking extends Fragment {
                             String nighttour_kid_fee = object.getString("nighttour_kid_fee");
                             String nighttour_adult_age = object.getString("nighttour_adult_age");
                             String nighttour_adult_fee = object.getString("nighttour_adult_fee");
+
+                            kidFee_Day = Double.parseDouble(daytour_kid_fee);
+                            kidFee_Night = Double.parseDouble(nighttour_kid_fee);
+                            adultFee_Day = Double.parseDouble(daytour_adult_fee);
+                            adultFee_Night = Double.parseDouble(nighttour_adult_fee);
 
                             daytourTime.setText(day_tour);
                             daytourFee.setText("KID"+daytour_kid_age+" - "+daytour_kid_fee+"\n"+"ADULT"+daytour_adult_age+" - "+daytour_adult_fee);

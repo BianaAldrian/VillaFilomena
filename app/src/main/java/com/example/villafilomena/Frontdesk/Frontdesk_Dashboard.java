@@ -11,7 +11,7 @@ import com.example.villafilomena.R;
 
 public class Frontdesk_Dashboard extends AppCompatActivity {
 
-    CardView booking, reservation, calendar;
+    CardView booking, onlineBooking, calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class Frontdesk_Dashboard extends AppCompatActivity {
         setContentView(R.layout.frontdesk_dashboard);
 
         booking = findViewById(R.id.frontdesk_booking);
+        onlineBooking = findViewById(R.id.frontdesk_OnlineBooking);
 
         booking.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -57,29 +57,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age:"
-            android:textColor="@color/black"
-            android:textSize="26sp"/>
-        <EditText
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:textColor="@color/black"/>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="30dp"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Date:"
             android:textColor="@color/black"
             android:textSize="26sp"/>
         <EditText
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="26sp"
+            android:layout_weight="0.4"
             android:textColor="@color/black"/>
 
         <androidx.legacy.widget.Space
@@ -93,9 +78,10 @@
             android:textColor="@color/black"
             android:textSize="26sp"/>
         <EditText
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="26sp"
+            android:layout_weight="0.4"
             android:textColor="@color/black"/>
 
     </LinearLayout>
@@ -222,37 +208,6 @@
             android:textSize="26sp"
             android:textColor="@color/black" />
 
-        <androidx.legacy.widget.Space
-            android:layout_width="50dp"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Adult/s:"
-            android:textColor="@color/black"
-            android:textSize="26sp" />
-        <EditText
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:textColor="@color/black"/>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="50dp"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kid/s:"
-            android:textColor="@color/black"
-            android:textSize="26sp" />
-        <EditText
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:textColor="@color/black"/>
     </LinearLayout>
 
     <androidx.legacy.widget.Space

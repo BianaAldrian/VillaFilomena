@@ -38,14 +38,13 @@ public class Login_Guest extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
 
-
-
     Button login, cont_google;
     TextView register;
     TextInputEditText password,email;
 
     public static final String SHARED_PREFS = "";
     public static final String EMAIL = "";
+    public static String user_email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +78,8 @@ public class Login_Guest extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_SHORT).show();
                         }
                         else if(response.equals("true")){
+
+                            user_email = email.getText().toString();
 
                             SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();

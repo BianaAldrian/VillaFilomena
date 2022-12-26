@@ -107,7 +107,7 @@
             <FrameLayout
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content" />
 
         </androidx.core.widget.NestedScrollView>
 
@@ -122,5 +122,22 @@
         android:layout_marginBottom="20dp"
         android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/guestBooking2_booknow"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Book Now"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/guestBooking3_done"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

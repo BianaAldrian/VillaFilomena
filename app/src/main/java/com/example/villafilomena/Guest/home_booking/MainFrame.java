@@ -25,7 +25,7 @@ public class MainFrame extends AppCompatActivity {
     TextView home, book;
     AppBarLayout appbar;
     NestedScrollView nested;
-    public static Button Continue;
+    public static Button Continue, Booknow, Done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,8 @@ public class MainFrame extends AppCompatActivity {
         appbar = findViewById(R.id.appbar);
         nested = findViewById(R.id.nested);
         Continue = findViewById(R.id.guestBooking_Continue);
+        Booknow = findViewById(R.id.guestBooking2_booknow);
+        Done = findViewById(R.id.guestBooking3_done);
 
         account.setOnClickListener(new View.OnClickListener() {
             @Override

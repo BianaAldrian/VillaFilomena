@@ -138,11 +138,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/guestBooking2_booknow"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Book Now"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"/>
 </LinearLayout>

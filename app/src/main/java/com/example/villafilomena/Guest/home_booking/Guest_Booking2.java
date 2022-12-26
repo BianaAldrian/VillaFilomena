@@ -1,7 +1,5 @@
 package com.example.villafilomena.Guest.home_booking;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,17 +23,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.IP_Address;
-import com.example.villafilomena.Login_Registration.Login;
 import com.example.villafilomena.R;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,9 +79,8 @@ public class Guest_Booking2 extends Fragment {
     }
 
     public static TextView txtCheckInOut,txtKidAdult;
-    ArrayList<RoomInfos_model> roominfo_holder;
+    public static ArrayList<RoomInfos_model> roominfo_holder;
     RecyclerView RoomInfo_list;
-    Button booknow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,19 +91,22 @@ public class Guest_Booking2 extends Fragment {
         txtCheckInOut = view.findViewById(R.id.guestBooking2_txtchekcIn_Out);
         txtKidAdult = view.findViewById(R.id.guestBooking2_txtKid_Adult);
         RoomInfo_list = view.findViewById(R.id.guestBooking2_RoomView);
-        booknow = view.findViewById(R.id.guestBooking2_booknow);
 
         txtCheckInOut.setText(Guest_Booking.txtCheckInOut.getText().toString());
         txtKidAdult.setText(Guest_Booking.txtKidAdult.getText().toString());
+        roominfo_holder = new ArrayList<>();
 
-        for (int i=0; i<Guest_Booking.visiblePositions.size(); i++){
-            roominfo_holder = new ArrayList<>();
-            RoomInfos(Guest_Booking.visiblePositions.get(i));
+        if(!Guest_Booking.visiblePositions.isEmpty()){
+            for (int i=0; i<Guest_Booking.visiblePositions.size(); i++){
+                RoomInfos(Guest_Booking.visiblePositions.get(i));
+            }
         }
 
-        booknow.setOnClickListener(new View.OnClickListener() {
+        MainFrame.Booknow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainFrame.Booknow.setVisibility(View.GONE);
+                MainFrame.Done.setVisibility(View.VISIBLE);
                 replace(new Guest_Booking3());
             }
         });

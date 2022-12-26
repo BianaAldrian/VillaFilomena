@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Frontdesk.Frontdesk_Booking"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking"
+                android:textSize="38sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_gravity="center"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GUEST INFORMATION"
+                android:textSize="30sp"
+                android:textColor="@color/black"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"/>
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_Gname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_currentDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:layout_weight="0.4"
+                    android:textColor="@color/black"
+                    android:editable="false"/>
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email Address:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_Gemail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_Gnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check-in:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_CheckInDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:hint="Date"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_CheckInTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:hint="Time"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check-out:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_CheckOutDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:hint="Date"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_CheckOutTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:hint="Time"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. of People:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_GuestQty"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:editable="false"/>
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. of Room/s:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_RoomQty"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room Type:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_RoomType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room Price:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_RoomPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. of Cottage/s:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_CottageQty"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cottage Type:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_CottageType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cottage Price:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <EditText
+                    android:id="@+id/FD_onlineBook_CottagePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:editable="false"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+                <androidx.legacy.widget.Space
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <EditText
+                    android:id="@+id/FD_onlineBook_Total"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/black"
+                    android:editable="false"/>
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status of payment: "
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_StatPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="percentage of payment"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balance:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_Balanced"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="payment balanced"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:editable="false"/>
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reference number:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_Reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Gcash reference number"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:editable="false"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="invoice:"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"/>
+
+                <EditText
+                    android:id="@+id/FD_onlineBook_Invoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="invoice name"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:editable="false"/>
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="book now"
+                    android:textSize="26sp"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cancel"
+                    android:textSize="26sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
