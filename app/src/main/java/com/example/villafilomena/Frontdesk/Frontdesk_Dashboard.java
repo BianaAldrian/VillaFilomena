@@ -27,5 +27,11 @@ public class Frontdesk_Dashboard extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Frontdesk_Booking.class));
             }
         });
+        onlineBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Frontdesk_Booked.class));
+            }
+        });
     }
 }

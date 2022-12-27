@@ -34,7 +34,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
         requestList = findViewById(R.id.frontdesk_requestList);
 
-
+        retrieve_BookingInfos();
     }
 
     private void retrieve_BookingInfos(){
@@ -53,17 +53,13 @@ public class Frontdesk_Booked extends AppCompatActivity {
                         for (int i=0; i<jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
 
-                            String booking_status = object.getString("booking_status");
-
                             Book_Request_model model = new Book_Request_model(object.getString("booking_id"), object.getString("currentBooking_Date"), object.getString("users_email"), object.getString("checkIn_date"),
                                     object.getString("checkIn_time"), object.getString("checkOut_date"), object.getString("checkOut_time"), object.getString("guest_count"), object.getString("room_id"), object.getString("cottage_id"),
-                                    object.getString("total_cost"), object.getString("pay"), object.getString("payment_status"), object.getString("balance"), object.getString("reference_num"), object.getString("booking_status"));
+                                    object.getString("total_cost"), object.getString("pay"), object.getString("payment_status"), object.getString("balance"), object.getString("reference_num"), object.getString("booking_status"), object.getString("invoice"));
                             request_holder.add(model);
                         }
 
                         Request_Adapter adapter = new Request_Adapter(request_holder);
-                        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-                        requestList.setLayoutManager(layoutManager);
                         requestList.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 

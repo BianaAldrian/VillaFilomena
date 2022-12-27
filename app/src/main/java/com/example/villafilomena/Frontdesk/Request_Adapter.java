@@ -3,6 +3,7 @@ package com.example.villafilomena.Frontdesk;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +29,8 @@ public class Request_Adapter extends RecyclerView.Adapter<Request_Adapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull Request_Adapter.ViewHolder holder, int position) {
-
+        Book_Request_model model = request_holder.get(position);
+        holder.guest_name.setText(model.getUsers_email());
     }
 
     @Override
@@ -37,8 +39,11 @@ public class Request_Adapter extends RecyclerView.Adapter<Request_Adapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView guest_name;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            guest_name = itemView.findViewById(R.id.requestList_guestName);
         }
     }
 }

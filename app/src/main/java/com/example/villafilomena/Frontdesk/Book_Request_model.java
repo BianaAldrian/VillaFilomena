@@ -1,25 +1,28 @@
 package com.example.villafilomena.Frontdesk;
 
 public class Book_Request_model {
-    String booking_id, current_date, user_email, checkIn_date, checkIn_time, checkOut_date, checkOut_time, guest_qty, room_id, cottage_id, total_cost, payment, payment_status, balance, reference_num, booking_status;
+    String booking_id, currentBooking_Date, users_email, checkIn_date, checkIn_time, checkOut_date, checkOut_time, guest_count, room_id, cottage_id, total_cost,pay, payment_status, balance, reference_num, booking_status, invoice;
 
-    public Book_Request_model(String booking_id, String current_date, String user_email, String checkIn_date, String checkIn_time, String checkOut_date, String checkOut_time, String guest_qty, String room_id, String cottage_id, String total_cost, String payment, String payment_status, String balance, String reference_num, String booking_status) {
+    private Book_Request_model(){}
+
+    public Book_Request_model(String booking_id, String currentBooking_Date, String users_email, String checkIn_date, String checkIn_time, String checkOut_date, String checkOut_time, String guest_count, String room_id, String cottage_id, String total_cost, String pay, String payment_status, String balance, String reference_num, String booking_status, String invoice) {
         this.booking_id = booking_id;
-        this.current_date = current_date;
-        this.user_email = user_email;
+        this.currentBooking_Date = currentBooking_Date;
+        this.users_email = users_email;
         this.checkIn_date = checkIn_date;
         this.checkIn_time = checkIn_time;
         this.checkOut_date = checkOut_date;
         this.checkOut_time = checkOut_time;
-        this.guest_qty = guest_qty;
+        this.guest_count = guest_count;
         this.room_id = room_id;
         this.cottage_id = cottage_id;
         this.total_cost = total_cost;
-        this.payment = payment;
+        this.pay = pay;
         this.payment_status = payment_status;
         this.balance = balance;
         this.reference_num = reference_num;
         this.booking_status = booking_status;
+        this.invoice = invoice;
     }
 
     public String getBooking_id() {
@@ -30,20 +33,20 @@ public class Book_Request_model {
         this.booking_id = booking_id;
     }
 
-    public String getCurrent_date() {
-        return current_date;
+    public String getCurrentBooking_Date() {
+        return currentBooking_Date;
     }
 
-    public void setCurrent_date(String current_date) {
-        this.current_date = current_date;
+    public void setCurrentBooking_Date(String currentBooking_Date) {
+        this.currentBooking_Date = currentBooking_Date;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getUsers_email() {
+        return users_email;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setUsers_email(String users_email) {
+        this.users_email = users_email;
     }
 
     public String getCheckIn_date() {
@@ -78,12 +81,12 @@ public class Book_Request_model {
         this.checkOut_time = checkOut_time;
     }
 
-    public String getGuest_qty() {
-        return guest_qty;
+    public String getGuest_count() {
+        return guest_count;
     }
 
-    public void setGuest_qty(String guest_qty) {
-        this.guest_qty = guest_qty;
+    public void setGuest_count(String guest_count) {
+        this.guest_count = guest_count;
     }
 
     public String getRoom_id() {
@@ -110,12 +113,12 @@ public class Book_Request_model {
         this.total_cost = total_cost;
     }
 
-    public String getPayment() {
-        return payment;
+    public String getPay() {
+        return pay;
     }
 
-    public void setPayment(String payment) {
-        this.payment = payment;
+    public void setPay(String pay) {
+        this.pay = pay;
     }
 
     public String getPayment_status() {
@@ -150,4 +153,11 @@ public class Book_Request_model {
         this.booking_status = booking_status;
     }
 
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
+    }
 }
