@@ -77,7 +77,7 @@ public class Guest_Booking3 extends Fragment {
         }
     }
 
-    TextView details;
+    TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
     EditText reference;
     String checkIn_Day,checkOut_Day,checkIn_Month,checkOut_Month,checkIn_Year,checkOut_Year,checkIn_Time,checkOut_Time;
@@ -99,9 +99,14 @@ public class Guest_Booking3 extends Fragment {
         View view = inflater.inflate(R.layout.guest_booking3, container, false);
 
         details = view.findViewById(R.id.guestBooking3_txtDetails);
+        waiting_confirmation = view.findViewById(R.id.txtBooking_pending);
+        txtBooking_confirmed =view.findViewById(R.id.txtBooking_confirmed);
+        txtInvoice_Link = view.findViewById(R.id.txt_InvoiceLink);
         Percent50 = view.findViewById(R.id.guestBooking3_Rbtn50);
         Percent100 = view.findViewById(R.id.guestBooking3_Rbtn100);
         reference = view.findViewById(R.id.guestBooking3_referenceNum);
+
+
 
         checkIn_Day = Guest_Booking.checkInOut_day[0];
         checkOut_Day = Guest_Booking.checkInOut_day[1];
@@ -206,10 +211,15 @@ public class Guest_Booking3 extends Fragment {
             @Override
             public void onClick(View v) {
                 insertBooking_informatiion();
+                waiting_confirmation.setVisibility(View.VISIBLE);
             }
         });
 
         return view;
+    }
+
+    private void Check_Status(){
+
     }
 
     private void insertBooking_informatiion(){

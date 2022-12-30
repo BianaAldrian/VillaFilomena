@@ -39,6 +39,43 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtBooking_pending"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Please Wait for the confirmation of your bookings....\n Your Bookings will be confirmed for the maximum of 12 hours"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="100dp"
+            android:gravity="center|top"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txtBooking_confirmed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Booking is confirmed"
+            android:textSize="24dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="100dp"
+            android:gravity="center|top"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txt_InvoiceLink"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Click here to download your receipt"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:gravity="center|top"
+            android:visibility="gone"/>
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"

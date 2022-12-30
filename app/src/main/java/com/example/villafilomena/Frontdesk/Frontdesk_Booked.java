@@ -1,5 +1,6 @@
 package com.example.villafilomena.Frontdesk;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.Toast;
@@ -33,19 +36,63 @@ public class Frontdesk_Booked extends AppCompatActivity {
     ArrayList<Frontdesk_userDetailsModel> request_holder;
     Request_Adapter.ClickListener clickListener;
 
-    public static String user_email;
+    public static String email, fullname, address, contactNum;
+
+    Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frontdesk_booked);
+        retrieve_BookingInfos();
+
+        thread = null;
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        Thread.sleep(1000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    retrieve_BookingInfos();
+                }
+            }
+        });
+        thread.start();
 
         requestList = findViewById(R.id.frontdesk_requestList);
-        request_holder = new ArrayList<>();
-        retrieve_BookingInfos();
         OnItemClick();
 
     }
+
+    /*private void Testing(){
+        Runnable objRunnable = new Runnable() {
+           *//* Message objMessage = objHandler.obtainMessage();
+            Bundle objBundle = new Bundle();*//*
+
+            @Override
+            public void run() {
+                while(true){
+                    try{
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    retrieve_BookingInfos();
+                }
+
+               *//* objBundle.putString("MSG_KEY", );
+
+                objHandler.sendEmptyMessage(0);*//*
+            }
+        };
+
+        Thread objBgThread = new Thread(objRunnable);
+        objBgThread.start();
+
+    }*/
 
     private void retrieve_BookingInfos(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_userDetails.php";
@@ -59,6 +106,8 @@ public class Frontdesk_Booked extends AppCompatActivity {
                     String success = jsonObject.getString("success");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
+                    request_holder = new ArrayList<>();
+
                     if(success.equals("1")){
 
                         for (int i=0; i<jsonArray.length(); i++){
@@ -68,7 +117,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
                         }
 
                         Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
-                        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+                        GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
                         requestList.setLayoutManager(layoutManager);
                         requestList.setAdapter(adapter);
 
@@ -94,15 +143,14 @@ public class Frontdesk_Booked extends AppCompatActivity {
         clickListener = new Request_Adapter.ClickListener() {
             @Override
             public void onClick(View v,int position) {
-                //Toast.makeText(Frontdesk_Booked.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
                 Frontdesk_userDetailsModel model = request_holder.get(position);
 
                 startActivity(new Intent(getApplicationContext(), Frontdesk_Onlinebooking.class));
 
-                Frontdesk_Onlinebooking.email = model.getEmail();
-                Frontdesk_Onlinebooking.fullname = model.getFullname();
-                Frontdesk_Onlinebooking.contact = model.getContact();
-                Frontdesk_Onlinebooking.address = model.getAddress();
+                email = model.getEmail();
+                fullname = model.getFullname();
+                contactNum = model.getContact();
+                address = model.getAddress();
             }
         };
     }

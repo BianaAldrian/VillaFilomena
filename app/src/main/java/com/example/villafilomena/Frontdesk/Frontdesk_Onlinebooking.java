@@ -62,7 +62,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
     Context context = this;
     EditText current_date, guest_name, guest_email, guest_contact, checkIn_DATE, checIn_TIME, checkOut_DATE, checkOut_TIME, guest_qty, room_qty, room_type, room_price, cottage_qty, cottage_type, cottage_price, payment_balance, paymentStat, total, referenceNum;
     Button booknow;
-    public static String email, fullname, contact, address;
+    //public static String email, fullname, contact, address;
 
     String booking_id, currentBooking_Date, users_email, checkIn_date, checkIn_time, checkOut_date, checkOut_time, guest_count, room_id, cottage_id, total_cost, pay, payment_status, balance, reference_num;
 
@@ -109,14 +109,9 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         referenceNum = findViewById(R.id.FD_onlineBook_Reference);
         booknow = findViewById(R.id.Frontdesk_onlineBook_btnBooknow);
 
-        guest_name.setText(fullname);
-        guest_email.setText(email);
-        guest_contact.setText(contact);
-        /*room_qty.setText();
-        room_type.setText();
-        cottage_qty.setText();
-        cottage_type.setText();
-        cottage_price.setText();*/
+        guest_name.setText(Frontdesk_Booked.fullname);
+        guest_email.setText(Frontdesk_Booked.email);
+        guest_contact.setText(Frontdesk_Booked.contactNum);
 
         room_type.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,7 +266,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
             @Override
             protected HashMap<String,String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<String,String>();
-                map.put("email", email);
+                map.put("email", Frontdesk_Booked.email);
 
                 return map;
             }
@@ -329,7 +324,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(14f);
         paint.setColor(Color.BLACK);
-        canvas.drawText("Guest Name: "+fullname, 50, 200, paint);
+        canvas.drawText("Guest Name: "+Frontdesk_Booked.fullname, 50, 200, paint);
         canvas.drawText("No. of People", 50, 220, paint);
         canvas.drawText("Check-in: "+checkIn_date+" - "+checkIn_time, 50, 240, paint);
         canvas.drawText("Check-out: "+checkOut_date+" - "+checkOut_time, 50, 260, paint);
@@ -387,7 +382,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 
-        String InvoiceName = fullname+"_"+dateFormat.format(date);
+        String InvoiceName = Frontdesk_Booked.fullname+"_"+dateFormat.format(date);
 
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+folder_name;
 

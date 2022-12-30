@@ -2,7 +2,9 @@ package com.example.villafilomena.Guest.home_booking;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,25 +15,34 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.villafilomena.Guest.Profile.Account;
 import com.example.villafilomena.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainFrame extends AppCompatActivity {
 
-    ImageView account, bannerView;
+    ImageView account, bannerView, mainmenu;
     TextView home, book;
     AppBarLayout appbar;
     NestedScrollView nested;
     public static Button Continue, Booknow, Done;
 
+    DrawerLayout drawerLayout;
+    ImageView navigationBar,iv_logout;
+    LinearLayout ll_First,ll_Second,ll_Third,ll_Fourth,ll_Fifth,ll_Sixth,ll_Seventh;
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_frame);
-        account = findViewById(R.id.account);
+
+        //account = findViewById(R.id.account);
+        mainmenu = findViewById(R.id.MainMenu);
         bannerView = findViewById(R.id.bannerView);
         home = findViewById(R.id.mainHome);
         book = findViewById(R.id.mainBook);
@@ -41,10 +52,22 @@ public class MainFrame extends AppCompatActivity {
         Booknow = findViewById(R.id.guestBooking2_booknow);
         Done = findViewById(R.id.guestBooking3_done);
 
-        account.setOnClickListener(new View.OnClickListener() {
+        home.setPaintFlags(home.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+        home.setPadding(0,0,0,5);
+        replace_home(new Home());
+
+
+       /* account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), Account.class));
+            }
+        });*/
+        mainmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +114,31 @@ public class MainFrame extends AppCompatActivity {
                 }
             }
         });
+
+        onSetNavigationDrawerEvents();
+    }
+
+    private void onSetNavigationDrawerEvents() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+
+        ll_First = (LinearLayout) findViewById(R.id.ll_First);
+        ll_Second = (LinearLayout) findViewById(R.id.ll_Second);
+        ll_Third = (LinearLayout) findViewById(R.id.ll_Third);
+
+        mainmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(navigationView, true);
+            }
+        });
+
+        ll_First.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainFrame.this, Account.class));
+            }
+        });
     }
 
     private void replace_book(Fragment fragment) {
@@ -115,7 +163,7 @@ public class MainFrame extends AppCompatActivity {
 
     }
 
-    @Override
+   /* @Override
     protected void onStart(){
         super.onStart();
         //home.performClick();
@@ -123,5 +171,5 @@ public class MainFrame extends AppCompatActivity {
         home.setPaintFlags(home.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
         home.setPadding(0,0,0,5);
         replace_home(new Home());
-    }
+    }*/
 }
