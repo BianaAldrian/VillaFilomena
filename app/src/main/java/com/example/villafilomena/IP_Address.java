@@ -37,7 +37,8 @@ public class IP_Address extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
 
-        IP = preferences.getString("IP_Address", "");
+        IP = preferences.getString("IP_Address", "").trim();
+        IP_Address = IP+":8080";
 
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+":8080/VillaFilomena/check_conn.php";

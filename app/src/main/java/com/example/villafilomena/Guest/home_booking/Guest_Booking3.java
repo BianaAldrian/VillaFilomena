@@ -214,7 +214,6 @@ public class Guest_Booking3 extends Fragment {
 
     private void insertBooking_informatiion(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_bookingInfos.php";
-        //Toast.makeText(getApplicationContext(), "Account already exists", Toast.LENGTH_SHORT).show();
         RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -230,7 +229,7 @@ public class Guest_Booking3 extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity().getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                 })
         {

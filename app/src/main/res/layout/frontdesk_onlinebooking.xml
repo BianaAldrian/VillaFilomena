@@ -413,10 +413,10 @@
                     android:layout_height="match_parent"/>
 
                 <EditText
-                    android:id="@+id/FD_onlineBook_Balanced"
+                    android:id="@+id/FD_onlineBook_Balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="payment balanced"
+                    android:hint="payment balance"
                     android:textColor="@color/black"
                     android:textSize="26sp"
                     android:editable="false"/>
@@ -452,30 +452,6 @@
                     android:textSize="26sp"
                     android:editable="false"/>
 
-                <androidx.legacy.widget.Space
-                    android:layout_width="10dp"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="invoice:"
-                    android:textColor="@color/black"
-                    android:textSize="26sp" />
-
-                <androidx.legacy.widget.Space
-                    android:layout_width="10dp"
-                    android:layout_height="match_parent"/>
-
-                <EditText
-                    android:id="@+id/FD_onlineBook_Invoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="invoice name"
-                    android:textColor="@color/black"
-                    android:textSize="26sp"
-                    android:editable="false"/>
-
             </LinearLayout>
 
             <androidx.legacy.widget.Space
@@ -493,6 +469,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/Frontdesk_onlineBook_btnBooknow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="book now"
