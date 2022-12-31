@@ -1,19 +1,19 @@
 package com.example.villafilomena.Guest.home_booking;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +25,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.Login_Registration.Login_Guest;
 import com.example.villafilomena.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +82,9 @@ public class Guest_Booking3 extends Fragment {
         }
     }
 
+    Thread thread;
+    boolean booking_stat = false;
+
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
     EditText reference;
@@ -87,10 +95,9 @@ public class Guest_Booking3 extends Fragment {
 
     int kidCount, adultCount;
     int numofDays, numofNights;
-    double Day_Fee, Night_Fee;
     double KidFee_Day, KidFee_Night, AdultFee_Day, AdultFee_Night;
     double totalFee,payment=0, balance;
-    String percent;
+    String percent, InvoiceUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,7 +113,24 @@ public class Guest_Booking3 extends Fragment {
         Percent100 = view.findViewById(R.id.guestBooking3_Rbtn100);
         reference = view.findViewById(R.id.guestBooking3_referenceNum);
 
+        txtInvoice_Link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StorageReference invoiceReference = FirebaseStorage.getInstance().getReferenceFromUrl(InvoiceUrl);
+                String InvoiceName = invoiceReference.getName();
 
+                String url = InvoiceUrl;
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                request.setTitle("Invoice");
+                request.setDescription("Downloading file...");
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, InvoiceName);
+
+                DownloadManager manager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                manager.enqueue(request);
+            }
+        });
 
         checkIn_Day = Guest_Booking.checkInOut_day[0];
         checkOut_Day = Guest_Booking.checkInOut_day[1];
@@ -206,12 +230,27 @@ public class Guest_Booking3 extends Fragment {
 
         balance = totalFee - payment;
 
-
         MainFrame.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertBooking_informatiion();
                 waiting_confirmation.setVisibility(View.VISIBLE);
+
+                thread = null;
+                thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (!booking_stat){
+                            try {
+                                Thread.sleep(1000);
+                            }catch (InterruptedException e){
+                                e.printStackTrace();
+                            }
+                            Check_Status();
+                        }
+                    }
+                });
+                thread.start();
             }
         });
 
@@ -219,7 +258,60 @@ public class Guest_Booking3 extends Fragment {
     }
 
     private void Check_Status(){
+        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
 
+        RequestQueue myrequest = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if(success.equals("1")){
+                        for (int i=0; i<jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            if(object.getString("reference_num").equals(reference.getText().toString())){
+                                InvoiceUrl = object.getString("invoice");
+
+                                if (object.getString("booking_status").equals("Confirmed")){
+                                    booking_stat = true;
+                                    thread.interrupt();
+                                    waiting_confirmation.setVisibility(View.GONE);
+                                    txtBooking_confirmed.setVisibility(View.VISIBLE);
+                                    txtInvoice_Link.setVisibility(View.VISIBLE);
+                                }else {
+                                    booking_stat = false;
+                                }
+                            }
+                        }
+                    }else{
+                        Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Failed to get guest informations", Toast.LENGTH_SHORT).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected HashMap<String,String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("email", Login_Guest.user_email);
+
+                return map;
+            }
+        };
+        myrequest.add(stringRequest);
     }
 
     private void insertBooking_informatiion(){

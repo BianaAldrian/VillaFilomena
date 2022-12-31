@@ -33,7 +33,7 @@ public class MainFrame extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView navigationBar,iv_logout;
-    LinearLayout ll_First,ll_Second,ll_Third,ll_Fourth,ll_Fifth,ll_Sixth,ll_Seventh;
+    LinearLayout ll_First,ll_Second,ll_Third;
     NavigationView navigationView;
 
     @Override
@@ -137,6 +137,12 @@ public class MainFrame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainFrame.this, Account.class));
+            }
+        });
+        ll_Second.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainFrame.this, Guest_Booking_Hstry.class));
             }
         });
     }

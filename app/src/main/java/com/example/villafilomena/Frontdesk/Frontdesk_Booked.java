@@ -67,33 +67,6 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
     }
 
-    /*private void Testing(){
-        Runnable objRunnable = new Runnable() {
-           *//* Message objMessage = objHandler.obtainMessage();
-            Bundle objBundle = new Bundle();*//*
-
-            @Override
-            public void run() {
-                while(true){
-                    try{
-                        Thread.sleep(1000);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    retrieve_BookingInfos();
-                }
-
-               *//* objBundle.putString("MSG_KEY", );
-
-                objHandler.sendEmptyMessage(0);*//*
-            }
-        };
-
-        Thread objBgThread = new Thread(objRunnable);
-        objBgThread.start();
-
-    }*/
-
     private void retrieve_BookingInfos(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_userDetails.php";
 

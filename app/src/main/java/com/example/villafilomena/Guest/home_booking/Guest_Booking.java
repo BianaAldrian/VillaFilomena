@@ -378,6 +378,8 @@ public class Guest_Booking extends Fragment {
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                         RoomInfo_list.setLayoutManager(layoutManager);
                         RoomInfo_list.setAdapter(adapter);
+                        RoomInfo_list.setNestedScrollingEnabled(false);
+                        RoomInfo_list.setHasFixedSize(true);
                         adapter.notifyDataSetChanged();
 
                     }else{

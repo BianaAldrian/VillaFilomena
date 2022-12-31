@@ -137,17 +137,11 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         booknow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getGuestInformation();
+                getGuestInformation();
                 generatePDF();
             }
         });
 
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        getGuestInformation();
     }
 
     private void RoomInfos(String id){
@@ -405,7 +399,39 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String invoiceUrl = uri.toString();
-                                    ConfirmBooking(booking_id, "Confirmed", invoiceUrl);
+                                   // ConfirmBooking(booking_id, "Confirmed", invoiceUrl);
+
+                                    String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/bookingConfirmation.php";
+
+                                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            if (response.equals("Success")){
+                                                Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else if(response.equals("Failed")){
+                                                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    },
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                    {
+                                        @Override
+                                        protected HashMap<String,String> getParams() throws AuthFailureError {
+                                            HashMap<String,String> map = new HashMap<String,String>();
+                                            map.put("booking_id",booking_id);
+                                            map.put("booking_status","Confirmed");
+                                            map.put("invoice",invoiceUrl);
+                                            return map;
+                                        }
+                                    };
+                                    myrequest.add(stringRequest);
                                 }
                             });
 
@@ -414,7 +440,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Frontdesk_Onlinebooking.this, "failed to upload in firebase", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Frontdesk_Onlinebooking.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -425,39 +451,9 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         document.close();
     }
 
-    private void ConfirmBooking(String booking_id, String booking_status, String invoice){
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/bookingConfirmation.php";
+   /* private void ConfirmBooking(String booking_id, String booking_status, String invoice){
 
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("Success")){
-                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.equals("Failed")){
-                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("booking_id",booking_id);
-                map.put("booking_status",booking_status);
-                map.put("invoice",invoice);
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
-    }
+    }*/
 
     private boolean checkPermission() {
         // checking of permissions.
