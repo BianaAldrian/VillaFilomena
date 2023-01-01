@@ -182,8 +182,10 @@ public class Guest_Booking extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        check_In = LocalDate.of(Integer.parseInt(checkInOut_year[0]), Integer.parseInt(checkInOut_month[0]), Integer.parseInt(checkInOut_day[0]));
-                        check_Out = LocalDate.of(Integer.parseInt(checkInOut_year[1]), Integer.parseInt(checkInOut_month[1]), Integer.parseInt(checkInOut_day[1]));
+                        roominfo_holder.removeAll(roominfo_holder);
+
+                        //check_In = LocalDate.of(Integer.parseInt(checkInOut_year[0]), Integer.parseInt(checkInOut_month[0]), Integer.parseInt(checkInOut_day[0]));
+                        //check_Out = LocalDate.of(Integer.parseInt(checkInOut_year[1]), Integer.parseInt(checkInOut_month[1]), Integer.parseInt(checkInOut_day[1]));
 
                         if(CheckIn_Daytour.isChecked()){
                             checkIn_Time[0] = "Day Tour";
@@ -204,6 +206,8 @@ public class Guest_Booking extends Fragment {
 
                         numDays = (int) (difference / 86400000);
                         numNights = (int) (difference / 86400000);
+
+                        check_RoomSched();
 
                         dialog.hide();
                     }
@@ -406,7 +410,7 @@ public class Guest_Booking extends Fragment {
         myrequest.add(stringRequest);
     }
 
-    private void check_RoomSched(String roomID){
+    private void check_RoomSched(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_roomSched.php";
         RequestQueue myrequest = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -414,18 +418,32 @@ public class Guest_Booking extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    ifExist = jsonObject.getString("isExist");
+                    //String success = jsonObject.getString("success");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                    if(success.equals("1")){
+                    /*if(success.equals("1")){
                         for (int i=0; i<jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
                         }
                     }else{
                         Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
+                    }*/
+
+                    roominfo_holder = new ArrayList<>();
+                    for (int i=0; i<jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+
+                        RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
+                        roominfo_holder.add(model);
                     }
+
+                    RoomInfos_adapter adapter = new RoomInfos_adapter(roominfo_holder);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                    RoomInfo_list.setLayoutManager(layoutManager);
+                    RoomInfo_list.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
 
                 }catch (Exception e){
                     Toast.makeText(getActivity(), "Failed to get room schedules", Toast.LENGTH_SHORT).show();
@@ -437,16 +455,16 @@ public class Guest_Booking extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
-                })
-        {
+                });
+        /*{
             @Override
             protected HashMap<String,String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<String,String>();
-                map.put("id", roomID);
+                //map.put("id", roomID);
 
                 return map;
             }
-        };
+        };*/
         myrequest.add(stringRequest);
     }
 
