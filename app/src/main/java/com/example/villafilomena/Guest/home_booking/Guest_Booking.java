@@ -1,8 +1,16 @@
 package com.example.villafilomena.Guest.home_booking;
 
 import android.app.AlertDialog;
-import android.media.Image;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -12,17 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.IP_Address;
+import com.example.villafilomena.Login_Registration.Login_Guest;
 import com.example.villafilomena.R;
 
 import org.json.JSONArray;
@@ -38,8 +36,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,6 +107,12 @@ public class Guest_Booking extends Fragment {
     public static final String[] checkIn_Time = new String[1];
     public static final String[] checkOut_Time = new String[1];
 
+    String ifExist;
+    boolean isBetween = false;
+
+    LocalDate check_In, check_Out;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -158,8 +162,8 @@ public class Guest_Booking extends Fragment {
                 checkIn.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                        checkInOut_year[0] = String.valueOf(year);
-                        checkInOut_month[0] = String.valueOf(month);
+                        checkInOut_year[0] = String.valueOf(year+1);
+                        checkInOut_month[0] = String.valueOf(month+1);
                         checkInOut_day[0] = String.valueOf(dayOfMonth);
                         starDate.set(year, month, dayOfMonth);
                     }
@@ -168,7 +172,7 @@ public class Guest_Booking extends Fragment {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                         checkInOut_year[1] = String.valueOf(year);
-                        checkInOut_month[1] = String.valueOf(month);
+                        checkInOut_month[1] = String.valueOf(month+1);
                         checkInOut_day[1] = String.valueOf(dayOfMonth);
                         endDate.set(year,month, dayOfMonth);
                     }
@@ -177,6 +181,9 @@ public class Guest_Booking extends Fragment {
                 calendar_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        check_In = LocalDate.of(Integer.parseInt(checkInOut_year[0]), Integer.parseInt(checkInOut_month[0]), Integer.parseInt(checkInOut_day[0]));
+                        check_Out = LocalDate.of(Integer.parseInt(checkInOut_year[1]), Integer.parseInt(checkInOut_month[1]), Integer.parseInt(checkInOut_day[1]));
 
                         if(CheckIn_Daytour.isChecked()){
                             checkIn_Time[0] = "Day Tour";
@@ -340,7 +347,7 @@ public class Guest_Booking extends Fragment {
                     }
 
                 }catch (Exception e){
-                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed failed to get entrance fee details", Toast.LENGTH_SHORT).show();
                 }
             }
         },
@@ -355,7 +362,6 @@ public class Guest_Booking extends Fragment {
 
     private void Room_Infos(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details.php";
-
         RequestQueue myrequest = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -370,16 +376,16 @@ public class Guest_Booking extends Fragment {
 
                         for (int i=0; i<jsonArray.length(); i++){
                             JSONObject object = jsonArray.getJSONObject(i);
+
                             RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
                             roominfo_holder.add(model);
+
                         }
 
                         RoomInfos_adapter adapter = new RoomInfos_adapter(roominfo_holder);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                         RoomInfo_list.setLayoutManager(layoutManager);
                         RoomInfo_list.setAdapter(adapter);
-                        RoomInfo_list.setNestedScrollingEnabled(false);
-                        RoomInfo_list.setHasFixedSize(true);
                         adapter.notifyDataSetChanged();
 
                     }else{
@@ -387,7 +393,7 @@ public class Guest_Booking extends Fragment {
                     }
 
                 }catch (Exception e){
-                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to get room information", Toast.LENGTH_SHORT).show();
                 }
             }
         },
@@ -397,6 +403,50 @@ public class Guest_Booking extends Fragment {
                         Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+        myrequest.add(stringRequest);
+    }
+
+    private void check_RoomSched(String roomID){
+        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_roomSched.php";
+        RequestQueue myrequest = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    ifExist = jsonObject.getString("isExist");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                    if(success.equals("1")){
+                        for (int i=0; i<jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                        }
+                    }else{
+                        Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "Failed to get room schedules", Toast.LENGTH_SHORT).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected HashMap<String,String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<String,String>();
+                map.put("id", roomID);
+
+                return map;
+            }
+        };
         myrequest.add(stringRequest);
     }
 

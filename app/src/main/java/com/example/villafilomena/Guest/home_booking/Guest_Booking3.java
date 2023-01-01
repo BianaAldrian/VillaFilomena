@@ -96,7 +96,7 @@ public class Guest_Booking3 extends Fragment {
     int kidCount, adultCount;
     int numofDays, numofNights;
     double KidFee_Day, KidFee_Night, AdultFee_Day, AdultFee_Night;
-    double totalFee,payment=0, balance;
+    double totalFee,payment=0, balance=0;
     String percent, InvoiceUrl;
 
     @Override
@@ -206,6 +206,7 @@ public class Guest_Booking3 extends Fragment {
             public void onClick(View v) {
                 percent = "50";
                 payment = totalFee * 0.5;
+                balance = totalFee - payment;
 
                 details.setText(checkIn_checkOut+"\n"+
                         kidCount+" Kid/s and "+adultCount+" Adult/s"+"\n"+
@@ -219,6 +220,7 @@ public class Guest_Booking3 extends Fragment {
             public void onClick(View v) {
                 percent = "100";
                 payment = totalFee * 1;
+                balance = totalFee - payment;
 
                 details.setText(checkIn_checkOut+"\n"+
                         kidCount+" Kid/s and "+adultCount+" Adult/s"+"\n"+
@@ -227,8 +229,6 @@ public class Guest_Booking3 extends Fragment {
                         "Bill: "+payment);
             }
         });
-
-        balance = totalFee - payment;
 
         MainFrame.Done.setOnClickListener(new View.OnClickListener() {
             @Override
