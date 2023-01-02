@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login_Registration.Login_Guest"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <TextView
@@ -88,6 +89,8 @@
         android:text="Login"
         android:textAllCaps="false"
         android:textSize="20sp"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"
         android:layout_gravity="center"/>
 
     <LinearLayout
@@ -133,6 +136,8 @@
         android:drawableLeft="@drawable/google"
         android:textAllCaps="false"
         android:textSize="20sp"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"
         android:layout_gravity="center"/>
 
     <androidx.legacy.widget.Space

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"/>
     
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/timePick_TO"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -22,9 +22,11 @@
         android:textSize="20dp"
         android:layout_below="@id/popup_timePick_From"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner"
         android:layout_alignLeft="@id/popup_timePick_From"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/timePick_FROM"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -32,10 +34,12 @@
         android:textSize="20dp"
         android:layout_below="@id/popup_timePick_To"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner"
         android:layout_alignLeft="@id/popup_timePick_To"
         android:visibility="gone"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_timePick_Done"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -43,6 +47,8 @@
         android:textSize="20dp"
         android:layout_below="@+id/popup_timePick_To"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner"
         android:layout_alignRight="@id/popup_timePick_To"
         android:visibility="gone"/>
 

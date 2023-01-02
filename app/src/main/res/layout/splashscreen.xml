@@ -6,22 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".Splashscreen"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/background">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#0000"
+        android:layout_marginBottom="180dp">
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:background="@drawable/villa_filomena_logo"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="cursive"
+            android:gravity="center"
             android:text="Welcome"
             android:textColor="#316B43"
-            android:textSize="40sp" />
+            android:textSize="70sp" />
 
     </androidx.cardview.widget.CardView>
 

@@ -610,7 +610,7 @@ public class Booking_Dashboard extends AppCompatActivity {
 
     private void EntranceFee_Details(){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/entranceFee_Details.php";
+            String url = "http://"+ IP+"/VillaFilomena/entranceFee_Details.php";
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
@@ -738,7 +738,7 @@ public class Booking_Dashboard extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
                                     if(!IP.equalsIgnoreCase("")){
-                                        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/room_details.php";
+                                        String url = "http://"+IP+"/VillaFilomena/room_details.php";
                                         RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                                         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                                             @Override

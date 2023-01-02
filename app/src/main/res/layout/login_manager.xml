@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Login_Registration.Login_Manager"
     android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:background="@drawable/background">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +14,9 @@
         android:text="Login"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:paddingTop="10dp"
+        android:paddingLeft="5dp"/>
 
     <androidx.legacy.widget.Space
         android:layout_width="match_parent"
@@ -90,6 +92,8 @@
         android:text="Login"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

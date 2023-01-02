@@ -267,11 +267,13 @@
 
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_booking_btnNext"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Next"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"/>

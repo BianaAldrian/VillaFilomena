@@ -41,54 +41,76 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
     public static String email, fullname, address, contactNum;
 
-    Thread thread;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frontdesk_booked);
+        requestList = findViewById(R.id.frontdesk_requestList);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
 
         IP = preferences.getString("IP_Address", "").trim();
 
-        /*thread = null;
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        Thread.sleep(1000);
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    retrieve_BookingInfos();
-                }
-            }
-        });
-        thread.start();
-*/
+        //retrieve_BookingInfos();
+
         HandlerThread handlerThread = new HandlerThread("DataUpdater");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
 
-        int INTERVAL = 1000;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Code to send request to server and retrieve data from MySQL database
-                retrieve_BookingInfos();
-                // Re-post the task to the message queue after a specified interval
-                handler.postDelayed(this, INTERVAL);
-            }
-        }, INTERVAL);
+                request_holder = new ArrayList<>();
+                if(!IP.equalsIgnoreCase("")){
+                    String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
+                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String success = jsonObject.getString("success");
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                if(success.equals("1")){
+                                    for (int i=0; i<jsonArray.length(); i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
+                                        request_holder.add(model);
+                                    }
+                                    Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
+                                    GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 3);
+                                    requestList.setLayoutManager(layoutManager);
+                                    requestList.setAdapter(adapter);
 
-        requestList = findViewById(R.id.frontdesk_requestList);
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }catch (Exception e){
+                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    myrequest.add(stringRequest);
+                }
+                // Re-post the task to the message queue after a specified interval
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);
+
         OnItemClick();
     }
 
     private void retrieve_BookingInfos(){
+        request_holder = new ArrayList<>();
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
@@ -100,15 +122,13 @@ public class Frontdesk_Booked extends AppCompatActivity {
                         String success = jsonObject.getString("success");
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         if(success.equals("1")){
-                            request_holder = new ArrayList<>();
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
                                 request_holder.add(model);
                             }
-
                             Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
-                            GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
+                            GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 3);
                             requestList.setLayoutManager(layoutManager);
                             requestList.setAdapter(adapter);
 

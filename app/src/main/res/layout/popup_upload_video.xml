@@ -17,11 +17,13 @@
         android:textColor="@color/black"
         android:textSize="24sp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_manager_Upload"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"
         android:text="upload"/>
     
     <ProgressBar

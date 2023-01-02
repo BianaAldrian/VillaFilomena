@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Guest.home_booking.MainFrame"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#d3d3d3"
+            android:background="#008951"
             android:gravity="center"
             android:text="Villa Filomena Natural Spring Resort"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="5dp"
@@ -80,7 +81,6 @@
             android:id="@+id/mainHome"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:background="#d3d3d3"
             android:gravity="center"
             android:text=" Home "
             android:textColor="@color/black"
@@ -88,13 +88,16 @@
             android:layout_gravity="top|left"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
+            android:background="FFD84F"
+            android:foreground="@drawable/border"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
         <TextView
             android:id="@+id/mainBook"
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:background="#d3d3d3"
+            android:background="FFD84F"
+            android:foreground="@drawable/border"
             android:gravity="center"
             android:text=" Book Now "
             android:textColor="@color/black"

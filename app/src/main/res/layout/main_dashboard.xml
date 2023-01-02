@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
     android:gravity="center"
-    tools:context=".Manager.Main_Dashboard">
+    tools:context=".Manager.Main_Dashboard"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,21 +17,23 @@
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardBackgroundColor="#0000"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/manager_GuestHomePage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center"
-                android:background="@drawable/employees" />
+                android:background="@drawable/villa_filomena_logo" />
             
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GUEST HOMEPAGE"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>
@@ -39,21 +41,23 @@
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardBackgroundColor="#0000"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/manager_RoomCottage"
                 android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:background="@drawable/employees" />
+                android:background="@drawable/room_cottage" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ROOM AND COTTAGE DETAILS"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>
@@ -61,20 +65,22 @@
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardBackgroundColor="#0000"
+            app:cardElevation="0dp">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:background="@drawable/employees" />
+                android:background="@drawable/transaction" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TRANSACTION HISTORY"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>
@@ -90,11 +96,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardBackgroundColor="#0000"
+            app:cardElevation="0dp">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:background="@drawable/employees" />
 
@@ -103,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:text="EMPLOYEES"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>
@@ -111,20 +119,22 @@
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:cardBackgroundColor="#0000"
+            app:cardElevation="0dp">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:background="@drawable/employees" />
+                android:background="@drawable/report" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ROOM REPORTS"
                 android:layout_gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>

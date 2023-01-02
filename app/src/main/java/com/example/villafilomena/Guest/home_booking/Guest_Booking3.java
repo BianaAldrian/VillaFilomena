@@ -249,7 +249,7 @@ public class Guest_Booking3 extends Fragment {
                 thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        while (!booking_stat){
+                        while (booking_stat == false){
                             try {
                                 Thread.sleep(1000);
                             }catch (InterruptedException e){

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:background="@drawable/background"
     tools:context=".Guest.Profile.Account">
 
     <androidx.legacy.widget.Space
@@ -101,32 +101,42 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/editProf"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Edit Profile"
+        android:background="@drawable/round_corner"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:layout_gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signout"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="Sign out"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/round_corner"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/prof_login"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Login"/>
+            android:text="Login"
+            android:background="@drawable/round_corner"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
 
         <androidx.legacy.widget.Space
             android:layout_width="match_parent"

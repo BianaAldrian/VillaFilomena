@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,13 +35,11 @@ import java.util.HashMap;
 
 public class Register_Guest extends AppCompatActivity {
 
+    String IP;
     TextView line1_1, line2_1;
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
-
-    String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/register.php";
-    String url1 = "http://"+IP_Address.IP_Address+"/VillaFilomena/check_email.php";
 
     TextInputEditText email, password, confirm_pass, fullname, contactNo, address;
     TextInputLayout pass_layout,Conpas_layout;
@@ -56,6 +55,10 @@ public class Register_Guest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_guest);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(getApplication(),gso);
@@ -121,6 +124,7 @@ public class Register_Guest extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password not matched", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    String url = "http://"+IP+"/VillaFilomena/register.php";
                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
@@ -202,6 +206,7 @@ public class Register_Guest extends AppCompatActivity {
     }
 
     public void checkEmail(){
+        String url1 = "http://"+IP+"/VillaFilomena/check_email.php";
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {

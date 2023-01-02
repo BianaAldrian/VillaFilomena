@@ -184,11 +184,13 @@
             android:gravity="center"/>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/popup_Agefee_Done"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Done"
+        android:textColor="@color/white"
+        android:background="@drawable/round_corner"
         android:textSize="20sp"/>
 
 

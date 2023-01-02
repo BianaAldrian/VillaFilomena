@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Frontdesk.Frontdesk_Booking"
     android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:background="@drawable/background">
 
     <ScrollView
         android:layout_width="match_parent"

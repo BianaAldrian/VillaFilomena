@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Manager.GuestHomePage_Dashboard"
     android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:background="@drawable/background">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#0000"
+        app:cardElevation="0dp">
 
         <TextView
             android:layout_width="wrap_content"

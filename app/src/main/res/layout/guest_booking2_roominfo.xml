@@ -3,7 +3,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center|left">
+    android:gravity="center|left"
+    android:background="">
 
     <RadioButton
         android:id="@+id/roomInfo2_Rbtn"

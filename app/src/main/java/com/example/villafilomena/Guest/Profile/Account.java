@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,11 +36,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class Account extends AppCompatActivity {
+    String IP;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     GoogleSignInAccount acct;
     SharedPreferences sharedPreferences, sharedPreferences1;
-    String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/get_accountInfo.php";
 
     Button signout,login,editProf;
     TextView name, contact, address, profEmail;
@@ -49,6 +50,9 @@ public class Account extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(getApplicationContext(),gso);
@@ -119,53 +123,56 @@ public class Account extends AppCompatActivity {
     public void getData(){
         signout.setVisibility(View.VISIBLE);
         login.setVisibility(View.GONE);
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP+"/VillaFilomena/get_accountInfo.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
 
-                            String email = object.getString("email");
-                            String fullname = object.getString("fullname");
-                            String cont = object.getString("contact");
-                            String addre = object.getString("address");
+                                String email = object.getString("email");
+                                String fullname = object.getString("fullname");
+                                String cont = object.getString("contact");
+                                String addre = object.getString("address");
 
-                            name.setText(fullname);
-                            contact.setText(cont);
-                            address.setText(addre);
-                            profEmail.setText(email);
+                                name.setText(fullname);
+                                contact.setText(cont);
+                                address.setText(addre);
+                                profEmail.setText(email);
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
-                    }
 
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("email", email);
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("email", email);
 
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
     }
 }
