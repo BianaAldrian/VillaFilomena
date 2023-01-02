@@ -268,7 +268,7 @@ public class Guest_Booking3 extends Fragment {
 
     private void Check_Status(){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
+            String url = "http://"+IP+"/VillaFilomena/retrieve_bookingInfos.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getActivity());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -327,7 +327,7 @@ public class Guest_Booking3 extends Fragment {
 
     private void insertBooking_information(){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_bookingInfos.php";
+            String url = "http://"+IP+"/VillaFilomena/insert_bookingInfos.php";
             RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override

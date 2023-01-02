@@ -131,7 +131,7 @@ public class Guest_Booking2 extends Fragment {
 
     private void RoomInfos(String id){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
+            String url = "http://"+IP+"/VillaFilomena/retrieve_Room_Details2.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getActivity());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
