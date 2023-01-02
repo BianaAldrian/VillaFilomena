@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center|left"
-    android:background="">
+    android:background="#0000">
 
     <RadioButton
         android:id="@+id/roomInfo2_Rbtn"

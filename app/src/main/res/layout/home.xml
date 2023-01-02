@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Guest.home_booking.Home"
-    android:background="">
+    android:background="#0000">
 
     <ScrollView
         android:id="@+id/homeScrl"

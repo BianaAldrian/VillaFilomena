@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".Guest.home_booking.Guest_Booking"
     android:gravity="center"
-    android:background="">
+    android:background="#0000">
 
     <LinearLayout
         android:layout_width="match_parent"
