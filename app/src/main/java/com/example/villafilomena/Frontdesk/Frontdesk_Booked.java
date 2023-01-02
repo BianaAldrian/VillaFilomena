@@ -69,15 +69,20 @@ public class Frontdesk_Booked extends AppCompatActivity {
         });
         thread.start();
 */
-        request_holder = new ArrayList<>();
+        HandlerThread handlerThread = new HandlerThread("DataUpdater");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper());
 
-        int interval = 1000;
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable(){
+        int INTERVAL = 1000;
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                // Code to send request to server and retrieve data from MySQL database
                 retrieve_BookingInfos();
+                // Re-post the task to the message queue after a specified interval
+                handler.postDelayed(this, INTERVAL);
             }
-        },interval);
+        }, INTERVAL);
 
         requestList = findViewById(R.id.frontdesk_requestList);
         OnItemClick();
@@ -95,7 +100,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
                         String success = jsonObject.getString("success");
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         if(success.equals("1")){
-
+                            request_holder = new ArrayList<>();
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
