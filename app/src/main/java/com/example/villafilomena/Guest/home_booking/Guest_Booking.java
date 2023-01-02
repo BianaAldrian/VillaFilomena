@@ -162,7 +162,7 @@ public class Guest_Booking extends Fragment {
                 checkIn.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                        checkInOut_year[0] = String.valueOf(year+1);
+                        checkInOut_year[0] = String.valueOf(year);
                         checkInOut_month[0] = String.valueOf(month+1);
                         checkInOut_day[0] = String.valueOf(dayOfMonth);
                         starDate.set(year, month, dayOfMonth);
@@ -181,8 +181,6 @@ public class Guest_Booking extends Fragment {
                 calendar_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        roominfo_holder.removeAll(roominfo_holder);
 
                         //check_In = LocalDate.of(Integer.parseInt(checkInOut_year[0]), Integer.parseInt(checkInOut_month[0]), Integer.parseInt(checkInOut_day[0]));
                         //check_Out = LocalDate.of(Integer.parseInt(checkInOut_year[1]), Integer.parseInt(checkInOut_month[1]), Integer.parseInt(checkInOut_day[1]));
@@ -207,7 +205,7 @@ public class Guest_Booking extends Fragment {
                         numDays = (int) (difference / 86400000);
                         numNights = (int) (difference / 86400000);
 
-                        check_RoomSched();
+                        check_RoomSched(checkInOut_day[0]+"/"+checkInOut_month[0]+"/"+checkInOut_year[0], checkInOut_day[1]+"/"+checkInOut_month[1]+"/"+checkInOut_year[1], checkIn_Time[0], checkOut_Time[0]);
 
                         dialog.hide();
                     }
@@ -410,7 +408,8 @@ public class Guest_Booking extends Fragment {
         myrequest.add(stringRequest);
     }
 
-    private void check_RoomSched(){
+    private void check_RoomSched(String checkIn_Date, String checkOut_Date, String checkIn_Time, String checkOut_Time){
+        roominfo_holder.removeAll(roominfo_holder);
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_roomSched.php";
         RequestQueue myrequest = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -418,17 +417,7 @@ public class Guest_Booking extends Fragment {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    //String success = jsonObject.getString("success");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-
-                    /*if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                        }
-                    }else{
-                        Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
-                    }*/
 
                     roominfo_holder = new ArrayList<>();
                     for (int i=0; i<jsonArray.length(); i++){
@@ -455,16 +444,17 @@ public class Guest_Booking extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
-                });
-        /*{
+                })
+        {
             @Override
             protected HashMap<String,String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<String,String>();
-                //map.put("id", roomID);
+                map.put("checkIn_Date",checkIn_Date);
+                map.put("checkOut_Date",checkOut_Date);
 
                 return map;
             }
-        };*/
+        };
         myrequest.add(stringRequest);
     }
 

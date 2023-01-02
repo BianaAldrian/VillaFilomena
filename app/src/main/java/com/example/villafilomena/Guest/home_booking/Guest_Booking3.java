@@ -233,7 +233,7 @@ public class Guest_Booking3 extends Fragment {
         MainFrame.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBooking_informatiion();
+                insertBooking_information();
                 waiting_confirmation.setVisibility(View.VISIBLE);
 
                 thread = null;
@@ -314,7 +314,7 @@ public class Guest_Booking3 extends Fragment {
         myrequest.add(stringRequest);
     }
 
-    private void insertBooking_informatiion(){
+    private void insertBooking_information(){
         String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_bookingInfos.php";
         RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -339,7 +339,7 @@ public class Guest_Booking3 extends Fragment {
             protected HashMap<String,String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<String,String>();
                 map.put("users_email", Login_Guest.user_email);
-                map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year+"/");
+                map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year);
                 map.put("checkIn_time",checkIn_Time);
                 map.put("checkOut_date",checkOut_Day+"/"+checkOut_Month+"/"+checkOut_Year);
                 map.put("checkOut_time",checkOut_Time);

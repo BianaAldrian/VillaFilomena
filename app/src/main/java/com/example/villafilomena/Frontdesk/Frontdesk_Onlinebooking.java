@@ -137,7 +137,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
             public void onClick(View v) {
                 getGuestInformation();
                 insert_RoomSched();
-                //generatePDF();
+                generatePDF();
             }
         });
 
