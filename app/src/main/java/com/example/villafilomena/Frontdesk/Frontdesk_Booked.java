@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
@@ -48,12 +53,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
         IP = preferences.getString("IP_Address", "").trim();
 
-        retrieve_BookingInfos();
-
-        MyAsyncTask task = new MyAsyncTask();
-        task.execute();
-
-       /* thread = null;
+        /*thread = null;
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,73 +67,63 @@ public class Frontdesk_Booked extends AppCompatActivity {
                 }
             }
         });
-        thread.start();*/
+        thread.start();
+*/
+        request_holder = new ArrayList<>();
+
+        int interval = 1000;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                retrieve_BookingInfos();
+            }
+        },interval);
 
         requestList = findViewById(R.id.frontdesk_requestList);
         OnItemClick();
-
-    }
-
-    private class MyAsyncTask extends AsyncTask<Void, Void, ArrayList<Frontdesk_userDetailsModel>> {
-        @Override
-        protected ArrayList<Frontdesk_userDetailsModel> doInBackground(Void... params) {
-            // Perform database query in the background
-            //...
-            request_holder = new ArrayList<>();
-
-            if(!IP.equalsIgnoreCase("")){
-                String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
-                RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                            if(success.equals("1")){
-
-                                for (int i=0; i<jsonArray.length(); i++){
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
-                                    request_holder.add(model);
-                                }
-
-                            }else{
-                                Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }catch (Exception e){
-                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                myrequest.add(stringRequest);
-            }
-
-            return request_holder;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Frontdesk_userDetailsModel> request_holder) {
-            // Update the UI with the results of the database query
-            //...
-            Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
-            GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
-            requestList.setLayoutManager(layoutManager);
-            requestList.setAdapter(adapter);
-        }
     }
 
     private void retrieve_BookingInfos(){
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        if(success.equals("1")){
 
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
+                                request_holder.add(model);
+                            }
+
+                            Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
+                            GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
+                            requestList.setLayoutManager(layoutManager);
+                            requestList.setAdapter(adapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            myrequest.add(stringRequest);
+        }
     }
 
     private void OnItemClick(){

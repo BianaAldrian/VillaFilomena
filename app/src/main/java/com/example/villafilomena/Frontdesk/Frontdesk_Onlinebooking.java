@@ -311,7 +311,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
 
     private void getGuestInformation(){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
+            String url = "http://"+IP+"/VillaFilomena/retrieve_bookingInfos.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -384,7 +384,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
 
     private void RoomInfos(String id){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
+            String url = "http://"+IP+"/VillaFilomena/retrieve_Room_Details2.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(context);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -439,7 +439,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
 
     private void Confirm_Booking(String invoiceUrl){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/bookingConfirmation.php";
+            String url = "http://"+IP+"/VillaFilomena/bookingConfirmation.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -478,7 +478,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
             for(int i=0; i<roominfo_holder.size(); i++){
                 RoomInfos_model model = roominfo_holder.get(i);
 
-                String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_roomSched.php";
+                String url = "http://"+IP+"/VillaFilomena/insert_roomSched.php";
                 RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
