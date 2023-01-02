@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 
-    <ImageView
-        android:id="@+id/popup_CottageImage"
-        android:layout_width="500dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:id="@+id/popup_CottageCapacity"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/popup_CottageImage"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:hint="Cottage Capacity"
-        android:textColor="@color/black"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_marginTop="15dp"/>
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/popup_CottageRate"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/popup_CottageCapacity"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        android:hint="Cottage Rate"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:layout_marginTop="15dp"/>
+        <ImageView
+            android:id="@+id/popup_CottageImage"
+            android:layout_width="500dp"
+            android:layout_height="250dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/popup_CottageDetail_Done"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:text="Done"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:background="@drawable/round_corner"
-        android:layout_below="@id/popup_CottageRate"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"/>
+        <EditText
+            android:id="@+id/popup_CottageName"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:hint="Room Name"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/popup_CottageCapacity"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:hint="Cottage Capacity"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/popup_CottageRate"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:hint="Cottage Rate"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/popup_CottageDetail_Done"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:text="Done"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@drawable/round_corner"
+            android:layout_marginTop="25dp"/>
+
+        <ProgressBar
+            android:id="@+id/popup_Cottage_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</ScrollView>

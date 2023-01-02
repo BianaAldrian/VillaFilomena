@@ -51,8 +51,8 @@ public class Booking_Dashboard extends AppCompatActivity {
     Dialog dialog;
     Uri imageUri;
     ImageView edit, save, FeeDetails, addRoom, addCottage, RoomImage, CottageImage;
-    EditText RoomName, RoomCapacity, RoomRate, CottageCapacity, CottageRate;
-    ProgressBar Roomprogress;
+    EditText RoomName, RoomCapacity, RoomRate, CottageName, CottageCapacity, CottageRate;
+    ProgressBar Roomprogress, Cottageprogress;
 
     //popup_feedetails
     TextView txtDaytour, txtDaytourKidAge, txtDaytourKidFee, txtDaytourAdultAge, txtDaytourAdultFee,
@@ -120,7 +120,7 @@ public class Booking_Dashboard extends AppCompatActivity {
         addCottage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                chooseCottageImage();
             }
         });
     }
@@ -697,18 +697,19 @@ public class Booking_Dashboard extends AppCompatActivity {
             dialog = new Dialog(context);
             dialog.setContentView(R.layout.popup_cottagedetails);
 
+            CottageName = dialog.findViewById(R.id.popup_CottageName);
             CottageImage = dialog.findViewById(R.id.popup_CottageImage);
             CottageCapacity = dialog.findViewById(R.id.popup_CottageCapacity);
             CottageRate = dialog.findViewById(R.id.popup_CottageRate);
             Button Done = dialog.findViewById(R.id.popup_CottageDetail_Done);
-            //imageprogressBar = dialog.findViewById(R.id.popup_manager_imageProgressBar);
+            Cottageprogress = dialog.findViewById(R.id.popup_Cottage_progressbar);
 
             CottageImage.setImageURI(imageUri);
 
             Done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UploadRoomImage();
+                    UploadCottageImage();
                 }
             });
             dialog.show();
@@ -803,7 +804,7 @@ public class Booking_Dashboard extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
 
-                                    /*String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/image_upload.php";
+                                    String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/cottage_details.php";
                                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                                         @Override
@@ -831,7 +832,7 @@ public class Booking_Dashboard extends AppCompatActivity {
                                             return map;
                                         }
                                     };
-                                    myrequest.add(stringRequest);*/
+                                    myrequest.add(stringRequest);
                                 }
                             });
                         }

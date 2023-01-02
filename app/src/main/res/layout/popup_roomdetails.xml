@@ -19,8 +19,6 @@
             android:id="@+id/popup_RoomName"
             android:layout_width="500dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/popup_RoomImage"
-            android:layout_centerHorizontal="true"
             android:textSize="24sp"
             android:hint="Room Name"
             android:textColor="@color/black"
@@ -31,8 +29,6 @@
             android:id="@+id/popup_RoomCapacity"
             android:layout_width="500dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/popup_RoomImage"
-            android:layout_centerHorizontal="true"
             android:textSize="24sp"
             android:hint="Room Capacity"
             android:textColor="@color/black"
@@ -43,8 +39,6 @@
             android:id="@+id/popup_RoomRate"
             android:layout_width="500dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/popup_RoomCapacity"
-            android:layout_centerHorizontal="true"
             android:textSize="24sp"
             android:hint="Room Rate"
             android:textColor="@color/black"
@@ -58,10 +52,8 @@
             android:text="Done"
             android:textSize="20sp"
             android:background="@drawable/round_corner"
-            android:layout_below="@id/popup_RoomRate"
             android:layout_marginTop="25dp"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/white"/>
 
         <ProgressBar
             android:id="@+id/popup_Room_progressbar"
