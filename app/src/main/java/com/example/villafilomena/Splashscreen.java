@@ -59,6 +59,8 @@ public class Splashscreen extends AppCompatActivity {
                                 }
                             });
                     myrequest.add(stringRequest);
+                }else{
+                    startActivity(new Intent(getApplicationContext(), IP_Address.class));
                 }
                 finish();
             }
