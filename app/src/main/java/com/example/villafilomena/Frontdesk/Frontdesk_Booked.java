@@ -80,8 +80,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
     private void retrieve_BookingInfos(){
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_userDetails.php";
-
+            String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
