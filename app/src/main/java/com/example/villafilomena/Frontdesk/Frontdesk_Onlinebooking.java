@@ -5,6 +5,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +60,7 @@ import java.util.HashMap;
 import java.util.StringJoiner;
 
 public class Frontdesk_Onlinebooking extends AppCompatActivity {
+    String IP;
     Context context = this;
     EditText current_date, guest_name, guest_email, guest_contact, checkIn_DATE, checIn_TIME, checkOut_DATE, checkOut_TIME, guest_qty, room_qty, room_type, room_price, cottage_qty, cottage_type, cottage_price, payment_balance, paymentStat, total, referenceNum;
     Button booknow;
@@ -76,6 +79,11 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frontdesk_onlinebooking);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         roominfo_holder = new ArrayList<>();
 
@@ -302,177 +310,56 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
     }
 
     private void getGuestInformation(){
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
 
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                    if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-
-                            current_date.setText(object.getString("currentBooking_Date"));
-                            checkIn_DATE.setText(object.getString("checkIn_date"));
-                            checIn_TIME.setText(object.getString("checkIn_time"));
-                            checkOut_DATE.setText(object.getString("checkOut_date"));
-                            checkOut_TIME.setText(object.getString("checkOut_time"));
-                            guest_qty.setText(object.getString("guest_count"));
-                            payment_balance.setText(object.getString("balance"));
-                            paymentStat.setText(object.getString("payment_status"));
-                            referenceNum.setText(object.getString("reference_num"));
-                            total.setText(object.getString("total_cost"));
-
-                            String[] roomID = object.getString("room_id").split(",");
-                            for (String s : roomID) {
-                                RoomInfos(s.trim());
-                            }
-                            String roomSize = String.valueOf(roomID.length);
-                            room_qty.setText(roomSize);
-
-                            checkIn_date = object.getString("checkIn_date");
-                            checkIn_time = object.getString("checkIn_time");
-                            checkOut_date = object.getString("checkOut_date");
-                            checkOut_time = object.getString("checkOut_time");
-
-                            booking_id = object.getString("booking_id");
-                            cottage_id = object.getString("cottage_id");
-
-                            pay = object.getString("pay");
-                        }
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
-                    }
-
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Failed to get guest informations", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("email", Frontdesk_Booked.email);
-
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
-    }
-
-    private void RoomInfos(String id){
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
-
-        RequestQueue myrequest = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                    if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
-                            roominfo_holder.add(model);
-                        }
-
-                        double roomPrice = 0;
-                        for(int i=0; i<roominfo_holder.size(); i++){
-                            RoomInfos_model model = roominfo_holder.get(i);
-                            roomPrice += Double.parseDouble(model.getRoom_rate());
-                        }
-
-                        room_price.setText(""+roomPrice);
-
-                    }else{
-                        Toast.makeText(context, "Failed to get", Toast.LENGTH_SHORT).show();
-                    }
-
-                }catch (Exception e){
-                    Toast.makeText(context, "Failed to get room infos", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context,error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("id",id);
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
-    }
-
-    private void Confirm_Booking(String invoiceUrl){
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/bookingConfirmation.php";
-
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("Success")){
-                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.equals("Failed")){
-                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("booking_id",booking_id);
-                map.put("booking_status","Confirmed");
-                map.put("invoice",invoiceUrl);
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
-    }
-
-    private void insert_RoomSched(){
-        for(int i=0; i<roominfo_holder.size(); i++){
-            RoomInfos_model model = roominfo_holder.get(i);
-
-            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_roomSched.php";
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("Success")){
-                        Toast.makeText(getApplicationContext(), "Room "+model.getName()+" Schedule is set", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(response.equals("Failed")){
-                        Toast.makeText(getApplicationContext(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                current_date.setText(object.getString("currentBooking_Date"));
+                                checkIn_DATE.setText(object.getString("checkIn_date"));
+                                checIn_TIME.setText(object.getString("checkIn_time"));
+                                checkOut_DATE.setText(object.getString("checkOut_date"));
+                                checkOut_TIME.setText(object.getString("checkOut_time"));
+                                guest_qty.setText(object.getString("guest_count"));
+                                payment_balance.setText(object.getString("balance"));
+                                paymentStat.setText(object.getString("payment_status"));
+                                referenceNum.setText(object.getString("reference_num"));
+                                total.setText(object.getString("total_cost"));
+
+                                String[] roomID = object.getString("room_id").split(",");
+                                for (String s : roomID) {
+                                    RoomInfos(s.trim());
+                                }
+                                String roomSize = String.valueOf(roomID.length);
+                                room_qty.setText(roomSize);
+
+                                checkIn_date = object.getString("checkIn_date");
+                                checkIn_time = object.getString("checkIn_time");
+                                checkOut_date = object.getString("checkOut_date");
+                                checkOut_time = object.getString("checkOut_time");
+
+                                booking_id = object.getString("booking_id");
+                                cottage_id = object.getString("cottage_id");
+
+                                pay = object.getString("pay");
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Failed to get guest informations", Toast.LENGTH_SHORT).show();
                     }
                 }
             },
@@ -486,17 +373,146 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                 @Override
                 protected HashMap<String,String> getParams() throws AuthFailureError {
                     HashMap<String,String> map = new HashMap<String,String>();
-                    map.put("room_id",model.getId());
-                    map.put("start_Date",checkIn_date);
-                    map.put("end_Date",checkOut_date);
-                    map.put("start_Time",checkIn_time);
-                    map.put("end_Time",checkOut_time);
-                    map.put("bookedBy",Frontdesk_Booked.email);
+                    map.put("email", Frontdesk_Booked.email);
 
                     return map;
                 }
             };
             myrequest.add(stringRequest);
+        }
+    }
+
+    private void RoomInfos(String id){
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
+
+            RequestQueue myrequest = Volley.newRequestQueue(context);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
+                                roominfo_holder.add(model);
+                            }
+
+                            double roomPrice = 0;
+                            for(int i=0; i<roominfo_holder.size(); i++){
+                                RoomInfos_model model = roominfo_holder.get(i);
+                                roomPrice += Double.parseDouble(model.getRoom_rate());
+                            }
+
+                            room_price.setText(""+roomPrice);
+
+                        }else{
+                            Toast.makeText(context, "Failed to get", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(context, "Failed to get room infos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context,error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("id",id);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
+    }
+
+    private void Confirm_Booking(String invoiceUrl){
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/bookingConfirmation.php";
+
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("Success")){
+                        Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(response.equals("Failed")){
+                        Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("booking_id",booking_id);
+                    map.put("booking_status","Confirmed");
+                    map.put("invoice",invoiceUrl);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
+    }
+
+    private void insert_RoomSched(){
+        if(!IP.equalsIgnoreCase("")){
+            for(int i=0; i<roominfo_holder.size(); i++){
+                RoomInfos_model model = roominfo_holder.get(i);
+
+                String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_roomSched.php";
+                RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("Success")){
+                            Toast.makeText(getApplicationContext(), "Room "+model.getName()+" Schedule is set", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("Failed")){
+                            Toast.makeText(getApplicationContext(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                {
+                    @Override
+                    protected HashMap<String,String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<String,String>();
+                        map.put("room_id",model.getId());
+                        map.put("start_Date",checkIn_date);
+                        map.put("end_Date",checkOut_date);
+                        map.put("start_Time",checkIn_time);
+                        map.put("end_Time",checkOut_time);
+                        map.put("bookedBy",Frontdesk_Booked.email);
+
+                        return map;
+                    }
+                };
+                myrequest.add(stringRequest);
+            }
         }
     }
 

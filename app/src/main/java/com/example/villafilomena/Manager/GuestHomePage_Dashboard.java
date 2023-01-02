@@ -8,8 +8,10 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -40,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 
 public class GuestHomePage_Dashboard extends AppCompatActivity {
+    String IP;
 
     final Context context = this;
 
@@ -59,6 +62,11 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guest_homepage_dashboard);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         addBanner = findViewById(R.id.add_homeBanner);
         addVideo = findViewById(R.id.add_homeVideo);
@@ -171,36 +179,37 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
-
-                                    String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/image_upload.php";
-                                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            if (response.equals("Upload Success")){
-                                                Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else if(response.equals("Upload Failed")){
-                                                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                                           }
-                                        }
-                                    },
-                                            new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-                                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    if(!IP.equalsIgnoreCase("")){
+                                        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/image_upload.php";
+                                        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                if (response.equals("Upload Success")){
+                                                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
                                                 }
-                                            })
-                                    {
-                                        @Override
-                                        protected HashMap<String,String> getParams() throws AuthFailureError {
-                                            HashMap<String,String> map = new HashMap<String,String>();
-                                            map.put("name",System.currentTimeMillis()+"."+getfileExt(imageUri));
-                                            map.put("url",imageUrl);
-                                            return map;
-                                        }
-                                    };
-                                    myrequest.add(stringRequest);
+                                                else if(response.equals("Upload Failed")){
+                                                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                })
+                                        {
+                                            @Override
+                                            protected HashMap<String,String> getParams() throws AuthFailureError {
+                                                HashMap<String,String> map = new HashMap<String,String>();
+                                                map.put("name",System.currentTimeMillis()+"."+getfileExt(imageUri));
+                                                map.put("url",imageUrl);
+                                                return map;
+                                            }
+                                        };
+                                        myrequest.add(stringRequest);
+                                    }
                                 }
                             });
                         }
@@ -232,35 +241,38 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String video_url = uri.toString();
-                                    String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/video_upload.php";
-                                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            if (response.equals("Upload Success")){
-                                                Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else if(response.equals("Upload Failed")){
-                                                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    },
-                                            new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-                                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+                                    if(!IP.equalsIgnoreCase("")){
+                                        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/video_upload.php";
+                                        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                if (response.equals("Upload Success")){
+                                                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
                                                 }
-                                            })
-                                    {
-                                        @Override
-                                        protected HashMap<String,String> getParams() throws AuthFailureError {
-                                            HashMap<String,String> map = new HashMap<String,String>();
-                                            map.put("name",System.currentTimeMillis()+"."+getfileExt(videoUri));
-                                            map.put("url",video_url);
-                                            return map;
-                                        }
-                                    };
-                                    myrequest.add(stringRequest);
+                                                else if(response.equals("Upload Failed")){
+                                                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                })
+                                        {
+                                            @Override
+                                            protected HashMap<String,String> getParams() throws AuthFailureError {
+                                                HashMap<String,String> map = new HashMap<String,String>();
+                                                map.put("name",System.currentTimeMillis()+"."+getfileExt(videoUri));
+                                                map.put("url",video_url);
+                                                return map;
+                                            }
+                                        };
+                                        myrequest.add(stringRequest);
+                                    }
                                 }
                             });
                         }

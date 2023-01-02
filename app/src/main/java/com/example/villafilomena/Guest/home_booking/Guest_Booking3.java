@@ -2,9 +2,11 @@ package com.example.villafilomena.Guest.home_booking;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +84,8 @@ public class Guest_Booking3 extends Fragment {
         }
     }
 
+    String IP;
+
     Thread thread;
     boolean booking_stat = false;
 
@@ -104,6 +108,11 @@ public class Guest_Booking3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.guest_booking3, container, false);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         details = view.findViewById(R.id.guestBooking3_txtDetails);
         waiting_confirmation = view.findViewById(R.id.txtBooking_pending);
@@ -258,104 +267,108 @@ public class Guest_Booking3 extends Fragment {
     }
 
     private void Check_Status(){
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/retrieve_bookingInfos.php";
 
-        RequestQueue myrequest = Volley.newRequestQueue(getActivity());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
 
-                            if(object.getString("reference_num").equals(reference.getText().toString())){
-                                InvoiceUrl = object.getString("invoice");
+                                if(object.getString("reference_num").equals(reference.getText().toString())){
+                                    InvoiceUrl = object.getString("invoice");
 
-                                if (object.getString("booking_status").equals("Confirmed")){
-                                    booking_stat = true;
-                                    thread.interrupt();
-                                    waiting_confirmation.setVisibility(View.GONE);
-                                    txtBooking_confirmed.setVisibility(View.VISIBLE);
-                                    txtInvoice_Link.setVisibility(View.VISIBLE);
-                                }else {
-                                    booking_stat = false;
+                                    if (object.getString("booking_status").equals("Confirmed")){
+                                        booking_stat = true;
+                                        thread.interrupt();
+                                        waiting_confirmation.setVisibility(View.GONE);
+                                        txtBooking_confirmed.setVisibility(View.VISIBLE);
+                                        txtInvoice_Link.setVisibility(View.VISIBLE);
+                                    }else {
+                                        booking_stat = false;
+                                    }
                                 }
                             }
+                        }else{
+                            Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
-                    }
 
-                }catch (Exception e){
-                    Toast.makeText(getActivity(), "Failed to get guest informations", Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(getActivity(), "Failed to get guest informations", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("email", Login_Guest.user_email);
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("email", Login_Guest.user_email);
 
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
     }
 
     private void insertBooking_information(){
-        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_bookingInfos.php";
-        RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("Success")){
-                    Toast.makeText(getActivity(), "Please wait for confirmation", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.equals("Failed")){
-                    Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/insert_bookingInfos.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("Success")){
+                        Toast.makeText(getActivity(), "Please wait for confirmation", Toast.LENGTH_SHORT).show();
                     }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("users_email", Login_Guest.user_email);
-                map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year);
-                map.put("checkIn_time",checkIn_Time);
-                map.put("checkOut_date",checkOut_Day+"/"+checkOut_Month+"/"+checkOut_Year);
-                map.put("checkOut_time",checkOut_Time);
-                map.put("guest_count", String.valueOf(kidCount+adultCount));
-                map.put("room_id",room_id.toString().replace("[","").replace("]",""));
-                map.put("cottage_id","null");
-                map.put("total_cost", String.valueOf(totalFee));
-                map.put("pay", String.valueOf(payment));
-                map.put("payment_status",percent);
-                map.put("balance", String.valueOf(balance));
-                map.put("reference_num",reference.getText().toString());
-                map.put("booking_status","Pending");
-                map.put("invoice","null");
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
+                    else if(response.equals("Failed")){
+                        Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("users_email", Login_Guest.user_email);
+                    map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year);
+                    map.put("checkIn_time",checkIn_Time);
+                    map.put("checkOut_date",checkOut_Day+"/"+checkOut_Month+"/"+checkOut_Year);
+                    map.put("checkOut_time",checkOut_Time);
+                    map.put("guest_count", String.valueOf(kidCount+adultCount));
+                    map.put("room_id",room_id.toString().replace("[","").replace("]",""));
+                    map.put("cottage_id","null");
+                    map.put("total_cost", String.valueOf(totalFee));
+                    map.put("pay", String.valueOf(payment));
+                    map.put("payment_status",percent);
+                    map.put("balance", String.valueOf(balance));
+                    map.put("reference_num",reference.getText().toString());
+                    map.put("booking_status","Pending");
+                    map.put("invoice","null");
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
     }
 }

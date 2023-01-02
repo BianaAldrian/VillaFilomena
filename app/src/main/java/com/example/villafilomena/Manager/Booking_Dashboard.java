@@ -8,8 +8,10 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Booking_Dashboard extends AppCompatActivity {
+    String IP;
     final Context context = this;
     private static final int PICK_ROOM_IMAGE_REQUEST = 1, PICK_COTTAGE_IMAGE_REQUEST = 2;
     StorageReference RoomImageReference, CottageImageReference;
@@ -63,6 +66,11 @@ public class Booking_Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_dashboard);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         RoomImageReference = FirebaseStorage.getInstance().getReference("RoomImages");
         CottageImageReference = FirebaseStorage.getInstance().getReference("CottageImages");
@@ -601,43 +609,45 @@ public class Booking_Dashboard extends AppCompatActivity {
     }
 
     private void EntranceFee_Details(){
-        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/entranceFee_Details.php";
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("Success")){
-                    Toast.makeText(context, "Insert Successful", Toast.LENGTH_SHORT).show();
-                }
-                else if(response.equals("Failed")){
-                    Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/entranceFee_Details.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("Success")){
+                        Toast.makeText(context, "Insert Successful", Toast.LENGTH_SHORT).show();
                     }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("daytour_time",DaytourTime.getText().toString());
-                map.put("daytour_kidAge",txtDaytourKidAge.getText().toString());
-                map.put("daytour_kidFee",txtDaytourKidFee.getText().toString());
-                map.put("daytour_adultAge",txtDaytourAdultAge.getText().toString());
-                map.put("daytour_adultFee",txtDaytourAdultFee.getText().toString());
-                map.put("nighttour_time",NighttourTime.getText().toString());
-                map.put("nighttour_kidAge",txtNighttourKidAge.getText().toString());
-                map.put("nighttour_kidFee",txtNighttourKidFee.getText().toString());
-                map.put("nighttour_adultAge",txtNighttourAdultAge.getText().toString());
-                map.put("nighttour_adultFee",txtNighttourAdultFee.getText().toString());
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
+                    else if(response.equals("Failed")){
+                        Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("daytour_time",DaytourTime.getText().toString());
+                    map.put("daytour_kidAge",txtDaytourKidAge.getText().toString());
+                    map.put("daytour_kidFee",txtDaytourKidFee.getText().toString());
+                    map.put("daytour_adultAge",txtDaytourAdultAge.getText().toString());
+                    map.put("daytour_adultFee",txtDaytourAdultFee.getText().toString());
+                    map.put("nighttour_time",NighttourTime.getText().toString());
+                    map.put("nighttour_kidAge",txtNighttourKidAge.getText().toString());
+                    map.put("nighttour_kidFee",txtNighttourKidFee.getText().toString());
+                    map.put("nighttour_adultAge",txtNighttourAdultAge.getText().toString());
+                    map.put("nighttour_adultFee",txtNighttourAdultFee.getText().toString());
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
     }
 
     private void chooseRoomImage(){
@@ -727,38 +737,40 @@ public class Booking_Dashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
-
-                                    String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/room_details.php";
-                                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            if (response.equals("Success")){
-                                                Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else if(response.equals("Failed")){
-                                                Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    },
-                                            new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-                                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                    if(!IP.equalsIgnoreCase("")){
+                                        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/room_details.php";
+                                        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                if (response.equals("Success")){
+                                                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
                                                 }
-                                            })
-                                    {
-                                        @Override
-                                        protected HashMap<String,String> getParams() throws AuthFailureError {
-                                            HashMap<String,String> map = new HashMap<String,String>();
-                                            map.put("imageUrl",imageUrl);
-                                            map.put("name",RoomName.getText().toString());
-                                            map.put("room_capacity",RoomCapacity.getText().toString());
-                                            map.put("room_rate", RoomRate.getText().toString());
-                                            return map;
-                                        }
-                                    };
-                                    myrequest.add(stringRequest);
+                                                else if(response.equals("Failed")){
+                                                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                })
+                                        {
+                                            @Override
+                                            protected HashMap<String,String> getParams() throws AuthFailureError {
+                                                HashMap<String,String> map = new HashMap<String,String>();
+                                                map.put("imageUrl",imageUrl);
+                                                map.put("name",RoomName.getText().toString());
+                                                map.put("room_capacity",RoomCapacity.getText().toString());
+                                                map.put("room_rate", RoomRate.getText().toString());
+                                                return map;
+                                            }
+                                        };
+                                        myrequest.add(stringRequest);
+                                    }
+
                                 }
                             });
                         }

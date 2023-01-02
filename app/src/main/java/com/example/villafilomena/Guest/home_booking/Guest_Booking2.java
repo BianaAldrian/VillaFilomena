@@ -1,5 +1,6 @@
 package com.example.villafilomena.Guest.home_booking;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +80,8 @@ public class Guest_Booking2 extends Fragment {
         }
     }
 
+    String IP;
+
     public static TextView txtCheckInOut,txtKidAdult;
     public static ArrayList<RoomInfos_model> roominfo_holder;
     RecyclerView RoomInfo_list;
@@ -87,6 +91,11 @@ public class Guest_Booking2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.guest_booking2, container, false);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         txtCheckInOut = view.findViewById(R.id.guestBooking2_txtchekcIn_Out);
         txtKidAdult = view.findViewById(R.id.guestBooking2_txtKid_Adult);
@@ -121,53 +130,55 @@ public class Guest_Booking2 extends Fragment {
     }
 
     private void RoomInfos(String id){
-        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_Room_Details2.php";
 
-        RequestQueue myrequest = Volley.newRequestQueue(getActivity());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if(success.equals("1")){
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
-                            roominfo_holder.add(model);
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                RoomInfos_model model = new RoomInfos_model(object.getString("id"), object.getString("imageUrl"), object.getString("name"), object.getString("room_capacity"), object.getString("room_rate"));
+                                roominfo_holder.add(model);
+                            }
+
+                            RoomInfos_adapter2 adapter = new RoomInfos_adapter2(roominfo_holder);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                            RoomInfo_list.setLayoutManager(layoutManager);
+                            RoomInfo_list.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+                        }else{
+                            Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
                         }
 
-                        RoomInfos_adapter2 adapter = new RoomInfos_adapter2(roominfo_holder);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                        RoomInfo_list.setLayoutManager(layoutManager);
-                        RoomInfo_list.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
-                    }else{
-                        Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                     }
-
-                }catch (Exception e){
-                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                 }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
-            @Override
-            protected HashMap<String,String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<String,String>();
-                map.put("id",id);
-                return map;
-            }
-        };
-        myrequest.add(stringRequest);
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("id",id);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+        }
     }
 }

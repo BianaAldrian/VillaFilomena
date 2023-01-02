@@ -38,10 +38,10 @@ public class IP_Address extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
 
         IP = preferences.getString("IP_Address", "").trim();
-        IP_Address = IP+":8080";
+        IP_Address = IP;
 
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP+":8080/VillaFilomena/check_conn.php";
+            String url = "http://"+IP+"/VillaFilomena/check_conn.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -49,7 +49,7 @@ public class IP_Address extends AppCompatActivity {
                 public void onResponse(String response) {
                     if(response.equals("true")){
                         //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
-                        IP_Address = IP+":8080";
+                        IP_Address = IP;
                         startActivity(new Intent(getApplicationContext(), Login.class));
                         finish();
                     }
@@ -81,7 +81,7 @@ public class IP_Address extends AppCompatActivity {
                                 //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
                                 IP_Address = ip.getText().toString()+":8080";
 
-                                editor.putString("IP_Address",ip.getText().toString());
+                                editor.putString("IP_Address",IP_Address);
                                 editor.apply();
 
                                 startActivity(new Intent(getApplicationContext(), Login.class));

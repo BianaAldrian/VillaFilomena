@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class Login_Guest extends AppCompatActivity {
     public static final String EMAIL = "";
     public static String user_email = "";
 
+    String IP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,11 @@ public class Login_Guest extends AppCompatActivity {
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(getApplication(),gso);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
 
         email = findViewById(R.id.loginGeust_email);
         password = findViewById(R.id.loginGuest_password);
@@ -68,49 +76,51 @@ public class Login_Guest extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/login.php";
+                if(!IP.equalsIgnoreCase("")){
+                    String url = "http://"+IP+"/VillaFilomena/login.php";
                     //Toast.makeText(getApplicationContext(), "Account already exists", Toast.LENGTH_SHORT).show();
-                RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response.equals("not_exist")){
-                            Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("true")){
-
-                            user_email = email.getText().toString();
-
-                            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(EMAIL, email.getText().toString());
-                            editor.apply();
-
-                            startActivity(new Intent(getApplicationContext(), MainFrame.class));
-                            finish();
-                            //Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("false")){
-                            Toast.makeText(getApplicationContext(),"Incorrect Password", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if (response.equals("not_exist")){
+                                Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_SHORT).show();
                             }
-                        })
-                {
-                    @Override
-                    protected HashMap<String,String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<String,String>();
-                        map.put("email",email.getText().toString());
-                        map.put("password",password.getText().toString());
-                        return map;
-                    }
-                };
-                myrequest.add(stringRequest);
+                            else if(response.equals("true")){
+
+                                user_email = email.getText().toString();
+
+                                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(EMAIL, email.getText().toString());
+                                editor.apply();
+
+                                startActivity(new Intent(getApplicationContext(), MainFrame.class));
+                                finish();
+                                //Toast.makeText(getApplicationContext(), "True", Toast.LENGTH_SHORT).show();
+                            }
+                            else if(response.equals("false")){
+                                Toast.makeText(getApplicationContext(),"Incorrect Password", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                                }
+                            })
+                    {
+                        @Override
+                        protected HashMap<String,String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<String,String>();
+                            map.put("email",email.getText().toString());
+                            map.put("password",password.getText().toString());
+                            return map;
+                        }
+                    };
+                    myrequest.add(stringRequest);
+                }
             }
         });
 
@@ -138,7 +148,7 @@ public class Login_Guest extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String url = "http://"+IP_Address.IP_Address+"/VillaFilomena/login_google.php";
+        String url = "http://"+IP+"/VillaFilomena/login_google.php";
 
         if(requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);

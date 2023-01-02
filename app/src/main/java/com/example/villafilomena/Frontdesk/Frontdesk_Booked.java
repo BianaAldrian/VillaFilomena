@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.Toast;
@@ -31,6 +33,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Frontdesk_Booked extends AppCompatActivity {
+
+    String IP;
+
     RecyclerView requestList;
 
     ArrayList<Frontdesk_userDetailsModel> request_holder;
@@ -44,6 +49,12 @@ public class Frontdesk_Booked extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frontdesk_booked);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        IP = preferences.getString("IP_Address", "").trim();
+
         retrieve_BookingInfos();
 
         thread = null;
@@ -68,48 +79,50 @@ public class Frontdesk_Booked extends AppCompatActivity {
     }
 
     private void retrieve_BookingInfos(){
-        String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_userDetails.php";
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+ IP_Address.IP_Address+"/VillaFilomena/retrieve_userDetails.php";
 
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    request_holder = new ArrayList<>();
+                        request_holder = new ArrayList<>();
 
-                    if(success.equals("1")){
+                        if(success.equals("1")){
 
-                        for (int i=0; i<jsonArray.length(); i++){
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
-                            request_holder.add(model);
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
+                                request_holder.add(model);
+                            }
+
+                            Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
+                            GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
+                            requestList.setLayoutManager(layoutManager);
+                            requestList.setAdapter(adapter);
+
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
                         }
 
-                        Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
-                        GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 2);
-                        requestList.setLayoutManager(layoutManager);
-                        requestList.setAdapter(adapter);
-
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
-
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-        myrequest.add(stringRequest);
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            myrequest.add(stringRequest);
+        }
     }
 
     private void OnItemClick(){
