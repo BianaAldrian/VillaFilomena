@@ -114,7 +114,8 @@
             android:text="OR"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -138,7 +139,8 @@
         android:textSize="20sp"
         android:background="@drawable/round_corner"
         android:textColor="@color/white"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <androidx.legacy.widget.Space
         android:layout_width="match_parent"
