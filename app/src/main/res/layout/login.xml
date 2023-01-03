@@ -16,13 +16,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="serif"
+        android:fontFamily="@font/cantora_one"
         android:text="Continue as:"
         android:textColor="@color/black"
         android:textSize="26sp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
-        android:textStyle="bold"
         android:layout_marginBottom="20dp"
         />
 
@@ -31,6 +30,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Guest"
+        android:fontFamily="@font/balsamiq_sans"
         android:background="@drawable/round_corner"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -41,6 +41,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Frontdesk"
+        android:fontFamily="@font/balsamiq_sans"
         android:background="@drawable/round_corner"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -51,6 +52,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Resort Manager"
+        android:fontFamily="@font/balsamiq_sans"
         android:background="@drawable/round_corner"
         android:textColor="@color/white"
         android:textSize="16sp"

@@ -22,6 +22,7 @@
                 android:gravity="center"
                 android:text="Find your own quiet haven. The Villa Filomena Natural Spring resort in Cavite, Philippines is situated on the alpines of South Cavite. This Natural Spring resort is an exclusive resort placing emphasis on your comfort and solitude."
                 android:textColor="@color/black"
+                android:fontFamily="@font/balsamiq_sans"
                 android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView

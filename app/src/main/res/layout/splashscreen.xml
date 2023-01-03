@@ -13,21 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="#0000"
-        android:layout_marginBottom="180dp">
+        app:cardBackgroundColor="#0000">
 
         <ImageView
             android:layout_width="400dp"
             android:layout_height="400dp"
             android:layout_gravity="center"
-            android:background="@drawable/villa_filomena_logo"/>
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/villa_filomena_logo" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="cursive"
+            android:fontFamily="@font/yesteryear"
             android:gravity="center"
             android:text="Welcome"
             android:textColor="#316B43"

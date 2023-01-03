@@ -12,30 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="#23B3A9"
         android:layout_gravity="top|center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#008951"
             android:gravity="center"
             android:text="Villa Filomena Natural Spring Resort"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"/>
 
-        <androidx.legacy.widget.Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/MainMenu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:layout_gravity="right"
-            android:src="@drawable/ic_baseline_menu_24" />
+            android:src="@drawable/ic_baseline_menu_24"
+            android:background="@drawable/border1"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
 
         <!--<ImageView
             android:id="@+id/account"
@@ -84,23 +87,23 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:text=" Home "
+            android:fontFamily="@font/balsamiq_sans"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:layout_gravity="top|left"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
-            android:background="#FFD84F"
-            android:foreground="@drawable/border"
+            android:background="#23B3A9"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
         <TextView
             android:id="@+id/mainBook"
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:background="#FFD84F"
-            android:foreground="@drawable/border"
+            android:background="#23B3A9"
             android:gravity="center"
             android:text=" Book Now "
+            android:fontFamily="@font/balsamiq_sans"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:layout_gravity="top|right"
