@@ -20,7 +20,7 @@
             android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:hint="Room Name"
+            android:hint="Cottage Name"
             android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginTop="15dp"/>

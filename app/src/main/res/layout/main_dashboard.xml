@@ -47,9 +47,10 @@
 
             <ImageView
                 android:id="@+id/manager_RoomCottage"
-                android:layout_width="200dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
+                android:layout_width="180dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/room_cottage" />
 
             <TextView
@@ -57,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="ROOM AND COTTAGE DETAILS"
                 android:layout_gravity="bottom|center"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textColor="@color/black"/>
 
         </androidx.cardview.widget.CardView>

@@ -64,8 +64,6 @@ public class GuestHomePage_Dashboard extends AppCompatActivity {
         setContentView(R.layout.guest_homepage_dashboard);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-
         IP = preferences.getString("IP_Address", "").trim();
 
         addBanner = findViewById(R.id.add_homeBanner);
