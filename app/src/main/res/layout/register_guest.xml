@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:fontFamily="@font/cantora_one"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:textStyle="bold"
         android:textSize="32sp"
         android:textColor="@color/black"/>
 
@@ -33,10 +34,12 @@
                 android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:fontFamily="@font/balsamiq_sans"
-                android:background="#8EE1E1"
-                android:inputType="textEmailAddress" />
+                android:hint="Email Address"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80FFFFFF"
+                android:inputType="textEmailAddress"
+                android:visibility="visible"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,16 +48,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            android:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#80FFFFFF"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
                 android:hint="Password"
-                android:fontFamily="@font/balsamiq_sans"
-                android:background="#8EE1E1"
-                android:password="true"/>
+                android:textColor="@color/black"
+                android:password="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,15 +68,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            android:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:fontFamily="@font/balsamiq_sans"
-                android:background="#8EE1E1"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80FFFFFF"
                 android:password="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -86,6 +93,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:hint="Full Name"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80FFFFFF"
                 android:visibility="gone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -100,6 +110,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80FFFFFF"
                 android:hint="Contact Number"
                 android:visibility="gone"/>
 
@@ -116,6 +129,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="Address"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80FFFFFF"
                 android:visibility="gone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -131,39 +147,55 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Back"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:background="@drawable/round_corner"/>
+        android:background="#80FFFFFF"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register_continue"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Continue"
-        android:textColor="#ffffff"
-        android:fontFamily="@font/balsamiq_sans"
-        android:textAllCaps="false"
-        android:textSize="20sp"
         android:layout_gravity="center"
-        android:background="@drawable/round_corner"/>
+        android:background="#80ffffff"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:text="Continue"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register_btnReg"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
         android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:textSize="20sp"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:background="@drawable/round_corner"/>
+        android:background="#80ffffff"/>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
 
         <TextView
             android:layout_width="match_parent"
@@ -177,12 +209,12 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OR"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:visibility="gone"
+            android:text="OR"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="match_parent"
@@ -191,11 +223,28 @@
             android:text="                                              "
             android:layout_weight="1"
             android:gravity="left"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
     </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80ffffff"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:text="Register with Google"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register_contgoogle"
@@ -219,8 +268,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Already registered? Login"
-        android:fontFamily="@font/balsamiq_sans"
-        android:textSize="15sp"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:gravity="center"/>
 
