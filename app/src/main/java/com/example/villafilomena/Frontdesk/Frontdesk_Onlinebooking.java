@@ -144,9 +144,12 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
         booknow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getGuestInformation();
+               /* getGuestInformation();
                 insert_RoomSched();
-                generatePDF();
+                generatePDF();*/
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Booking Update", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
+                notificationsSender.SendNotifications();
+                referenceNum.setText(Frontdesk_Booked.token);
             }
         });
 

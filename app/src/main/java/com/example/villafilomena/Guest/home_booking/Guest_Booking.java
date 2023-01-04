@@ -111,11 +111,6 @@ public class Guest_Booking extends Fragment {
     public static final String[] checkIn_Time = new String[1];
     public static final String[] checkOut_Time = new String[1];
 
-    String ifExist;
-    boolean isBetween = false;
-
-    LocalDate check_In, check_Out;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,7 +119,6 @@ public class Guest_Booking extends Fragment {
         View view = inflater.inflate(R.layout.guest_booking, container, false);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = preferences.edit();
 
         IP = preferences.getString("IP_Address", "").trim();
 
@@ -190,9 +184,6 @@ public class Guest_Booking extends Fragment {
                 calendar_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        //check_In = LocalDate.of(Integer.parseInt(checkInOut_year[0]), Integer.parseInt(checkInOut_month[0]), Integer.parseInt(checkInOut_day[0]));
-                        //check_Out = LocalDate.of(Integer.parseInt(checkInOut_year[1]), Integer.parseInt(checkInOut_month[1]), Integer.parseInt(checkInOut_day[1]));
 
                         if(CheckIn_Daytour.isChecked()){
                             checkIn_Time[0] = "Day Tour";
@@ -422,7 +413,6 @@ public class Guest_Booking extends Fragment {
     }
 
     private void check_RoomSched(String checkIn_Date, String checkOut_Date, String checkIn_Time, String checkOut_Time){
-        roominfo_holder.removeAll(roominfo_holder);
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/retrieve_roomSched.php";
             RequestQueue myrequest = Volley.newRequestQueue(getActivity());
@@ -446,7 +436,6 @@ public class Guest_Booking extends Fragment {
                         RoomInfo_list.setLayoutManager(layoutManager);
                         RoomInfo_list.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-
 
                     }catch (Exception e){
                         Toast.makeText(getActivity(), "Failed to get room schedules", Toast.LENGTH_SHORT).show();

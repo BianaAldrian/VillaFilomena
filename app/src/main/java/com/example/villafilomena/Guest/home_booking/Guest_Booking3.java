@@ -86,9 +86,6 @@ public class Guest_Booking3 extends Fragment {
 
     String IP;
 
-    Thread thread;
-    boolean booking_stat = false;
-
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
     EditText reference;
@@ -239,6 +236,16 @@ public class Guest_Booking3 extends Fragment {
             }
         });
 
+        MainFrame.Done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertBooking_information();
+                waiting_confirmation.setVisibility(View.VISIBLE);
+                txtBooking_confirmed.setVisibility(View.GONE);
+                txtInvoice_Link.setVisibility(View.VISIBLE);
+            }
+        });
+
         return view;
     }
 
@@ -263,7 +270,6 @@ public class Guest_Booking3 extends Fragment {
                                     InvoiceUrl = object.getString("invoice");
 
                                     if (object.getString("booking_status").equals("Confirmed")){
-                                        thread.interrupt();
                                         waiting_confirmation.setVisibility(View.GONE);
                                         txtBooking_confirmed.setVisibility(View.VISIBLE);
                                         txtInvoice_Link.setVisibility(View.VISIBLE);
