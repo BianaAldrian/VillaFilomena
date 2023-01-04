@@ -1,7 +1,10 @@
 package com.example.villafilomena.Guest.home_booking;
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +30,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.Login_Registration.Login_Guest;
+import com.example.villafilomena.MyFirebaseMessagingService;
 import com.example.villafilomena.R;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -107,7 +113,6 @@ public class Guest_Booking3 extends Fragment {
         View view = inflater.inflate(R.layout.guest_booking3, container, false);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = preferences.edit();
 
         IP = preferences.getString("IP_Address", "").trim();
 
@@ -249,6 +254,24 @@ public class Guest_Booking3 extends Fragment {
         return view;
     }
 
+    private BroadcastReceiver mPushNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Check_Status();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mPushNotificationReceiver,
+                new IntentFilter(MyFirebaseMessagingService.PUSH_NOTIFICATION_RECEIVED));
+    }
+
+    private void updateFragment() {
+        // Method to update the fragment when a push notification is received
+    }
+
     public void Check_Status(){
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/retrieve_bookingInfos.php";
@@ -350,4 +373,11 @@ public class Guest_Booking3 extends Fragment {
             myrequest.add(stringRequest);
         }
     }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mPushNotificationReceiver);
+        super.onPause();
+    }
+
 }

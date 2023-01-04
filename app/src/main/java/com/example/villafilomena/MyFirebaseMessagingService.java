@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.villafilomena.Frontdesk.Frontdesk_Booked;
 import com.example.villafilomena.Frontdesk.Frontdesk_Onlinebooking;
@@ -23,6 +24,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static String TAG = MyFirebaseMessagingService.class.getSimpleName();
+    public static final String PUSH_NOTIFICATION_RECEIVED = "PUSH_NOTIFICATION_RECEIVED";
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -48,6 +50,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Second case when notification payload is
         // received.
+        Intent intent = new Intent(PUSH_NOTIFICATION_RECEIVED);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
         if (remoteMessage.getNotification() != null) {
             // Since the notification is received directly
             // from FCM, the title and the body can be
@@ -55,9 +60,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             showNotification(
                     remoteMessage.getNotification().getTitle(),
                     remoteMessage.getNotification().getBody());
-
-            Guest_Booking3 booking = new Guest_Booking3();
-            booking.Check_Status();
         }
     }
 
@@ -75,8 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     // Method to display the notifications
-    public void showNotification(String title,
-                                 String message)
+    public void showNotification(String title, String message)
     {
         // Pass the intent to switch to the MainActivity
         Intent intent = new Intent(this, Frontdesk_Onlinebooking.class);
