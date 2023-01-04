@@ -8,6 +8,7 @@ public class Frontdesk_userDetailsModel {
         this.fullname = fullname;
         this.contact = contact;
         this.address = address;
+        this.token = token;
     }
 
     public String getEmail() {
