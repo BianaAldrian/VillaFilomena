@@ -37,6 +37,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.FcmNotificationsSender;
 import com.example.villafilomena.Guest.home_booking.RoomInfos_model;
 import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.R;
@@ -146,6 +147,9 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                 getGuestInformation();
                 insert_RoomSched();
                 generatePDF();
+               /* FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Booking Update", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
+                notificationsSender.SendNotifications();
+                referenceNum.setText(Frontdesk_Booked.token);*/
             }
         });
 
@@ -447,6 +451,9 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                 public void onResponse(String response) {
                     if (response.equals("Success")){
                         Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
+
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Booking Update", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
+                        notificationsSender.SendNotifications();
                     }
                     else if(response.equals("Failed")){
                         Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();

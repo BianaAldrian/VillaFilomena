@@ -86,9 +86,6 @@ public class Guest_Booking3 extends Fragment {
 
     String IP;
 
-    Thread thread;
-    boolean booking_stat = false;
-
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
     EditText reference;
@@ -244,29 +241,15 @@ public class Guest_Booking3 extends Fragment {
             public void onClick(View v) {
                 insertBooking_information();
                 waiting_confirmation.setVisibility(View.VISIBLE);
-
-                thread = null;
-                thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (booking_stat == false){
-                            try {
-                                Thread.sleep(1000);
-                            }catch (InterruptedException e){
-                                e.printStackTrace();
-                            }
-                            Check_Status();
-                        }
-                    }
-                });
-                thread.start();
+                txtBooking_confirmed.setVisibility(View.GONE);
+                txtInvoice_Link.setVisibility(View.VISIBLE);
             }
         });
 
         return view;
     }
 
-    private void Check_Status(){
+    public void Check_Status(){
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/retrieve_bookingInfos.php";
 
@@ -287,13 +270,9 @@ public class Guest_Booking3 extends Fragment {
                                     InvoiceUrl = object.getString("invoice");
 
                                     if (object.getString("booking_status").equals("Confirmed")){
-                                        booking_stat = true;
-                                        thread.interrupt();
                                         waiting_confirmation.setVisibility(View.GONE);
                                         txtBooking_confirmed.setVisibility(View.VISIBLE);
                                         txtInvoice_Link.setVisibility(View.VISIBLE);
-                                    }else {
-                                        booking_stat = false;
                                     }
                                 }
                             }

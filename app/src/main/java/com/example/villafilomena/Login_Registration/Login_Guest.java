@@ -1,5 +1,8 @@
 package com.example.villafilomena.Login_Registration;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,8 +31,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -44,7 +50,7 @@ public class Login_Guest extends AppCompatActivity {
     TextInputEditText password,email;
 
     public static final String SHARED_PREFS = "";
-    public static final String EMAIL = "";
+    public static String EMAIL = "";
     public static String user_email = "";
 
     String IP;
@@ -55,10 +61,9 @@ public class Login_Guest extends AppCompatActivity {
         setContentView(R.layout.login_guest);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc = GoogleSignIn.getClient(getApplication(),gso);
+        gsc = GoogleSignIn.getClient(this,gso);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
 
         IP = preferences.getString("IP_Address", "").trim();
 
@@ -94,6 +99,21 @@ public class Login_Guest extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString(EMAIL, email.getText().toString());
                                 editor.apply();
+
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<String> task) {
+                                                if (!task.isSuccessful()) {
+                                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                                    return;
+                                                }
+
+                                                // Get new FCM registration token
+                                                String token = task.getResult();
+                                                update_guestToken(token);
+                                            }
+                                        });
 
                                 startActivity(new Intent(getApplicationContext(), MainFrame.class));
                                 finish();
@@ -148,54 +168,87 @@ public class Login_Guest extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String url = "http://"+IP+"/VillaFilomena/login_google.php";
-
         if(requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            checkEmail(task);
+        }
 
-            try {
-                task.getResult(ApiException.class);
-                //Toast.makeText(getApplicationContext(), "Welcome", Toast.LENGTH_SHORT).show();
+    }
 
-                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-                if(acct != null){
-                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            if(response.equals("true")){
-                                Intent intent = new Intent(getApplication(),MainFrame.class);
-                                startActivity(intent);
-                                finish();
-                                Toast.makeText(Login_Guest.this, "True", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),response, Toast.LENGTH_LONG).show();
-                                gsc.signOut();
-                            }
-                        }
-                    },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                }
-                            })
-                    {
-                        @Override
-                        protected HashMap<String,String> getParams() throws AuthFailureError {
-                            HashMap<String,String> map = new HashMap<String,String>();
-                            map.put("email",acct.getEmail());
-                            map.put("password",password.getText().toString());
+    public void checkEmail(Task<GoogleSignInAccount> completedTask){
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            // Signed in successfully, show authenticated UI.
+            //String email = account.getEmail();
+            // Use email to search for user in database
 
-                            return map;
-                        }
-                    };
-                    myrequest.add(stringRequest);
+            String url1 = "http://"+IP+"/VillaFilomena/check_email.php";
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(response.equals("true")){
+                        startActivity(new Intent(Login_Guest.this, MainFrame.class));
+                    }
+                    else if(response.equals("false")){
+                        Toast.makeText(getApplicationContext(), "Account doesn't exist", Toast.LENGTH_LONG).show();
+                        gsc.signOut();
+                    }
                 }
-            }catch (ApiException e) {
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-            }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+            {
+                @Override
+                protected HashMap<String,String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("email",account.getEmail());
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+        }
+    }
+
+    private void update_guestToken(String token) {
+        if (!IP.equalsIgnoreCase("")) {
+            String url = "http://"+IP+"/VillaFilomena/update_guestToken.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("Success")){
+                        Log.w(TAG, "Token update Success");
+                    }else{
+                        Toast.makeText(Login_Guest.this, "Token update Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected HashMap<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("email", email.getText().toString());
+                    map.put("token", token);
+                    return map;
+                }
+            };
+            myrequest.add(stringRequest);
         }
     }
 }

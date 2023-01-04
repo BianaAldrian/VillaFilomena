@@ -1,5 +1,8 @@
 package com.example.villafilomena.Login_Registration;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,13 +31,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
 public class Register_Guest extends AppCompatActivity {
+    String token;
 
     String IP;
     TextView line1_1, line2_1;
@@ -59,6 +66,20 @@ public class Register_Guest extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         IP = preferences.getString("IP_Address", "").trim();
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        token = task.getResult();
+                    }
+                });
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(getApplication(),gso);
@@ -150,6 +171,7 @@ public class Register_Guest extends AppCompatActivity {
                             map.put("fullname",fullname.getText().toString());
                             map.put("contactNo",contactNo.getText().toString());
                             map.put("address",address.getText().toString());
+                            map.put("token",token);
 
                             startActivity(new Intent(getApplication(), MainFrame.class));
                             finish();
