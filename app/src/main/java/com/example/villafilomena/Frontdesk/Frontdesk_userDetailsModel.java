@@ -1,9 +1,9 @@
 package com.example.villafilomena.Frontdesk;
 
 public class Frontdesk_userDetailsModel {
-    String email, fullname, contact, address;
+    String email, fullname, contact, address, token;
 
-    public Frontdesk_userDetailsModel(String email, String fullname, String contact, String address) {
+    public Frontdesk_userDetailsModel(String email, String fullname, String contact, String address, String token) {
         this.email = email;
         this.fullname = fullname;
         this.contact = contact;
@@ -40,5 +40,13 @@ public class Frontdesk_userDetailsModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

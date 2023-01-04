@@ -34,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:fontFamily="@font/balsamiq_sans"
                 android:background="#8EE1E1"
                 android:inputType="textEmailAddress" />
 
@@ -52,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:fontFamily="@font/balsamiq_sans"
                 android:background="#8EE1E1"
                 android:password="true"/>
 
@@ -70,7 +68,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:fontFamily="@font/balsamiq_sans"
                 android:background="#8EE1E1"
                 android:password="true"/>
 
@@ -143,7 +140,6 @@
         android:layout_height="wrap_content"
         android:text="Continue"
         android:textColor="#ffffff"
-        android:fontFamily="@font/balsamiq_sans"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:layout_gravity="center"
@@ -180,7 +176,6 @@
             android:layout_height="wrap_content"
             android:text="OR"
             android:gravity="center"
-            android:visibility="gone"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
@@ -191,7 +186,6 @@
             android:text="                                              "
             android:layout_weight="1"
             android:gravity="left"
-            android:visibility="gone"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
@@ -206,7 +200,6 @@
         android:paddingEnd="30dp"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:visibility="gone"
         android:layout_gravity="center"
         android:background="@drawable/round_corner"/>
 
@@ -219,7 +212,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Already registered? Login"
-        android:fontFamily="@font/balsamiq_sans"
         android:textSize="15sp"
         android:textColor="@color/black"
         android:gravity="center"/>

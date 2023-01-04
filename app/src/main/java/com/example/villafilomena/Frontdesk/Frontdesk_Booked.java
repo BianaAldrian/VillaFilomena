@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.MyFirebaseMessagingService;
 import com.example.villafilomena.R;
 
 import org.json.JSONArray;
@@ -39,7 +40,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
     ArrayList<Frontdesk_userDetailsModel> request_holder;
     Request_Adapter.ClickListener clickListener;
 
-    public static String email, fullname, address, contactNum;
+    public static String email, fullname, address, contactNum, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,68 +49,14 @@ public class Frontdesk_Booked extends AppCompatActivity {
         requestList = findViewById(R.id.frontdesk_requestList);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-
         IP = preferences.getString("IP_Address", "").trim();
 
-        //retrieve_BookingInfos();
-
-        HandlerThread handlerThread = new HandlerThread("DataUpdater");
-        handlerThread.start();
-        Handler handler = new Handler(handlerThread.getLooper());
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Code to send request to server and retrieve data from MySQL database
-                request_holder = new ArrayList<>();
-                if(!IP.equalsIgnoreCase("")){
-                    String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
-                    RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                String success = jsonObject.getString("success");
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                if(success.equals("1")){
-                                    for (int i=0; i<jsonArray.length(); i++){
-                                        JSONObject object = jsonArray.getJSONObject(i);
-                                        Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
-                                        request_holder.add(model);
-                                    }
-                                    Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
-                                    GridLayoutManager layoutManager = new GridLayoutManager(Frontdesk_Booked.this, 3);
-                                    requestList.setLayoutManager(layoutManager);
-                                    requestList.setAdapter(adapter);
-
-                                }else{
-                                    Toast.makeText(getApplicationContext(), "Failed to get", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }catch (Exception e){
-                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                    myrequest.add(stringRequest);
-                }
-                // Re-post the task to the message queue after a specified interval
-                handler.postDelayed(this, 1000);
-            }
-        }, 1000);
+        retrieve_BookingInfos();
 
         OnItemClick();
     }
 
-    private void retrieve_BookingInfos(){
+    public void retrieve_BookingInfos(){
         request_holder = new ArrayList<>();
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/retrieve_userDetails.php";
@@ -124,7 +71,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
                         if(success.equals("1")){
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"));
+                                Frontdesk_userDetailsModel model = new Frontdesk_userDetailsModel(object.getString("email"),object.getString("fullname"),object.getString("contact"),object.getString("address"),object.getString("token"));
                                 request_holder.add(model);
                             }
                             Request_Adapter adapter = new Request_Adapter(Frontdesk_Booked.this,request_holder, clickListener);
@@ -163,6 +110,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
                 fullname = model.getFullname();
                 contactNum = model.getContact();
                 address = model.getAddress();
+                token = model.getToken();
             }
         };
     }
