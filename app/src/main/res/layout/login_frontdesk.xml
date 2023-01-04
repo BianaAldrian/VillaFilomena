@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textStyle="bold"
         android:textSize="32sp"
-        android:fontFamily="@font/cantora_one"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
         android:textColor="@color/black"
         android:paddingLeft="5dp"
         android:paddingTop="10dp"/>
@@ -42,9 +43,11 @@
                 android:id="@+id/loginFrontdesk_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#80FFFFFF"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
                 android:hint="Email"
-                android:background="#8EE1E1"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,7 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:background="#8EE1E1"
+                android:textColor="@color/black"
+                android:fontFamily="@font/ebgaramond_variablefont_wght"
+                android:background="#80ffffff"
                 android:password="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,13 +94,45 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginFrontdesk_btnLog"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80ffffff"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
         android:text="Login"
-        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:background="@drawable/round_corner"
-        android:layout_gravity="center"/>
+        android:textColor="#ffffff"
+        android:textSize="20sp"/>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80ffffff"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:text="Continue with Google"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="20sp"/>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Already registered? Login"
+        android:fontFamily="@font/ebgaramond_variablefont_wght"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"/>
 
 </LinearLayout>
