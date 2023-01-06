@@ -1,5 +1,6 @@
 package com.example.villafilomena.Guest.home_booking;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,7 +48,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -98,8 +102,10 @@ public class Guest_Booking3 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    //private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
     String IP;
+
+    Date currentDate;
+    DateFormat currentDateFormat;
 
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
@@ -115,8 +121,6 @@ public class Guest_Booking3 extends Fragment {
     double totalFee,payment=0, balance=0;
     String percent, InvoiceUrl;
 
-    ArrayList<String> tokens;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,6 +130,9 @@ public class Guest_Booking3 extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         IP = preferences.getString("IP_Address", "").trim();
+
+        currentDate = new Date();
+        currentDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         details = view.findViewById(R.id.guestBooking3_txtDetails);
         waiting_confirmation = view.findViewById(R.id.txtBooking_pending);
@@ -259,12 +266,10 @@ public class Guest_Booking3 extends Fragment {
                 waiting_confirmation.setVisibility(View.VISIBLE);
                 txtBooking_confirmed.setVisibility(View.GONE);
                 txtInvoice_Link.setVisibility(View.VISIBLE);
+                //getFrontdeskTokens();
 
             }
         });
-
-        getFrontdeskTokens();
-        //Toast.makeText(getActivity(), tokens.toString(), Toast.LENGTH_SHORT).show();
 
         return view;
     }
@@ -345,19 +350,16 @@ public class Guest_Booking3 extends Fragment {
     private void insertBooking_information(){
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/insert_bookingInfos.php";
-            RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("Success")){
+                    if (response.equals("success")){
                         Toast.makeText(getActivity(), "Please wait for confirmation", Toast.LENGTH_SHORT).show();
-
-                        /*FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Guest", "You have a new booking", getContext(), getActivity());
-                        notificationsSender.SendNotifications();*/
-
                         getFrontdeskTokens();
                     }
-                    else if(response.equals("Failed")){
+                    else if(response.equals("failed")){
                         Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -372,6 +374,7 @@ public class Guest_Booking3 extends Fragment {
                 @Override
                 protected HashMap<String,String> getParams() throws AuthFailureError {
                     HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("currentBooking_Date", currentDateFormat.format(currentDate));
                     map.put("users_email", Login_Guest.user_email);
                     map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year);
                     map.put("checkIn_time",checkIn_Time);
@@ -406,7 +409,6 @@ public class Guest_Booking3 extends Fragment {
                         String success = jsonObject.getString("success");
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         if(success.equals("1")){
-                            tokens = new ArrayList<>();
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 SendNotifications(object.getString("token"));
@@ -444,7 +446,7 @@ public class Guest_Booking3 extends Fragment {
             mainObj.put("to", token);
             JSONObject notiObject = new JSONObject();
             notiObject.put("title", "Guest");
-            notiObject.put("body", tokens.toString());
+            notiObject.put("body", "You have a new Booking");
             notiObject.put("icon", R.drawable.villa_filomena_logo); // enter icon that exists in drawable only
 
             mainObj.put("notification", notiObject);
