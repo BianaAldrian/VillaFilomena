@@ -255,16 +255,15 @@ public class Guest_Booking3 extends Fragment {
         MainFrame.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //insertBooking_information();
+                insertBooking_information();
                 waiting_confirmation.setVisibility(View.VISIBLE);
                 txtBooking_confirmed.setVisibility(View.GONE);
                 txtInvoice_Link.setVisibility(View.VISIBLE);
 
-                SendNotifications();
             }
         });
 
-        //getFrontdeskTokens();
+        getFrontdeskTokens();
         //Toast.makeText(getActivity(), tokens.toString(), Toast.LENGTH_SHORT).show();
 
         return view;
@@ -356,7 +355,7 @@ public class Guest_Booking3 extends Fragment {
                         /*FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Guest", "You have a new booking", getContext(), getActivity());
                         notificationsSender.SendNotifications();*/
 
-                        SendNotifications();
+                        getFrontdeskTokens();
                     }
                     else if(response.equals("Failed")){
                         Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
@@ -410,9 +409,8 @@ public class Guest_Booking3 extends Fragment {
                             tokens = new ArrayList<>();
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
-                                tokens.add(object.getString("token"));
+                                SendNotifications(object.getString("token"));
                             }
-
 
                         }else{
                             Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
@@ -437,16 +435,16 @@ public class Guest_Booking3 extends Fragment {
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
     private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
 
-    public void SendNotifications() {
+    public void SendNotifications(String token) {
 
         requestQueue = Volley.newRequestQueue(getActivity());
         JSONObject mainObj = new JSONObject();
 
         try {
-            mainObj.put("to", "f1hORcMtRH2JdKz1XdTWxw:APA91bHC9uAsZbQUSCVVIibdbeM-3qaO6VD3GXe-G7On_pDO6dbSPEmsKzHQG6ILYvfAOZQbv8rp7gOInAE8unY3Oyv1nWXKE9jg6u5OQ-mDkT2H_7JEaaym2SRzGPqtrxg3WoxzSEAj");
+            mainObj.put("to", token);
             JSONObject notiObject = new JSONObject();
             notiObject.put("title", "Guest");
-            notiObject.put("body", "You have a new booking");
+            notiObject.put("body", tokens.toString());
             notiObject.put("icon", R.drawable.villa_filomena_logo); // enter icon that exists in drawable only
 
             mainObj.put("notification", notiObject);

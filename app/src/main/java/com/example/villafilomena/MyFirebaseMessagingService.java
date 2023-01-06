@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.villafilomena.Frontdesk.Frontdesk_Booked;
 import com.example.villafilomena.Frontdesk.Frontdesk_Onlinebooking;
 import com.example.villafilomena.Guest.home_booking.Guest_Booking_Hstry;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -72,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if(title.equals("Front Desk")){
             intent = new Intent(this, Guest_Booking_Hstry.class);
         } else {
-            intent = new Intent(this, Frontdesk_Onlinebooking.class);
+            intent = new Intent(this, Frontdesk_Booked.class);
         }
         // Assign channel ID
         String channel_id = "notification_channel";
