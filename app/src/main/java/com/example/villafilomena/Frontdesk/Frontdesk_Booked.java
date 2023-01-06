@@ -40,8 +40,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
     ArrayList<Frontdesk_userDetailsModel> request_holder;
     Request_Adapter.ClickListener clickListener;
 
-    public static String email, fullname, address, contactNum;
-    public static String[] token = new String[1];
+    public static String email, fullname, address, contactNum, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
                 fullname = model.getFullname();
                 contactNum = model.getContact();
                 address = model.getAddress();
-                token[0] = model.getToken();
+                token = model.getToken();
             }
         };
     }

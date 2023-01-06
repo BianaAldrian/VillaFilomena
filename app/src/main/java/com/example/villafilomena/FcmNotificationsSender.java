@@ -11,17 +11,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FcmNotificationsSender  {
 
-    String[] userFcmToken;
+    String userFcmToken;
     String title;
     String body;
     Context mContext;
@@ -31,7 +29,7 @@ public class FcmNotificationsSender  {
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
     private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
 
-    public FcmNotificationsSender(String userFcmToken[], String title, String body, Context mContext, Activity mActivity) {
+    public FcmNotificationsSender(String userFcmToken, String title, String body, Context mContext, Activity mActivity) {
         this.userFcmToken = userFcmToken;
         this.title = title;
         this.body = body;
@@ -45,7 +43,7 @@ public class FcmNotificationsSender  {
         JSONObject mainObj = new JSONObject();
 
         try {
-            mainObj.put("to",  new JSONArray(Arrays.asList(userFcmToken)));
+            mainObj.put("to", userFcmToken);
             JSONObject notiObject = new JSONObject();
             notiObject.put("title", title);
             notiObject.put("body", body);

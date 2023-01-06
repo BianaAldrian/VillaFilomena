@@ -67,13 +67,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // Method to display the notifications
     public void showNotification(String title, String message) {
         // Pass the intent to switch to the MainActivity
-        Intent intent = null;
+        Intent intent = new Intent(this, Guest_Booking_Hstry.class);
 
-        if(title.equals("Front Desk")){
+       /* if(title.equals("Front Desk")){
             intent = new Intent(this, Guest_Booking_Hstry.class);
         } else {
             intent = new Intent(this, Frontdesk_Onlinebooking.class);
-        }
+        }*/
         // Assign channel ID
         String channel_id = "notification_channel";
         // Here FLAG_ACTIVITY_CLEAR_TOP flag is set to clear
