@@ -98,7 +98,7 @@ public class Guest_Booking3 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
+    //private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
     String IP;
 
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
@@ -255,14 +255,17 @@ public class Guest_Booking3 extends Fragment {
         MainFrame.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBooking_information();
+                //insertBooking_information();
                 waiting_confirmation.setVisibility(View.VISIBLE);
                 txtBooking_confirmed.setVisibility(View.GONE);
                 txtInvoice_Link.setVisibility(View.VISIBLE);
+
+                SendNotifications();
             }
         });
 
-        getFrontdeskTokens();
+        //getFrontdeskTokens();
+        //Toast.makeText(getActivity(), tokens.toString(), Toast.LENGTH_SHORT).show();
 
         return view;
     }
@@ -353,7 +356,7 @@ public class Guest_Booking3 extends Fragment {
                         /*FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Guest", "You have a new booking", getContext(), getActivity());
                         notificationsSender.SendNotifications();*/
 
-                        sendNotif();
+                        SendNotifications();
                     }
                     else if(response.equals("Failed")){
                         Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
@@ -430,44 +433,47 @@ public class Guest_Booking3 extends Fragment {
         }
     }
 
-    private void sendNotif(){
-        JSONObject data = new JSONObject();
+    private RequestQueue requestQueue;
+    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
+    private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
+
+    public void SendNotifications() {
+
+        requestQueue = Volley.newRequestQueue(getActivity());
+        JSONObject mainObj = new JSONObject();
 
         try {
-            data.put("title", "Guest");
-            data.put("body", "You have a new booking!");
+            mainObj.put("to", "f1hORcMtRH2JdKz1XdTWxw:APA91bHC9uAsZbQUSCVVIibdbeM-3qaO6VD3GXe-G7On_pDO6dbSPEmsKzHQG6ILYvfAOZQbv8rp7gOInAE8unY3Oyv1nWXKE9jg6u5OQ-mDkT2H_7JEaaym2SRzGPqtrxg3WoxzSEAj");
+            JSONObject notiObject = new JSONObject();
+            notiObject.put("title", "Guest");
+            notiObject.put("body", "You have a new booking");
+            notiObject.put("icon", R.drawable.villa_filomena_logo); // enter icon that exists in drawable only
 
-            JSONObject payload = new JSONObject();
-            payload.put("registration_ids", new JSONArray(tokens));
-            payload.put("priority", "high");
-            payload.put("data", data);
+            mainObj.put("notification", notiObject);
 
-            String url = "https://fcm.googleapis.com/fcm/send";
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // Handle response
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // Handle error
-                        }
-                    }) {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // code run is got response
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // code run is got error
+                }
+            }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "key="+fcmServerKey);
-                    headers.put("Content-Type", "application/json");
-                    return headers;
+
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=" + fcmServerKey);
+                    return header;
+
                 }
             };
+            requestQueue.add(request);
 
-            RequestQueue queue = Volley.newRequestQueue(getActivity());
-            queue.add(request);
         } catch (JSONException e) {
             e.printStackTrace();
         }
