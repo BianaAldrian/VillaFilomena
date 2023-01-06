@@ -1,11 +1,15 @@
 package com.example.villafilomena.Frontdesk;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,6 +58,20 @@ public class Frontdesk_Booked extends AppCompatActivity {
         retrieve_BookingInfos();
 
         OnItemClick();
+    }
+
+    private BroadcastReceiver mPushNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            retrieve_BookingInfos();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mPushNotificationReceiver,
+                new IntentFilter(MyFirebaseMessagingService.PUSH_NOTIFICATION_RECEIVED));
     }
 
     public void retrieve_BookingInfos(){
@@ -113,5 +131,11 @@ public class Frontdesk_Booked extends AppCompatActivity {
                 token = model.getToken();
             }
         };
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mPushNotificationReceiver);
+        super.onPause();
     }
 }
