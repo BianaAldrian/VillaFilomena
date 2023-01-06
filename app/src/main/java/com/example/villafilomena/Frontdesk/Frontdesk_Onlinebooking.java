@@ -452,7 +452,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                     if (response.equals("Success")){
                         Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
 
-                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Booking Update", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Front Desk", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
                         notificationsSender.SendNotifications();
                     }
                     else if(response.equals("Failed")){
