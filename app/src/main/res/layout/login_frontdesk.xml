@@ -109,30 +109,4 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#80ffffff"
-        android:fontFamily="@font/ebgaramond_variablefont_wght"
-        android:text="Continue with Google"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:textSize="20sp"/>
-
-    <androidx.legacy.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Already registered? Login"
-        android:fontFamily="@font/ebgaramond_variablefont_wght"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
-
 </LinearLayout>

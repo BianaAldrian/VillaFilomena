@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.StringJoiner;
@@ -452,7 +453,7 @@ public class Frontdesk_Onlinebooking extends AppCompatActivity {
                     if (response.equals("Success")){
                         Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
 
-                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Booking Update", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Arrays.copyOf(Frontdesk_Booked.token, Frontdesk_Booked.token.length), "Front Desk", "Your Booking is Confirmed", getApplicationContext(), Frontdesk_Onlinebooking.this);
                         notificationsSender.SendNotifications();
                     }
                     else if(response.equals("Failed")){

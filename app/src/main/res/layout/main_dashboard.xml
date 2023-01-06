@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/manager_GuestHomePage"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:background="@drawable/villa_filomena_logo" />
             
@@ -102,6 +102,7 @@
             app:cardElevation="0dp">
 
             <ImageView
+                android:id="@+id/manager_Frontdesk"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
@@ -110,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EMPLOYEES"
+                android:text="FRONT DESK"
                 android:layout_gravity="bottom|center"
                 android:textSize="24sp"
                 android:textColor="@color/black"/>

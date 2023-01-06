@@ -12,7 +12,7 @@ import com.example.villafilomena.R;
 
 public class Main_Dashboard extends AppCompatActivity {
 
-    ImageView guesthomepage, roomcottage;
+    ImageView guesthomepage, roomcottage, frontdesk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +20,7 @@ public class Main_Dashboard extends AppCompatActivity {
 
         guesthomepage = findViewById(R.id.manager_GuestHomePage);
         roomcottage = findViewById(R.id.manager_RoomCottage);
+        frontdesk = findViewById(R.id.manager_Frontdesk);
 
         guesthomepage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +33,13 @@ public class Main_Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Main_Dashboard.this, Booking_Dashboard.class));
+            }
+        });
+
+        frontdesk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Main_Dashboard.this, FrontdeskClerks_Dashboard.class));
             }
         });
     }
