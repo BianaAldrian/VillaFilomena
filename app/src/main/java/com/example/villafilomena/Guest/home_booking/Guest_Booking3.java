@@ -28,6 +28,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.villafilomena.FcmNotificationsSender;
+import com.example.villafilomena.Frontdesk.Frontdesk_Booked;
+import com.example.villafilomena.Frontdesk.Frontdesk_Onlinebooking;
 import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.Login_Registration.Login_Guest;
 import com.example.villafilomena.MyFirebaseMessagingService;
@@ -336,6 +339,9 @@ public class Guest_Booking3 extends Fragment {
                 public void onResponse(String response) {
                     if (response.equals("Success")){
                         Toast.makeText(getActivity(), "Please wait for confirmation", Toast.LENGTH_SHORT).show();
+
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Front Desk", "Your Booking is Confirmed", getContext(), getActivity());
+                        notificationsSender.SendNotifications();
                     }
                     else if(response.equals("Failed")){
                         Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
