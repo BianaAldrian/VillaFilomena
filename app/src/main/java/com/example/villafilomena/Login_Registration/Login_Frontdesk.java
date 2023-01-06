@@ -45,8 +45,10 @@ public class Login_Frontdesk extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         IP = preferences.getString("IP_Address", "").trim();
 
-        login = findViewById(R.id.loginFrontdesk_btnLog);
+        username = findViewById(R.id.loginFrontdesk_username);
+        password = findViewById(R.id.loginFrontdesk_password);
 
+        login = findViewById(R.id.loginFrontdesk_btnLog);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
