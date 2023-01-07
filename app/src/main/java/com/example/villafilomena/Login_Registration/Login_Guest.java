@@ -228,7 +228,7 @@ public class Login_Guest extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("Success")){
-                        Log.w(TAG, "Token update Success");
+                        Toast.makeText(Login_Guest.this, "Token Updated", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(Login_Guest.this, "Token update Failed", Toast.LENGTH_SHORT).show();
                     }
