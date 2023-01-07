@@ -6,13 +6,12 @@
     android:layout_height="wrap_content"
     tools:context=".Guest.home_booking.MainFrame"
     android:orientation="vertical"
-    android:background="@drawable/background">
+    android:background="@drawable/background3">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#23B3A9"
         android:layout_gravity="top|center"
         android:orientation="horizontal"
         android:padding="10dp">
@@ -23,8 +22,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Villa Filomena Natural Spring Resort"
-            android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/allura"
+            android:textSize="25dp"
             android:textStyle="bold"/>
 
 
@@ -59,7 +59,6 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@color/white"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -83,7 +82,7 @@
 
         <TextView
             android:id="@+id/mainHome"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="35dp"
             android:gravity="center"
             android:text=" Home "
@@ -92,14 +91,14 @@
             android:layout_gravity="top|left"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
-            android:background="#23B3A9"
+            android:background="#B1D5C7"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
         <TextView
             android:id="@+id/mainBook"
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:background="#23B3A9"
+            android:background="#B1D5C7"
             android:gravity="center"
             android:text=" Book Now "
             android:textColor="@color/black"

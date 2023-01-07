@@ -1,6 +1,7 @@
 package com.example.villafilomena.Guest.home_booking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
@@ -36,15 +37,17 @@ public class MainFrame extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView navigationBar,iv_logout;
-    LinearLayout ll_First,ll_Second,ll_Third;
     NavigationView navigationView;
+    CardView profile, bookingHsty, ratings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_frame);
 
-        //account = findViewById(R.id.account);
+        profile = findViewById(R.id.MainFrame_guestProfile);
+        bookingHsty = findViewById(R.id.MainFrame_guestBookings);
+        ratings = findViewById(R.id.MainFrame_guestRatings);
         mainmenu = findViewById(R.id.MainMenu);
         bannerView = findViewById(R.id.bannerView);
         home = findViewById(R.id.mainHome);
@@ -125,10 +128,6 @@ public class MainFrame extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
-        ll_First = (LinearLayout) findViewById(R.id.ll_First);
-        ll_Second = (LinearLayout) findViewById(R.id.ll_Second);
-        ll_Third = (LinearLayout) findViewById(R.id.ll_Third);
-
         mainmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,19 +135,19 @@ public class MainFrame extends AppCompatActivity {
             }
         });
 
-        ll_First.setOnClickListener(new View.OnClickListener() {
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainFrame.this, Account.class));
             }
         });
-        ll_Second.setOnClickListener(new View.OnClickListener() {
+        bookingHsty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainFrame.this, Guest_Booking_Hstry.class));
             }
         });
-        ll_Third.setOnClickListener(new View.OnClickListener() {
+        ratings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialog dialog = new Dialog(context);
