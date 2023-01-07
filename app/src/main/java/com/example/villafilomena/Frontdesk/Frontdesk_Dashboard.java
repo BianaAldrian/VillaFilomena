@@ -37,7 +37,7 @@ public class Frontdesk_Dashboard extends AppCompatActivity {
         expArrival.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(), Frontdesk_ExpArrival_Dashboard.class));
             }
         });
     }
