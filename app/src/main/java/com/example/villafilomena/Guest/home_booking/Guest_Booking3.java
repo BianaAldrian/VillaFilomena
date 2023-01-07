@@ -1,5 +1,6 @@
 package com.example.villafilomena.Guest.home_booking;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,12 +21,14 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.villafilomena.FcmNotificationsSender;
@@ -33,6 +36,8 @@ import com.example.villafilomena.Frontdesk.Frontdesk_Booked;
 import com.example.villafilomena.Frontdesk.Frontdesk_Onlinebooking;
 import com.example.villafilomena.IP_Address;
 import com.example.villafilomena.Login_Registration.Login_Guest;
+import com.example.villafilomena.Manager.Frontdesk_Clerk_adapter;
+import com.example.villafilomena.Manager.Frontdesk_Clerk_model;
 import com.example.villafilomena.MyFirebaseMessagingService;
 import com.example.villafilomena.R;
 import com.google.firebase.messaging.RemoteMessage;
@@ -40,10 +45,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.StringJoiner;
 
 /**
@@ -92,8 +102,10 @@ public class Guest_Booking3 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     String IP;
+
+    Date currentDate;
+    DateFormat currentDateFormat;
 
     TextView details, waiting_confirmation, txtBooking_confirmed, txtInvoice_Link;
     RadioButton Percent50, Percent100;
@@ -118,6 +130,9 @@ public class Guest_Booking3 extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         IP = preferences.getString("IP_Address", "").trim();
+
+        currentDate = new Date();
+        currentDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         details = view.findViewById(R.id.guestBooking3_txtDetails);
         waiting_confirmation = view.findViewById(R.id.txtBooking_pending);
@@ -251,6 +266,8 @@ public class Guest_Booking3 extends Fragment {
                 waiting_confirmation.setVisibility(View.VISIBLE);
                 txtBooking_confirmed.setVisibility(View.GONE);
                 txtInvoice_Link.setVisibility(View.VISIBLE);
+                //getFrontdeskTokens();
+
             }
         });
 
@@ -333,17 +350,16 @@ public class Guest_Booking3 extends Fragment {
     private void insertBooking_information(){
         if(!IP.equalsIgnoreCase("")){
             String url = "http://"+IP+"/VillaFilomena/insert_bookingInfos.php";
-            RequestQueue myrequest = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("Success")){
+                    if (response.equals("success")){
                         Toast.makeText(getActivity(), "Please wait for confirmation", Toast.LENGTH_SHORT).show();
-
-                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(Frontdesk_Booked.token, "Front Desk", "Your Booking is Confirmed", getContext(), getActivity());
-                        notificationsSender.SendNotifications();
+                        getFrontdeskTokens();
                     }
-                    else if(response.equals("Failed")){
+                    else if(response.equals("failed")){
                         Toast.makeText(getActivity(), "Unexpected Error, Please try again! ", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -358,6 +374,7 @@ public class Guest_Booking3 extends Fragment {
                 @Override
                 protected HashMap<String,String> getParams() throws AuthFailureError {
                     HashMap<String,String> map = new HashMap<String,String>();
+                    map.put("currentBooking_Date", currentDateFormat.format(currentDate));
                     map.put("users_email", Login_Guest.user_email);
                     map.put("checkIn_date",checkIn_Day+"/"+checkIn_Month+"/"+checkIn_Year);
                     map.put("checkIn_time",checkIn_Time);
@@ -377,6 +394,88 @@ public class Guest_Booking3 extends Fragment {
                 }
             };
             myrequest.add(stringRequest);
+        }
+    }
+
+    private void getFrontdeskTokens(){
+        if(!IP.equalsIgnoreCase("")){
+            String url = "http://"+IP+"/VillaFilomena/retrieveFrontdesk_Clerk.php";
+            RequestQueue myrequest = Volley.newRequestQueue(getActivity());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        if(success.equals("1")){
+                            for (int i=0; i<jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                SendNotifications(object.getString("token"));
+                            }
+
+                        }else{
+                            Toast.makeText(getActivity(), "Failed to get", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getActivity(),error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            myrequest.add(stringRequest);
+        }
+    }
+
+    private RequestQueue requestQueue;
+    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
+    private final String fcmServerKey ="AAAA5IhJvbU:APA91bHRweTETrdxuf6z6mBB1NebYY9poXqAb6VmzRAx4dNQQxwm_qk0Xmb4e7YvaiQgC30ad7_8batZStubScdYeWE60vpF1xKfIlTQyzTdSFR-QfK63tSQ1yOCi7hLFECahf-yZX2Q";
+
+    public void SendNotifications(String token) {
+
+        requestQueue = Volley.newRequestQueue(getActivity());
+        JSONObject mainObj = new JSONObject();
+
+        try {
+            mainObj.put("to", token);
+            JSONObject notiObject = new JSONObject();
+            notiObject.put("title", "Guest");
+            notiObject.put("body", "You have a new Booking");
+            notiObject.put("icon", R.drawable.villa_filomena_logo); // enter icon that exists in drawable only
+
+            mainObj.put("notification", notiObject);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // code run is got response
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // code run is got error
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=" + fcmServerKey);
+                    return header;
+
+                }
+            };
+            requestQueue.add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

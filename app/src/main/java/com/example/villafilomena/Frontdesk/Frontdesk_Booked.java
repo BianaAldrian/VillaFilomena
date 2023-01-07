@@ -70,7 +70,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mPushNotificationReceiver,
+        LocalBroadcastManager.getInstance(this).registerReceiver(mPushNotificationReceiver,
                 new IntentFilter(MyFirebaseMessagingService.PUSH_NOTIFICATION_RECEIVED));
     }
 
@@ -135,7 +135,7 @@ public class Frontdesk_Booked extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mPushNotificationReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mPushNotificationReceiver);
         super.onPause();
     }
 }

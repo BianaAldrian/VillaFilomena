@@ -30,9 +30,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        token1 = findViewById(R.id.tokenDisp);
-
-        FirebaseMessaging.getInstance().getToken()
+        /*FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
@@ -48,7 +46,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
                         token1.setText(token);
                     }
-                });
+                });*/
 
         guest = findViewById(R.id.guest);
         frondesk = findViewById(R.id.frontdesk);
