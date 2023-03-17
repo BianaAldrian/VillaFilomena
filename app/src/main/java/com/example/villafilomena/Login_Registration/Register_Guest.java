@@ -41,13 +41,10 @@ import java.util.HashMap;
 
 public class Register_Guest extends AppCompatActivity {
     String token;
-
     String IP;
     TextView line1_1, line2_1;
-
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
-
     TextInputEditText email, password, confirm_pass, fullname, contactNo, address;
     TextInputLayout pass_layout,Conpas_layout;
     Button Cont, back,register, cont_google;
@@ -55,9 +52,7 @@ public class Register_Guest extends AppCompatActivity {
     String EMAIL;
     public static final String SHARED_PREFS = "";
     public static final String EMAIL_1 = "";
-
     boolean cont;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +140,7 @@ public class Register_Guest extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password not matched", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String url = "http://"+IP+"/VillaFilomena/register.php";
+                    String url = "http://"+IP+"/VillaFilomena/guest_dir/guest_registration.php";
                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
@@ -228,19 +223,19 @@ public class Register_Guest extends AppCompatActivity {
     }
 
     public void checkEmail(){
-        String url1 = "http://"+IP+"/VillaFilomena/check_email.php";
+        String url1 = "http://"+IP+"/VillaFilomena/guest_dir/guest_checkemail.php";
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue myrequest = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(cont == true && !response.equals("true")){
+                if(cont == true){
                     if(acct != null){
                         email.setText(acct.getEmail());
                         fullname.setText(acct.getDisplayName());
                     }
                 }
-                else if(response.equals("true")){
+                if(response.equals("true")){
                     Toast.makeText(getApplicationContext(), "Email already used", Toast.LENGTH_LONG).show();
                     gsc.signOut();
                 }

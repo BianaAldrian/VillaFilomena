@@ -29,7 +29,6 @@ import java.util.HashMap;
 public class Guest_Booking_Hstry extends AppCompatActivity {
     String IP;
     RecyclerView BookingHstry;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

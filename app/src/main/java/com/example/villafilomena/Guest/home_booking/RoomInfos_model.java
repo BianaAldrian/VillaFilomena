@@ -2,9 +2,7 @@ package com.example.villafilomena.Guest.home_booking;
 
 public class RoomInfos_model {
     private String id, imageUrl, name, room_capacity, room_rate;
-
     private RoomInfos_model(){}
-
     public RoomInfos_model(String id, String imageUrl, String name, String room_capacity, String room_rate) {
         this.id = id;
         this.imageUrl = imageUrl;

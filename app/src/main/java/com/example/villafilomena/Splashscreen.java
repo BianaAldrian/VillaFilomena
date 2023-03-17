@@ -33,18 +33,18 @@ public class Splashscreen extends AppCompatActivity {
             @Override
             public void run() {
                 if(!IP.equalsIgnoreCase("")){
-                    String url = "http://"+IP+"/VillaFilomena/check_conn.php";
+                    String url = "http://"+IP+"/VillaFilomena/check_connection.php";
 
                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            if(response.equals("true")){
+                            if(response.equals("success")){
                                 //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                                 finish();
                             }
-                            else if(response.equals("false")){
+                            else if(response.equals("failed")){
                                 preferences.edit().clear().commit();
                                 startActivity(new Intent(getApplicationContext(), IP_Address.class));
                                 Toast.makeText(getApplicationContext(),"Can't Connect to Server", Toast.LENGTH_LONG).show();

@@ -15,7 +15,8 @@
         android:textSize="24sp"
         android:textColor="@color/black"
         android:gravity="center"
-        android:hint="IP Address"/>
+        android:hint="IP Address"
+        android:inputType="phone"/>
 
     <Button
         android:id="@+id/verify"

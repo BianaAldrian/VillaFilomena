@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +35,7 @@ public class IP_Address extends AppCompatActivity {
 
         ip = findViewById(R.id.ip);
         verify = findViewById(R.id.verify);
-
+        
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -41,7 +43,7 @@ public class IP_Address extends AppCompatActivity {
         IP_Address = IP;
 
         if(!IP.equalsIgnoreCase("")){
-            String url = "http://"+IP+"/VillaFilomena/check_conn.php";
+            String url = "http://"+IP+"/VillaFilomena/check_connection.php";
 
             RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -71,15 +73,15 @@ public class IP_Address extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    String url = "http://"+ip.getText().toString()+":8080/VillaFilomena/check_conn.php";
+                    String url = "http://"+ip.getText().toString()+"/VillaFilomena/check_connection.php";
 
                     RequestQueue myrequest = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            if(response.equals("true")){
+                            if(response.equals("success")){
                                 //Toast.makeText(getApplicationContext(), "IP is correct", Toast.LENGTH_SHORT).show();
-                                IP_Address = ip.getText().toString()+":8080";
+                                IP_Address = ip.getText().toString();
 
                                 editor.putString("IP_Address",IP_Address);
                                 editor.apply();
@@ -87,7 +89,7 @@ public class IP_Address extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                                 finish();
                             }
-                            else if(response.equals("false")){
+                            else if(response.equals("failed")){
                                 Toast.makeText(getApplicationContext(),"Can't Connect to Server", Toast.LENGTH_LONG).show();
                             }
                         }
